@@ -53,6 +53,14 @@ jobs:
           ssh-key: ${{ secrets.CORPUS_DEPLOY_KEY_H3 }}
           path: .corpora/H3/publications
 
+      # ⚠️ PUBLIC, so no deploy key — unlike the two corpora above. The letters
+      # live in the missaquarius.org website repo rather than a corpus repo,
+      # which is also why TIMESTAMPS.md had to be added there by hand.
+      - uses: actions/checkout@v4
+        with:
+          repository: HeartBank/missaquarius.org
+          path: .corpora/missaquarius.org
+
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -63,7 +71,7 @@ jobs:
       # the one failure this package cannot survive, because it is undetectable
       # from the consuming side.
       - name: Index is current against the live corpora
-        run: node scripts/build-index.mjs --check --from .corpora/TH/publications .corpora/H3/publications
+        run: node scripts/build-index.mjs --check --from .corpora/TH/publications .corpora/H3/publications .corpora/missaquarius.org
 
       # A licence that is not one of the two would mean the gate widened without
       # anyone deciding to widen it. Cheap, and it reads as documentation.

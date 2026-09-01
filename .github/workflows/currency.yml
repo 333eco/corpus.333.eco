@@ -33,8 +33,16 @@ jobs:
           repository: HeartBank/publications
           ssh-key: ${{ secrets.CORPUS_DEPLOY_KEY_H3 }}
           path: .corpora/H3/publications
+      # ⚠️ PUBLIC, so no deploy key — unlike the two corpora above. The letters
+      # live in the missaquarius.org website repo rather than a corpus repo,
+      # which is also why TIMESTAMPS.md had to be added there by hand.
+      - uses: actions/checkout@v4
+        with:
+          repository: HeartBank/missaquarius.org
+          path: .corpora/missaquarius.org
+
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
       - name: Committed index matches the corpora
-        run: node scripts/build-index.mjs --check --from .corpora/TH/publications .corpora/H3/publications
+        run: node scripts/build-index.mjs --check --from .corpora/TH/publications .corpora/H3/publications .corpora/missaquarius.org
