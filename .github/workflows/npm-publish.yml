@@ -1,0 +1,104 @@
+name: Publish npm package
+
+# Publishes @333eco/corpus when package.json's version changes on main.
+#
+# WHY IT IS AUTOMATED, and the reason is sharper here than for the estate's other
+# two packages. @333eco/brand going stale misrepresents an appearance;
+# @333eco/sey going stale hands someone the wrong conformance vectors. This one
+# hands an AI agent superseded text WITH A PROVENANCE ENVELOPE ATTACHED — the
+# envelope still verifies, because the hash is of what was served, so the agent
+# has every reason to believe it and no way to discover it is quoting a
+# withdrawn claim. A stale corpus server is worse than a stale website precisely
+# because it is checkable: the check passes.
+#
+# So the publish is bound to the version bump, and the version bump cannot happen
+# without dist/corpus.json being current — the gate below checks the index
+# against the live corpora before anything is sent.
+#
+# ⚠️ NEEDS NPM_TOKEN — a granular automation token with publish rights on the
+# @333eco scope and 2FA bypass enabled. An interactive OTP cannot be supplied to
+# a workflow; a plain "Publish" token with 2FA required fails with E403 and
+# nothing else looks wrong.
+#
+# ⚠️ AND THE TWO CORPUS DEPLOY KEYS, because both source repositories are private.
+# Read-only, one per repo, installed on the repos they read. They belong to the
+# repository pair rather than to a person: no owner, no expiry, no org approval,
+# and GitHub enforces read-only server-side.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "package.json"
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: thonly/publications
+          ssh-key: ${{ secrets.CORPUS_DEPLOY_KEY_TH }}
+          path: .corpora/TH/publications
+
+      - uses: actions/checkout@v4
+        with:
+          repository: HeartBank/publications
+          ssh-key: ${{ secrets.CORPUS_DEPLOY_KEY_H3 }}
+          path: .corpora/H3/publications
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      # The committed index must be exactly what the corpora produce right now.
+      # This is the whole reason the publish is gated: shipping a stale index is
+      # the one failure this package cannot survive, because it is undetectable
+      # from the consuming side.
+      - name: Index is current against the live corpora
+        run: node scripts/build-index.mjs --check --from .corpora/TH/publications .corpora/H3/publications
+
+      # A licence that is not one of the two would mean the gate widened without
+      # anyone deciding to widen it. Cheap, and it reads as documentation.
+      - name: Only the two declared licences are present
+        run: |
+          node -e '
+            const c = require("./dist/corpus.json");
+            const seen = Object.keys(c.licences).sort().join(",");
+            const want = "CC-BY-4.0,CC0-1.0";
+            if (seen !== want) {
+              console.error(`::error::licence set changed: expected ${want}, found ${seen}. Widening the gate is a decision, not a build step.`);
+              process.exit(1);
+            }
+            console.log(`licences: ${seen}`);
+          '
+
+      # The server must answer a real MCP handshake before anything is published.
+      # A package whose binary does not start is worse than an unpublished one.
+      - name: Server answers an MCP handshake
+        run: |
+          OUT=$(printf '%s\n' \
+            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+            | node src/server.mjs 2>/dev/null)
+          echo "$OUT" | grep -q '"serverInfo"' || { echo "::error::initialize did not return serverInfo"; exit 1; }
+          echo "$OUT" | grep -q 'search_corpus' || { echo "::error::tools/list did not return search_corpus"; exit 1; }
+          echo "handshake ok"
+
+      - name: Publish if this version is new
+        run: |
+          V=$(node -p "require('./package.json').version")
+          if npm view "@333eco/corpus@$V" version >/dev/null 2>&1; then
+            echo "@333eco/corpus@$V is already published — nothing to do."
+            exit 0
+          fi
+          npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
