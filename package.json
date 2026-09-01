@@ -1,0 +1,48 @@
+{
+    "name": "@333eco/corpus",
+    "version": "1.0.0",
+    "description": "An MCP server for an open-licensed corpus, served with verifiable provenance — every document carries its sha256, DOI and OpenTimestamps proof so a consuming agent can check its own citation.",
+    "license": "CC0-1.0",
+    "author": "Thon Ly",
+    "homepage": "https://thonly.org/research",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/333eco/corpus.333.eco.git"
+    },
+    "bugs": {
+        "url": "https://github.com/333eco/corpus.333.eco/issues"
+    },
+    "keywords": [
+        "mcp",
+        "model-context-protocol",
+        "corpus",
+        "provenance",
+        "cc0",
+        "opentimestamps",
+        "doi",
+        "verifiable"
+    ],
+    "type": "module",
+    "bin": {
+        "corpus-mcp": "src/server.mjs"
+    },
+    "exports": {
+        "./corpus.json": "./dist/corpus.json",
+        "./package.json": "./package.json"
+    },
+    "engines": {
+        "node": ">=20"
+    },
+    "files": [
+        "src",
+        "dist"
+    ],
+    "scripts": {
+        "start": "node src/server.mjs",
+        "build": "node scripts/build-index.mjs --from ../../../TH/publications ../../../H3/publications",
+        "check": "node scripts/build-index.mjs --check --from ../../../TH/publications ../../../H3/publications"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

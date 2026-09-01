@@ -1,0 +1,40 @@
+name: Index currency
+
+# Is dist/corpus.json still what the corpora produce?
+#
+# The same question this estate got wrong once already: a guard that checks a
+# file against its own lock cannot tell you the lock is old. Here the stakes are
+# higher than a CSS token — a stale index makes the server hand superseded text
+# to an agent that will cite it, under an authoritative version number, with no
+# way for the agent to know.
+#
+# ⚠️ Needs the two corpus repositories checked out beside this one, and
+# TH/publications and H3/publications are PRIVATE. Scheduled rather than in the
+# build for the usual reason: a credential in the build path is a deploy that
+# fails when a token expires.
+
+on:
+  schedule:
+    - cron: "0 10 * * 1"
+  workflow_dispatch:
+
+jobs:
+  currency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: thonly/publications
+          ssh-key: ${{ secrets.CORPUS_DEPLOY_KEY_TH }}
+          path: .corpora/TH/publications
+      - uses: actions/checkout@v4
+        with:
+          repository: HeartBank/publications
+          ssh-key: ${{ secrets.CORPUS_DEPLOY_KEY_H3 }}
+          path: .corpora/H3/publications
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Committed index matches the corpora
+        run: node scripts/build-index.mjs --check --from .corpora/TH/publications .corpora/H3/publications
