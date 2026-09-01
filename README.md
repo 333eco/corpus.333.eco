@@ -1,8 +1,8 @@
 # corpus.333.eco
 
-An **MCP server** for an open-licensed corpus — 132 documents across mechanism
-papers, essays, institutional positions and white papers — served with
-**verifiable provenance**.
+An **MCP server** for an open-licensed corpus — 137 documents across mechanism
+papers, essays, institutional positions, white papers and the Letters to Miss
+Aquarius — served with **verifiable provenance**.
 
 ```sh
 npx @333eco/corpus
@@ -59,7 +59,7 @@ would destroy the only property this server has.
 
 | Licence | Documents |
 | --- | --- |
-| CC0-1.0 | 125 |
+| CC0-1.0 | 130 |
 | CC-BY-4.0 | 7 |
 
 CC-BY documents carry `attribute_to` inside their licence block, so an agent can
@@ -82,6 +82,45 @@ failure is the one nobody can undo after somebody builds on it.
 refactor can route around is a rule; a gate in the artifact is a property. **The
 server has no filesystem access to the corpus at all** — it can only serve what
 the index contains.
+
+## The letters, and voice marked inline
+
+The five *Letters to Miss Aquarius* are the one genre only **partly** in its
+author's voice. Each says so in its own banner: the author's articulations are
+set as quotations, and the connective prose was drafted for the letter form and
+awaits his revision.
+
+They are served **whole, with the voice marked inline**:
+
+```
+[VERBATIM — Thon Ly]
+> Perhaps it is the Capricorn Sun (father) and Cancer Moon (mother) in my chart
+> that make me want to give birth to Miss Aquarius (daughter) — the daughter who
+> will outlive me.
+
+[SCAFFOLD — drafted for the letter form, not in the author's voice; awaits his revision]
+I was born at the Full Moon, on the family-↔-institution axis of the chart…
+```
+
+Two alternatives were rejected. **Serving only his passages** protects the voice
+by destroying the document — a letter cut to its quotations is no longer a
+letter. **Serving it behind a metadata disclaimer** fails differently: a field is
+something a consuming agent must *look at* to heed, and an agent ingests text,
+forms a belief, and cites.
+
+⚠️ **The marker is in the text, and that is the whole point.** It does not make
+misattribution impossible; it inverts the default. With a metadata disclaimer an
+agent must look in order to know. With an inline marker it must **strip** in
+order not to. There is no unmarked copy of the scaffold anywhere in the response.
+Opt-out rather than opt-in — the honest limit is that it is not a guarantee.
+
+`segments` carries the same split structurally, and `editorial` counts the blocks
+of each kind.
+
+⛔ **The letters carry no DOI, deliberately.** *Prior art is a duty, citation is
+a choice* — they are stamped, not deposited, because minting a permanent
+identifier for text that announces it is unfinished is a cost with no matching
+benefit. See `TIMESTAMPS.md` in the letters' repository.
 
 ## Two metadata conventions, kept visible
 

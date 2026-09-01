@@ -2,6 +2,26 @@ name = "corpus-333-eco"
 main = "src/worker.mjs"
 compatibility_date = "2026-09-01"
 
+# The corpus spans TH and H3, so it lives on the domain that names no single
+# body — the same argument that placed B-Registry and the brand layer there.
+# corpus.thonly.org would put the institutional white papers under the founder's
+# personal domain.
+#
+# ⚠️ A PUBLIC MCP ENDPOINT IS HARDER TO MOVE THAN A PACKAGE: agents are
+# configured against a URL and those configs live on other people's machines.
+# The workers.dev hostname keeps working and is the fallback, but this is the
+# address to publish.
+routes = [
+  { pattern = "corpus.333.eco", custom_domain = true }
+]
+
+# ⚠️ EXPLICIT, AND IT HAS TO BE. Adding `routes` DISABLES workers.dev by default,
+# which silently removes the fallback the comment above promises — wrangler warns
+# about it once, in the middle of a successful deploy, and the URL simply stops
+# answering. Keep this true so both addresses work.
+workers_dev = true
+
+
 # ⚠️ THE CORPUS IS A STATIC ASSET, NOT A BUNDLED IMPORT, and it has to be.
 # Gzipped it is 1.61 MB against a 1 MB compressed script limit on the free plan,
 # so `import corpus from "./corpus.json"` fails to deploy — and fails harder as

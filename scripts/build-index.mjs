@@ -70,6 +70,29 @@ const ALLOWED = {
 
 const sha256 = (buf) => createHash("sha256").update(buf).digest("hex");
 
+// ⭐ WHERE THE HASHED BYTES ACTUALLY LIVE. The envelope carried a sha256 and an
+// instruction to "compare to the source file" without ever saying WHICH file or
+// WHERE — so verification was one lookup short of possible, and the reader had to
+// already know the repository layout to close it. All three source repositories
+// are public, so the envelope can just name the raw URL and the check becomes one
+// command.
+//
+// ⚠️ AND IT MATTERS THAT THE HASH IS OF THE WHOLE FILE, NOT OF `text`. `text` is
+// the body — front matter stripped, trimmed — so hashing what you were served
+// does NOT reproduce provenance.sha256, and an agent that tried would conclude the
+// corpus was lying. The envelope now says so in as many words and points at the
+// bytes that do hash correctly.
+const GITHUB = {
+    "TH/publications": "thonly/publications",
+    "H3/publications": "HeartBank/publications",
+    "missaquarius.org": "HeartBank/missaquarius.org"
+};
+
+const sourceUrl = (repo, path) => {
+    const slug = GITHUB[repo];
+    return slug ? `https://raw.githubusercontent.com/${slug}/main/${path}` : null;
+};
+
 const yamlFrontMatter = (text) => {
     if (!text.startsWith("---\n")) return null;
     const end = text.indexOf("\n---", 4);
@@ -133,6 +156,105 @@ const tableFrontMatter = (text) => {
 
 const frontMatter = (text) => yamlFrontMatter(text) ?? tableFrontMatter(text);
 
+
+/* ------------------------------------------------------------- the letters ---
+   The Letters to Miss Aquarius are HTML rather than markdown, and they are the
+   one genre where a document is only PARTLY in its author's voice: the banner on
+   each says so — "scaffold awaiting founder revision", with the author's own
+   articulations set as <blockquote class="v"> and the connective prose drafted
+   for the letter form.
+
+   ⭐ SO THEY ARE SERVED WHOLE, WITH THE VOICE MARKED INLINE. Serving only the
+   author's passages was considered and rejected: it protects the voice by
+   destroying the document, and a letter cut to its quotations is no longer a
+   letter. Serving the whole thing behind a metadata disclaimer was rejected for
+   the opposite reason — a field is something a consuming agent must LOOK at to
+   heed, and an agent ingests text, forms a belief and cites.
+
+   ⚠️ THE MARKER IS IN THE TEXT, AND THAT IS THE ENTIRE POINT. It does not make
+   misattribution impossible; it inverts the default. With a metadata disclaimer
+   an agent must look in order to know. With an inline marker it must STRIP in
+   order not to. There is no unmarked copy of the scaffold anywhere in the
+   response, so quoting a scaffold sentence carries its label unless someone
+   removes it on purpose. Opt-out rather than opt-in — the honest limit is that
+   it is not a guarantee.
+
+   `segments` carries the same split structurally, for consumers that would
+   rather not parse prose. */
+
+const VOICE_MARK = {
+    author: "[VERBATIM — Thon Ly]",
+    scaffold: "[SCAFFOLD — drafted for the letter form, not in the author's voice; awaits his revision]"
+};
+
+const stripTags = (h) =>
+    h
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<[^>]+>/g, "")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&#39;|&apos;/g, "'")
+        .replace(/&quot;/g, '"')
+        .replace(/&mdash;/g, "—")
+        .replace(/&hellip;/g, "…")
+        // Collapse the SOURCE file's line wrapping. HTML wraps for the editor's
+        // benefit and those newlines carry no meaning; leaving them turns every
+        // quoted paragraph into ragged text with stray leading spaces. Real
+        // breaks came from <br> above and are preserved as \n\n.
+        .replace(/\r/g, "")
+        .split(/\n{2,}/)
+        .map((para) => para.replace(/\s+/g, " ").trim())
+        .filter(Boolean)
+        .join("\n\n")
+        .trim();
+
+const parseLetter = (html) => {
+    let body = html.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] ?? html;
+    body = body.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, "");
+
+    const title = stripTags(html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? "") || null;
+    const dateline = stripTags(body.match(/class="dateline"[^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? "") || null;
+    const banner = stripTags(body.match(/class="scaffold-banner"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "") || null;
+
+    const segments = [];
+    const re = /<(blockquote|p|h2|h3)([^>]*)>([\s\S]*?)<\/\1>/gi;
+    let m;
+    while ((m = re.exec(body)) !== null) {
+        const [, tag, attrs, inner] = m;
+        const cls = attrs.match(/class="([^"]*)"/)?.[1] ?? "";
+        // The banner becomes the envelope's editorial block rather than body text:
+        // a notice about the document is not part of the document.
+        if (cls.includes("scaffold-banner")) continue;
+        // The <h1> and the paragraph that carries it are the title block; the
+        // title is already a field, and repeating it as body prose would label
+        // the document's own name as scaffold.
+        if (cls.includes("part") || cls.includes("inst") || cls.includes("glyph")) continue;
+        const text = stripTags(inner);
+        if (!text) continue;
+        if (/^h[23]$/i.test(tag)) segments.push({ voice: "structural", kind: "heading", text });
+        else if (cls.split(/\s+/).includes("v")) segments.push({ voice: "author", kind: "quotation", text });
+        // ⚠️ STRUCTURAL IS NOT SCAFFOLD. A salutation, a dateline or a signature
+        // is the letter's furniture, not drafted connective prose, and marking
+        // "My dear Miss Aquarius," as not-his-voice is both wrong and insulting to
+        // the document. Only the drafted prose gets the scaffold label.
+        else if (["dateline", "signature", "place", "name", "salutation"].some((k) => cls.includes(k))) {
+            segments.push({ voice: "structural", kind: cls.trim(), text });
+        } else segments.push({ voice: "scaffold", kind: "prose", text });
+    }
+
+    const rendered = segments
+        .map((s) => {
+            if (s.voice === "structural") return s.kind === "heading" ? `## ${s.text}` : s.text;
+            if (s.voice === "author") return `${VOICE_MARK.author}\n> ${s.text.replace(/\n/g, "\n> ")}`;
+            return `${VOICE_MARK.scaffold}\n${s.text}`;
+        })
+        .join("\n\n");
+
+    return { title, dateline, banner, segments, text: rendered };
+};
+
 /* --------------------------------------------------------------- the walk --- */
 
 const documents = [];
@@ -166,6 +288,73 @@ for (const src of SOURCES) {
 
     for (const genre of genres.sort()) {
         for (const file of readdirSync(join(root, genre)).sort()) {
+            // ── the letters: HTML, partly in the author's voice ──
+            if (genre === "letters" && file.endsWith(".html") && file !== "index.html") {
+                const rel = `${genre}/${file}`;
+                const raw = readFileSync(join(root, genre, file));
+                const html = raw.toString("utf8");
+                // Same gate as everything else: no declaration, not served.
+                if (!/CC0/.test(html)) {
+                    excluded.push({ repo, rel, reason: "no CC0 declaration" });
+                    continue;
+                }
+                const L = parseLetter(html);
+                const authorBlocks = L.segments.filter((x) => x.voice === "author").length;
+                const scaffoldBlocks = L.segments.filter((x) => x.voice === "scaffold").length;
+                documents.push({
+                    slug: file.replace(/\.html$/, "") + "-letter-to-miss-aquarius",
+                    repo,
+                    genre,
+                    path: rel,
+                    // "Letter to Miss Aquarius" is the <h1> on all five, so the
+                    // ordinal comes from the dateline or the filename. Five
+                    // documents sharing one title are five documents nobody can
+                    // tell apart in a list.
+                    title: L.dateline
+                        ? `${L.dateline.split("·")[0].trim()} to Miss Aquarius`
+                        : `${file.replace(/\.html$/, "")} letter to Miss Aquarius`,
+                    subtitle: L.dateline,
+                    authors: "Thon Ly",
+                    category: "letters",
+                    date: (L.dateline?.match(/(\d{1,2}\s+\w+\s+\d{4})/) ?? [])[1] ?? null,
+                    status: "scaffold-awaiting-author-revision",
+                    licence: ALLOWED["CC0-1.0"],
+                    metadata_convention: "html",
+                    text: L.text,
+                    segments: L.segments,
+                    // ⚠️ NOT A DISCLAIMER IN A FIELD — the markers are in `text`
+                    // too. This block tells a structured consumer what the inline
+                    // convention MEANS; it is not the only place the warning lives,
+                    // which is exactly why it is safe to have.
+                    editorial: {
+                        status: "scaffold-awaiting-author-revision",
+                        notice: L.banner,
+                        annotation:
+                            "Voice is marked INLINE in `text`. Blocks prefixed \"[VERBATIM — Thon Ly]\" are the " +
+                            "author's own words; blocks prefixed \"[SCAFFOLD …]\" were drafted for the letter form " +
+                            "and are NOT his voice. Quote only VERBATIM blocks as the author's words. `segments` " +
+                            "carries the same split structurally.",
+                        verbatim_blocks: authorBlocks,
+                        scaffold_blocks: scaffoldBlocks
+                    },
+                    provenance: {
+                        sha256: sha256(raw),
+                        doi: null,
+                        concept_doi: null,
+                        zenodo_url: null,
+                        deposited_sha256: null,
+                        deposited_matches_current: null,
+                        opentimestamps: existsSync(join(root, genre, file + ".ots")),
+                        source_url: sourceUrl(repo, rel),
+                        sha256_covers:
+                            "the complete source HTML at source_url — NOT the `text` field, which is a derived " +
+                            "plain-text rendering with voice annotation added",
+                        derived: true,
+                        canonical_url: `https://missaquarius.org/letters/${file}`
+                    }
+                });
+                continue;
+            }
             if (!file.endsWith(".md") || file === "README.md") continue;
             const rel = `${genre}/${file}`;
             const raw = readFileSync(join(root, genre, file));
@@ -219,6 +408,10 @@ for (const src of SOURCES) {
                     deposited_sha256: z?.sha256 ?? null,
                     deposited_matches_current: z?.sha256 ? z.sha256 === sha256(raw) : null,
                     opentimestamps: existsSync(join(root, genre, file + ".ots")),
+                    source_url: sourceUrl(repo, rel),
+                    // What provenance.sha256 covers, said plainly: the whole file
+                    // as committed, not the `text` field this response carries.
+                    sha256_covers: "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
                     canonical_url: fm.venue?.split(" ")[0] ?? null
                 }
             });
