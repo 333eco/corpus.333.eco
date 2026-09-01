@@ -137,12 +137,14 @@ const frontMatter = (text) => yamlFrontMatter(text) ?? tableFrontMatter(text);
 
 const documents = [];
 const excluded = [];
+const repos = new Set();
 
 for (const src of SOURCES) {
     const root = resolve(BASE, src);
     if (!existsSync(root)) die(`${root} does not exist`);
 
     const repo = basename(root) === "publications" ? basename(dirname(root)) + "/publications" : basename(root);
+    repos.add(repo);
 
     // Zenodo record, if the repo keeps one. Absent is fine — it means no DOIs,
     // not an error, and the envelope simply omits them.
@@ -227,7 +229,13 @@ for (const src of SOURCES) {
 if (documents.length === 0) die("no documents passed the licence gate — check --from paths");
 
 const index = {
-    generated_from: SOURCES,
+    // ⚠️ THE DERIVED REPO IDS, NEVER THE --from PATHS. This field held the raw
+    // arguments until 2026-09-01, which meant the index could only be verified on
+    // the machine that built it: CI checks the corpora out at .corpora/… and the
+    // author builds from ../../../…, so --check failed on a byte that describes
+    // the builder rather than the corpus. A guard whose output depends on where it
+    // ran cannot verify anything anywhere else, which is the whole job.
+    generated_from: [...repos].sort(),
     document_count: documents.length,
     licences: Object.fromEntries(
         Object.values(ALLOWED).map((l) => [l.id, documents.filter((d) => d.licence.id === l.id).length])
