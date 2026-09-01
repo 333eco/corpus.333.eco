@@ -79,7 +79,12 @@ const envelope = (d) => ({
     provenance: {
         ...d.provenance,
         verify: {
-            sha256: `printf '%s' "$(cat <file>)" | shasum -a 256   # compare to provenance.sha256, computed over the FULL source file including its metadata block`,
+            // Concrete, because an instruction that says "the source file"
+            // without saying which one is not an instruction. All three source
+            // repositories are public, so this is genuinely runnable.
+            sha256: d.provenance.source_url
+                ? `curl -sL ${d.provenance.source_url} | shasum -a 256   # compare to provenance.sha256`
+                : "shasum -a 256 <the source file>   # compare to provenance.sha256",
             ...(d.provenance.doi ? { doi: `https://doi.org/${d.provenance.doi}` } : {}),
             ...(d.provenance.opentimestamps
                 ? { opentimestamps: `ots verify ${d.path}.ots  # in the source repository; the proof is anchored in the Bitcoin blockchain` }
@@ -167,7 +172,23 @@ const callTool = (name, args) => {
     if (name === "get_document") {
         const d = bySlug.get(String(args?.slug ?? ""));
         if (!d) throw new Error(`no document with slug "${args?.slug}". Call list_documents to see what is available.`);
-        return text({ ...envelope(d), genre: d.genre, repo: d.repo, path: d.path, metadata_convention: d.metadata_convention, text: d.text });
+        return text({
+            ...envelope(d),
+            genre: d.genre,
+            repo: d.repo,
+            path: d.path,
+            metadata_convention: d.metadata_convention,
+            // ⚠️ PRESENT ONLY WHERE THEY MEAN SOMETHING, and dropping them was a
+            // real bug: `editorial` is what tells a consumer that the inline
+            // [VERBATIM]/[SCAFFOLD] markers in `text` are a convention rather
+            // than noise, and `segments` is the same split structurally. The
+            // markers alone are the load-bearing half — they survive quotation —
+            // but shipping them with nothing that explains them made the
+            // convention look like an artefact of bad extraction.
+            ...(d.editorial ? { editorial: d.editorial } : {}),
+            ...(d.segments ? { segments: d.segments } : {}),
+            text: d.text
+        });
     }
 
     if (name === "list_documents") {
