@@ -1,0 +1,19 @@
+{
+    "name": "corpus-333-eco-worker",
+    "version": "1.0.1",
+    "private": true,
+    "description": "The remote MCP server for corpus.333.eco \u2014 Cloudflare Workers. Consumes the published @333eco/corpus package so the two surfaces cannot disagree.",
+    "type": "module",
+    "scripts": {
+        "sync": "node scripts/sync.mjs",
+        "check": "node scripts/sync.mjs --check",
+        "dev": "wrangler dev",
+        "deploy": "npm run sync && wrangler deploy"
+    },
+    "dependencies": {
+        "@333eco/corpus": "1.0.1"
+    },
+    "devDependencies": {
+        "wrangler": "^4"
+    }
+}

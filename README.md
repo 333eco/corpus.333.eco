@@ -119,6 +119,38 @@ is a few hundred lines to speak correctly, and this estate's standing rule is
 node built-ins only. The cost is that protocol revisions are tracked by hand —
 `PROTOCOL_VERSIONS` in `src/server.mjs` is where that lives.
 
+## Remote server
+
+The same corpus, the same tools, the same envelope — over HTTP instead of stdio.
+`worker/` deploys to Cloudflare Workers.
+
+⭐ **It consumes the published npm package, not the source repositories.** The
+dependency is pinned to an **exact** version, and `npm run check` refuses a range:
+a remote surface that re-read the corpora would be a *second opinion* about what
+a document says, and two opinions about a canonical text is one too many. Local
+and remote serve the same bytes because they come from the same tarball.
+
+⚠️ **The corpus is a static asset, not a bundled import.** Gzipped it is 1.61 MB
+against a 1 MB compressed script limit on the Workers free plan, so importing it
+fails to deploy — and fails harder as the corpus grows. The worker fetches it once
+per isolate and memoises it.
+
+Transport is **Streamable HTTP**, not the superseded HTTP+SSE pair. The server is
+stateless and read-only, so it never opens a stream: `POST /mcp` for JSON-RPC,
+`GET /mcp` returns 405 rather than holding open a stream that would carry nothing.
+
+```sh
+cd worker
+npm install
+npm run check      # public/corpus.json matches the pinned package
+npm run dev        # local, on :8787
+npm run deploy     # sync + wrangler deploy
+```
+
+```json
+{ "mcpServers": { "corpus": { "url": "https://corpus.333.eco/mcp" } } }
+```
+
 ## Client configuration
 
 ```json

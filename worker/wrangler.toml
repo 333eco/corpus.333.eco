@@ -1,0 +1,19 @@
+name = "corpus-333-eco"
+main = "src/worker.mjs"
+compatibility_date = "2026-09-01"
+
+# ⚠️ THE CORPUS IS A STATIC ASSET, NOT A BUNDLED IMPORT, and it has to be.
+# Gzipped it is 1.61 MB against a 1 MB compressed script limit on the free plan,
+# so `import corpus from "./corpus.json"` fails to deploy — and fails harder as
+# the corpus grows. Assets are served outside that budget.
+#
+# run_worker_first keeps the Worker in front of every request, so /mcp is handled
+# rather than being answered by the asset server with a 404. Without it, adding
+# an assets binding silently takes over routing.
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
+
+[observability]
+enabled = true
