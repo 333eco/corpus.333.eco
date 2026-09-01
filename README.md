@@ -8,6 +8,11 @@ papers, essays, institutional positions and white papers — served with
 npx @333eco/corpus
 ```
 
+> **Why the first published version is 1.0.1.** `1.0.0` was published and then
+> unpublished during setup. npm keeps the name registration and refuses to
+> republish that exact version for 24 hours, so the first version anyone can
+> install is `1.0.1`. Nothing is missing from it.
+
 Every response carries the document's `sha256`, its DOI where one exists, and
 whether an OpenTimestamps proof is anchored beside the source. **A retrieval
 server normally asks to be believed. This one hands over the means to check it.**
