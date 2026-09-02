@@ -1,6 +1,6 @@
 # corpus.333.eco
 
-An **MCP server** for an open-licensed corpus — 137 documents across mechanism
+An **MCP server** for an open-licensed corpus — 138 documents across mechanism
 papers, essays, institutional positions, white papers and the Letters to Miss
 Aquarius — served with **verifiable provenance**.
 
@@ -59,7 +59,7 @@ would destroy the only property this server has.
 
 | Licence | Documents |
 | --- | --- |
-| CC0-1.0 | 130 |
+| CC0-1.0 | 131 |
 | CC-BY-4.0 | 7 |
 
 CC-BY documents carry `attribute_to` inside their licence block, so an agent can
