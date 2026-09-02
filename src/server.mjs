@@ -34,6 +34,12 @@ import { readFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline";
+import { RESOURCE_TEMPLATES, listResources, readResource, completeArgument } from "./resources.mjs";
+import { structured, structuredWithText } from "./results.mjs";
+import { provenanceHeader } from "./resources.mjs";
+import { PROMPTS, getPrompt } from "./prompts.mjs";
+import { BASE_TOOLS } from "./base-tools.mjs";
+import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "./program-tools.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const INDEX = resolve(HERE, "..", "dist", "corpus.json");
@@ -47,7 +53,13 @@ if (!existsSync(INDEX)) {
 
 const corpus = JSON.parse(readFileSync(INDEX, "utf8"));
 const bySlug = new Map(corpus.documents.map((d) => [d.slug, d]));
+// The research program is optional: an index built over a corpus that does not
+// contain it simply has no `program` block, and the three program tools are then
+// not advertised at all. ⭐ An unadvertised tool is better than a tool that
+// exists and always errors — a client can reason about the first.
+const program = corpus.program ?? null;
 log(`${corpus.document_count} documents loaded —`, JSON.stringify(corpus.licences));
+if (program) log(`research program: ${program.prediction_count} predictions, ${program.reconciliation.reconciles ? "register arithmetic reconciles" : "⚠️ REGISTER ARITHMETIC DOES NOT RECONCILE"}`);
 
 /* ------------------------------------------------------- protocol plumbing ---
    Versions this server knows how to speak, newest first. On initialize the spec
@@ -78,6 +90,22 @@ const envelope = (d) => ({
     },
     provenance: {
         ...d.provenance,
+        // ⚠️ A LIVING DOCUMENT IS VERIFIED AND CITED WITH DIFFERENT DOIs, and
+        // saying only "cite accordingly" leaves the reader to guess which.
+        // The VERSION doi is the only one that can be true of the bytes here
+        // — it pins them — so it is what a hash check resolves against. The
+        // CONCEPT doi follows the document, so it is what a citation should
+        // name: a living register is revised on purpose, and a citation
+        // pinned to one revision goes stale by design rather than by accident.
+        ...(d.status === "living" && d.provenance.concept_doi
+            ? {
+                  citation: {
+                      cite: `https://doi.org/${d.provenance.concept_doi}`,
+                      verify_against: d.provenance.doi ? `https://doi.org/${d.provenance.doi}` : null,
+                      why: "This document is living — it is revised on purpose. Cite the concept DOI, which always resolves to the newest version; verify the text you were served against the version DOI and sha256 above, which pin these exact bytes."
+                  }
+              }
+            : {}),
         verify: {
             // Concrete, because an instruction that says "the source file"
             // without saying which one is not an instruction. All three source
@@ -103,48 +131,9 @@ const envelope = (d) => ({
 
 /* -------------------------------------------------------------------- tools --- */
 
-const TOOLS = [
-    {
-        name: "search_corpus",
-        description:
-            "Full-text search across the open-licensed corpus. Returns matching documents with a provenance envelope " +
-            "and a short excerpt around each match — not the full text; call get_document for that. Every result can " +
-            "be independently verified via its sha256, DOI and OpenTimestamps proof.",
-        inputSchema: {
-            type: "object",
-            properties: {
-                query: { type: "string", description: "Text to search for. Case-insensitive." },
-                genre: { type: "string", description: "Optional: restrict to a genre, e.g. essays, defensive-publications, positions, white-papers." },
-                limit: { type: "number", description: "Maximum documents to return. Default 10." }
-            },
-            required: ["query"]
-        }
-    },
-    {
-        name: "get_document",
-        description:
-            "Return one document in full, with its provenance envelope. The text is the canonical source — never a " +
-            "summary — so its sha256 can be checked against the envelope and against the anchored proof.",
-        inputSchema: {
-            type: "object",
-            properties: { slug: { type: "string", description: "Document slug, as returned by search_corpus or list_documents." } },
-            required: ["slug"]
-        }
-    },
-    {
-        name: "list_documents",
-        description:
-            "List the corpus: slugs, titles, genres, licences and provenance summaries, without full text. Use to " +
-            "orient before searching, or to enumerate what is available under a given licence.",
-        inputSchema: {
-            type: "object",
-            properties: {
-                genre: { type: "string", description: "Optional: restrict to a genre." },
-                licence: { type: "string", description: "Optional: restrict to a licence id, e.g. CC0-1.0 or CC-BY-4.0." }
-            }
-        }
-    }
-];
+const TOOLS = BASE_TOOLS;
+
+const KNOWN_TOOLS = new Set([...BASE_TOOLS, ...PROGRAM_TOOLS].map((t) => t.name));
 
 const text = (value) => ({ content: [{ type: "text", text: typeof value === "string" ? value : JSON.stringify(value, null, 2) }] });
 
@@ -166,13 +155,20 @@ const callTool = (name, args) => {
             .filter((h) => h.ex !== null)
             .slice(0, limit)
             .map((h) => ({ ...envelope(h.d), genre: h.d.genre, excerpt: h.ex }));
-        return text({ query: q, matches: hits.length, results: hits });
+        const readable = hits.length
+            ? hits.map((h) => `${h.slug} — ${h.title}\n  ${h.excerpt}`).join("\n\n")
+            : `no document matches "${q}".`;
+        return structuredWithText(readable, { query: q, matches: hits.length, results: hits });
     }
 
     if (name === "get_document") {
         const d = bySlug.get(String(args?.slug ?? ""));
         if (!d) throw new Error(`no document with slug "${args?.slug}". Call list_documents to see what is available.`);
-        return text({
+        // ⭐ The document goes to `content` WITH ITS PROVENANCE HEADER — the same
+        // bytes resources/read returns, so the two doors into a document agree —
+        // and the envelope goes to `structuredContent` WITHOUT the body. Split by
+        // role; nothing is sent twice.
+        return structuredWithText(provenanceHeader(d) + "\n\n" + d.text, {
             ...envelope(d),
             genre: d.genre,
             repo: d.repo,
@@ -187,23 +183,42 @@ const callTool = (name, args) => {
             // convention look like an artefact of bad extraction.
             ...(d.editorial ? { editorial: d.editorial } : {}),
             ...(d.segments ? { segments: d.segments } : {}),
-            text: d.text
+            // ⚠️ Deliberately absent: the body is in `content`. Carrying it here
+            // too is the duplication this shape exists to avoid.
+            text_in: "content[0].text, prefixed by the provenance header"
         });
     }
 
     if (name === "list_documents") {
         const list = corpus.documents
-            .filter((d) => (!args?.genre || d.genre === args.genre) && (!args?.licence || d.licence.id === args.licence))
+            .filter((d) => (!args?.genre || d.genre === args.genre) &&
+                    (!args?.licence || d.licence.id === args.licence) &&
+                    (!args?.category || d.category === args.category))
             .map((d) => ({
                 slug: d.slug,
                 title: d.title,
                 genre: d.genre,
+                // ⭐ Carried in the index since the first build and exposed by
+                // nothing until now. `institutional` is the four-body shelf,
+                // `mechanism` the how-it-works shelf — the corpus already had a
+                // topic taxonomy and no way to ask it a question.
+                category: d.category,
                 date: d.date,
                 licence: d.licence.id,
                 doi: d.provenance.doi,
                 opentimestamps: d.provenance.opentimestamps
             }));
-        return text({ count: list.length, licences: corpus.licences, documents: list });
+        return structured({
+            count: list.length,
+            licences: corpus.licences,
+            // The shelves, so a caller can narrow without guessing the vocabulary.
+            categories: corpus.documents.reduce((a, d) => ((a[d.category ?? "uncategorised"] = (a[d.category ?? "uncategorised"] ?? 0) + 1), a), {}),
+            documents: list
+        });
+    }
+
+    if (PROGRAM_TOOL_NAMES.includes(name)) {
+        return callProgramTool({ program, bySlug, envelope }, name, args);
     }
 
     throw new Error(`unknown tool: ${name}`);
@@ -214,16 +229,43 @@ const callTool = (name, args) => {
 const handlers = {
     initialize: (params) => ({
         protocolVersion: PROTOCOL_VERSIONS.includes(params?.protocolVersion) ? params.protocolVersion : PROTOCOL_VERSIONS[0],
-        capabilities: { tools: {} },
-        serverInfo: { name: "corpus.333.eco", version: "1.0.0" },
+        // ⚠️ Declared because they are implemented. `subscribe`/`listChanged` are
+        // deliberately absent: the corpus is fixed for the life of a build, so a
+        // subscription would be a promise to send notifications that can never fire.
+        capabilities: { tools: {}, resources: {}, completions: {}, prompts: {} },
+        serverInfo: { name: "corpus.333.eco", version: corpus.package_version ?? "0.0.0-unbuilt" },
         instructions:
             "An open-licensed corpus served with verifiable provenance. Every document carries a sha256, and most " +
             "carry a DOI and an OpenTimestamps proof anchored in Bitcoin, so you can check any passage you intend to " +
             "cite rather than trusting this server. Documents under CC-BY carry attribute_to in their licence block; " +
-            "honour it. Text is returned verbatim and is never summarised, because a summary cannot be hash-verified."
+            "honour it. Text is returned verbatim and is never summarised, because a summary cannot be hash-verified." +
+            (program ? PROGRAM_INSTRUCTIONS : "")
     }),
-    "tools/list": () => ({ tools: TOOLS }),
-    "tools/call": (params) => callTool(params?.name, params?.arguments)
+    "tools/list": () => ({ tools: program ? [...TOOLS, ...PROGRAM_TOOLS] : TOOLS }),
+    "resources/list": (params) => listResources(corpus.documents, params?.cursor),
+    "resources/templates/list": () => ({ resourceTemplates: RESOURCE_TEMPLATES }),
+    "resources/read": (params) => readResource(params?.uri, bySlug),
+    "prompts/list": () => ({ prompts: PROMPTS }),
+    "prompts/get": (params) => getPrompt(params?.name, params?.arguments),
+    "completion/complete": (params) => completeArgument(params?.ref, params?.argument, corpus.documents),
+    // ⛔ TWO KINDS OF FAILURE, AND THEY ARE NOT THE SAME KIND. An unknown tool is a
+    // PROTOCOL error — the client asked for something that does not exist. A miss
+    // INSIDE a known tool ("no document with that slug") is a tool-execution error,
+    // and the spec puts those in the result with isError, not in a JSON-RPC error.
+    // ⭐ The distinction is load-bearing here specifically because our failure
+    // messages are GUIDANCE — "call list_documents to see what is available" — and
+    // a protocol error frequently never reaches the model as recoverable context.
+    // Returned as a result, the guidance is read and can be acted on; raised as
+    // -32603 it was written for a reader who mostly would not see it.
+    "tools/call": (params) => {
+        const name = params?.name;
+        if (!KNOWN_TOOLS.has(name)) throw new Error(`unknown tool: ${name}`);
+        try {
+            return callTool(name, params?.arguments);
+        } catch (e) {
+            return { content: [{ type: "text", text: e.message }], isError: true };
+        }
+    }
 };
 
 createInterface({ input: process.stdin }).on("line", (line) => {

@@ -50,6 +50,76 @@ manufactured on a schedule.
 | `search_corpus` | matching documents, provenance envelope, and an excerpt around each match |
 | `get_document` | one document in full — canonical text, never a summary |
 | `list_documents` | slugs, titles, genres, licences, provenance summaries |
+| `list_predictions` | the research program's pre-registered predictions, with falsifiers and status |
+| `get_prediction` | one prediction, plus the provenance envelope of the paper that registered it |
+| `get_program` | the program's hard core, chapters, stopping rule and count reconciliation, verbatim |
+
+⭐ **The three program tools return the STATING PAPER's envelope, not the register's.**
+That is the register's own instruction rather than a design flourish: *"verify the
+stating paper against its stored proof rather than trusting this register — this
+file is a convenience index, and the proofs are the evidence."* A prediction's
+authority is the paper that registered it, so that is the hash, DOI and
+OpenTimestamps command a caller gets back. Every field is a verbatim table cell,
+and the build refuses to emit one that is not — a field must match a *complete*
+cell of its source, because a fragment of a cell is still a substring of it.
+
+The program tools appear only when the index carries a program block. An index
+built over a corpus without one advertises three tools, not six.
+
+## Resources
+
+Every document is also an MCP resource at `corpus://<slug>` — listed by
+`resources/list` (paged), described by the `corpus://{slug}` template, and read by
+`resources/read`.
+
+⭐⭐ **A resource carries its provenance IN THE TEXT, not beside it.** A tool
+response wraps a document in an envelope and the caller reads the envelope. A
+resource is consumed differently: clients hand its contents straight to a model as
+context, and a `mimeType` field does not travel with a quotation. So every read
+returns a `[PROVENANCE — corpus.333.eco]` header — licence and whom to attribute,
+sha256 and **what it does not cover**, both DOIs, the OpenTimestamps command, and
+the one-line `curl … | shasum` check — followed by the document verbatim.
+
+This is the letters' rule applied a second time. Voice in the letters is marked
+inline rather than in metadata because *with a field an agent must LOOK to know;
+with a marker it must STRIP not to.* The same asymmetry decides this.
+
+`subscribe` and `listChanged` are deliberately not declared: the corpus is fixed
+for the life of a build, so a subscription would promise notifications that can
+never fire.
+
+## Prompts
+
+Three worked examples of the API — `orient`, `verify_a_quote(slug)`,
+`what_would_falsify(claim)` — surfaced as slash commands in clients that support
+them, with `slug` autocompleted by `completion/complete`.
+
+⛔ **A prompt here may describe the API. It may never describe the subject
+matter.** The moment one says something about the corpus's claims, this server has
+begun editorialising on its own documents — which is precisely what the provenance
+envelope exists to make unnecessary. There is deliberately no "verify before
+citing" prompt: that would be a *rule* where the server already has a *property*,
+since every document by every route arrives behind a header the reader must
+actively strip.
+
+## Attribution is a build-time property
+
+Seven documents are CC-BY and the rest CC0. A CC-BY document that names no author
+hands every consumer an obligation nobody can discharge, so **the build fails**
+rather than serving it — the same reasoning as the licence gate: a property, not a
+rule someone has to remember.
+
+| `list_predictions` | the research program's pre-registered predictions, with falsifiers and status |
+
+**Results are structured.** Every tool returns `structuredContent` — the typed
+object — and uses `content` for the human form: the document text with its
+provenance header for `get_document`, readable excerpts for `search_corpus`, a
+compact serialisation for the rest. ⛔ **Nothing is sent twice.** The spec's
+back-compat advice is to serialise the JSON into `content` as well; measured, that
+doubles every response (1.76×–2.00×), so this server splits by role instead —
+`content` is read, `structuredContent` is validated, and the two carry different
+things. `outputSchema` is deliberately not declared yet: a schema binds the server
+on every future change, and the envelope is still moving.
 
 **Text is returned verbatim and is never summarised.** Not a stylistic
 preference — a summary cannot be hash-verified, so summarising at the server

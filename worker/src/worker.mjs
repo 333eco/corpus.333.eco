@@ -25,6 +25,20 @@
 // one that would carry nothing. Check the current MCP spec revision before
 // adding either; the transport is the part of this file most likely to age.
 
+import { RESOURCE_TEMPLATES, listResources, readResource, completeArgument } from "../../src/resources.mjs";
+import { structured, structuredWithText } from "../../src/results.mjs";
+import { provenanceHeader } from "../../src/resources.mjs";
+import { PROMPTS, getPrompt } from "../../src/prompts.mjs";
+import { BASE_TOOLS } from "../../src/base-tools.mjs";
+import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "../../src/program-tools.mjs";
+
+// ⭐ THE PROGRAM TOOLS ARE IMPORTED, NOT COPIED — unlike the envelope below. The
+// envelope is twenty lines and duplication makes it diffable; the tool surface is
+// a hundred and twenty, and a hand-kept second copy is exactly how this endpoint
+// would end up advertising tools the npm package does not have. Wrangler bundles
+// JavaScript, so a shared module costs nothing here; only the corpus itself has
+// to stay a static asset.
+
 const JSON_HEADERS = {
     "content-type": "application/json",
     // A public read-only endpoint. Browsers reach it from arbitrary origins and
@@ -75,6 +89,22 @@ const envelope = (d) => ({
     },
     provenance: {
         ...d.provenance,
+        // ⚠️ A LIVING DOCUMENT IS VERIFIED AND CITED WITH DIFFERENT DOIs, and
+        // saying only "cite accordingly" leaves the reader to guess which.
+        // The VERSION doi is the only one that can be true of the bytes here
+        // — it pins them — so it is what a hash check resolves against. The
+        // CONCEPT doi follows the document, so it is what a citation should
+        // name: a living register is revised on purpose, and a citation
+        // pinned to one revision goes stale by design rather than by accident.
+        ...(d.status === "living" && d.provenance.concept_doi
+            ? {
+                  citation: {
+                      cite: `https://doi.org/${d.provenance.concept_doi}`,
+                      verify_against: d.provenance.doi ? `https://doi.org/${d.provenance.doi}` : null,
+                      why: "This document is living — it is revised on purpose. Cite the concept DOI, which always resolves to the newest version; verify the text you were served against the version DOI and sha256 above, which pin these exact bytes."
+                  }
+              }
+            : {}),
         verify: {
             // Concrete, because an instruction that says "the source file"
             // without saying which one is not an instruction. All three source
@@ -97,46 +127,9 @@ const envelope = (d) => ({
     }
 });
 
-const TOOLS = [
-    {
-        name: "search_corpus",
-        description:
-            "Full-text search across the open-licensed corpus. Returns matching documents with a provenance envelope " +
-            "and a short excerpt around each match. Every result can be independently verified via its sha256, DOI " +
-            "and OpenTimestamps proof.",
-        inputSchema: {
-            type: "object",
-            properties: {
-                query: { type: "string", description: "Text to search for. Case-insensitive." },
-                genre: { type: "string", description: "Optional: restrict to a genre." },
-                limit: { type: "number", description: "Maximum documents to return. Default 10." }
-            },
-            required: ["query"]
-        }
-    },
-    {
-        name: "get_document",
-        description:
-            "Return one document in full, with its provenance envelope. The text is the canonical source — never a " +
-            "summary — so its sha256 can be checked against the envelope and the anchored proof.",
-        inputSchema: {
-            type: "object",
-            properties: { slug: { type: "string", description: "Document slug." } },
-            required: ["slug"]
-        }
-    },
-    {
-        name: "list_documents",
-        description: "List the corpus: slugs, titles, genres, licences and provenance summaries, without full text.",
-        inputSchema: {
-            type: "object",
-            properties: {
-                genre: { type: "string" },
-                licence: { type: "string", description: "e.g. CC0-1.0 or CC-BY-4.0" }
-            }
-        }
-    }
-];
+const TOOLS = BASE_TOOLS;
+
+const KNOWN_TOOLS = new Set([...BASE_TOOLS, ...PROGRAM_TOOLS].map((t) => t.name));
 
 const asText = (v) => ({ content: [{ type: "text", text: typeof v === "string" ? v : JSON.stringify(v, null, 2) }] });
 
@@ -157,12 +150,19 @@ const callTool = (corpus, name, args) => {
             .filter((h) => h.ex !== null)
             .slice(0, Number(args?.limit ?? 10))
             .map((h) => ({ ...envelope(h.d), genre: h.d.genre, excerpt: h.ex }));
-        return asText({ query: q, matches: results.length, results });
+        const readable = results.length
+            ? results.map((h) => `${h.slug} — ${h.title}\n  ${h.excerpt}`).join("\n\n")
+            : `no document matches "${q}".`;
+        return structuredWithText(readable, { query: q, matches: results.length, results: results });
     }
     if (name === "get_document") {
         const d = corpus.bySlug.get(String(args?.slug ?? ""));
         if (!d) throw new Error(`no document with slug "${args?.slug}". Call list_documents to see what is available.`);
-        return asText({
+        // ⭐ The document goes to `content` WITH ITS PROVENANCE HEADER — the same
+        // bytes resources/read returns, so the two doors into a document agree —
+        // and the envelope goes to `structuredContent` WITHOUT the body. Split by
+        // role; nothing is sent twice.
+        return structuredWithText(provenanceHeader(d) + "\n\n" + d.text, {
             ...envelope(d),
             genre: d.genre,
             repo: d.repo,
@@ -177,14 +177,44 @@ const callTool = (corpus, name, args) => {
             // convention look like an artefact of bad extraction.
             ...(d.editorial ? { editorial: d.editorial } : {}),
             ...(d.segments ? { segments: d.segments } : {}),
-            text: d.text
+            // ⚠️ Deliberately absent: the body is in `content`. Carrying it here
+            // too is the duplication this shape exists to avoid.
+            text_in: "content[0].text, prefixed by the provenance header"
         });
+    }
+    if (PROGRAM_TOOL_NAMES.includes(name)) {
+        return callProgramTool(
+            { program: corpus.program ?? null, bySlug: corpus.bySlug, envelope, asText },
+            name,
+            args
+        );
     }
     if (name === "list_documents") {
         const documents = corpus.documents
-            .filter((d) => (!args?.genre || d.genre === args.genre) && (!args?.licence || d.licence.id === args.licence))
-            .map((d) => ({ slug: d.slug, title: d.title, genre: d.genre, date: d.date, licence: d.licence.id, doi: d.provenance.doi, opentimestamps: d.provenance.opentimestamps }));
-        return asText({ count: documents.length, licences: corpus.licences, documents });
+            .filter((d) => (!args?.genre || d.genre === args.genre) &&
+                    (!args?.licence || d.licence.id === args.licence) &&
+                    (!args?.category || d.category === args.category))
+            .map((d) => ({
+                slug: d.slug,
+                title: d.title,
+                genre: d.genre,
+                // ⭐ Carried in the index since the first build and exposed by
+                // nothing until now. `institutional` is the four-body shelf,
+                // `mechanism` the how-it-works shelf — the corpus already had a
+                // topic taxonomy and no way to ask it a question.
+                category: d.category,
+                date: d.date,
+                licence: d.licence.id,
+                doi: d.provenance.doi,
+                opentimestamps: d.provenance.opentimestamps
+            }));
+        return structured({
+            count: documents.length,
+            licences: corpus.licences,
+            // The shelves, so a caller can narrow without guessing the vocabulary.
+            categories: corpus.documents.reduce((a, d) => ((a[d.category ?? "uncategorised"] = (a[d.category ?? "uncategorised"] ?? 0) + 1), a), {}),
+            documents: documents
+        });
     }
     throw new Error(`unknown tool: ${name}`);
 };
@@ -192,16 +222,40 @@ const callTool = (corpus, name, args) => {
 const handlers = {
     initialize: (_corpus, params) => ({
         protocolVersion: PROTOCOL_VERSIONS.includes(params?.protocolVersion) ? params.protocolVersion : PROTOCOL_VERSIONS[0],
-        capabilities: { tools: {} },
-        serverInfo: { name: "corpus.333.eco (remote)", version: "1.0.1" },
+        // See the stdio server: subscribe/listChanged are omitted on purpose.
+        capabilities: { tools: {}, resources: {}, completions: {}, prompts: {} },
+        // ⭐ The version of the CORPUS PACKAGE this worker is pinned to, not of the
+        // worker's own code — the honest answer for a surface built around an
+        // exact pin, and the same number the stdio server reports for that build.
+        serverInfo: { name: "corpus.333.eco (remote)", version: _corpus?.package_version ?? "0.0.0-unbuilt" },
         instructions:
             "An open-licensed corpus served with verifiable provenance. Every document carries a sha256, and most " +
             "carry a DOI and an OpenTimestamps proof anchored in Bitcoin, so you can check any passage you intend to " +
             "cite rather than trusting this server. Documents under CC-BY carry attribute_to in their licence block; " +
-            "honour it. Text is returned verbatim and is never summarised, because a summary cannot be hash-verified."
+            "honour it. Text is returned verbatim and is never summarised, because a summary cannot be hash-verified." +
+            (_corpus?.program ? PROGRAM_INSTRUCTIONS : "")
     }),
-    "tools/list": () => ({ tools: TOOLS }),
-    "tools/call": (corpus, params) => callTool(corpus, params?.name, params?.arguments)
+    // ⚠️ Takes the corpus, because whether the program tools exist depends on
+    // whether the pinned package's index carries a program block.
+    "tools/list": (corpus) => ({ tools: corpus?.program ? [...TOOLS, ...PROGRAM_TOOLS] : TOOLS }),
+    "resources/list": (corpus, params) => listResources(corpus.documents, params?.cursor),
+    "resources/templates/list": () => ({ resourceTemplates: RESOURCE_TEMPLATES }),
+    "resources/read": (corpus, params) => readResource(params?.uri, corpus.bySlug),
+    "prompts/list": () => ({ prompts: PROMPTS }),
+    "prompts/get": (corpus, params) => getPrompt(params?.name, params?.arguments),
+    "completion/complete": (corpus, params) => completeArgument(params?.ref, params?.argument, corpus.documents),
+    // See the stdio server: an unknown tool is a protocol error, a miss inside a
+    // known one is a tool-execution error whose message is guidance the model
+    // should get back as readable context rather than as -32603.
+    "tools/call": (corpus, params) => {
+        const name = params?.name;
+        if (!KNOWN_TOOLS.has(name)) throw new Error(`unknown tool: ${name}`);
+        try {
+            return callTool(corpus, name, params?.arguments);
+        } catch (e) {
+            return { content: [{ type: "text", text: e.message }], isError: true };
+        }
+    }
 };
 
 export default {
