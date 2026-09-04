@@ -260,6 +260,63 @@ npm run deploy     # sync + wrangler deploy
 { "mcpServers": { "corpus": { "url": "https://corpus.333.eco/mcp" } } }
 ```
 
+## What the remote server records
+
+⛔ **The npm package records nothing and sends nothing.** `npx @333eco/corpus`
+runs on your machine, reads a local file, and makes no outbound request of any
+kind. Everything in this section is about `corpus.333.eco` and only about it.
+
+The asymmetry is deliberate. The hosted endpoint already sees every request it
+answers, so writing down what it was asked adds no reach it did not have. The
+same lines inside the package would be an outbound report about a stranger's
+private reading, which is a different artifact — and not one this is going to
+become.
+
+⭐⭐ **No per-caller identity is computed anywhere.** The client label is the
+*software's* name, taken from the `clientInfo` it volunteers at handshake —
+`claude-code`, `cursor` — never an IP, never a hash of one, never a cookie. Every
+user of a given client is one label. That is not a promise to behave well: there
+is no code path in `worker/src/telemetry.mjs` that derives a per-caller id, so
+there is nothing to leak, sell, subpoena or regret later. The question the server
+wants answered is *which clients reach it*, and that question needs no persons in
+it.
+
+⭐⭐ **The only search text ever stored is a search that found nothing.** The
+reason to log queries at all is to learn what the corpus is missing; a query that
+*succeeded* tells you only what a caller was reading, which is their business.
+So the successful query has no storage path — an absent branch, not a redaction
+step someone has to remember to keep. Remove the enforcer and nothing breaks,
+because there is no enforcer.
+
+| Channel | Carries | Why it exists |
+| --- | --- | --- |
+| Analytics Engine | one row per JSON-RPC call: method, tool, slug, client label, country, protocol, corpus version, result count, error flag, duration — plus the query text **when and only when it matched nothing** | counting; queried by SQL, stays at Cloudflare |
+| `thonly.org/api/track` | `corpus_connect` (a handshake) and `corpus_error` (the corpus asset failed to load) | the two things worth interrupting someone about |
+
+⛔ **Not one beacon per tool call.** An agent working through the corpus fires
+dozens of calls in seconds, and a notification channel that reports each of them
+is a channel nobody reads. The beacon fires on the *handshake*, and the receiving
+function pushes only the **first sighting of a client label**, counting every one
+after it in silence — so a notification means *a client we have never seen
+appeared*. `corpus_error` is exempt and always pushes: it is rare by construction,
+and silence is the wrong default for an outage.
+
+⚠️ **A dead beacon must not look like a quiet one.** If the receiving allowlist
+changes, the POST 403s and the pushes simply stop — indistinguishable from *no new
+clients this week*, which is exactly the reading that would let it stay broken for
+months. So the delivery status is written to Analytics Engine as its own row:
+silence on the phone is then something you can go and check rather than infer.
+
+⚠️ **`ANALYTICS` is unbound under `wrangler dev` without `--remote`.** The module
+degrades to a no-op rather than throwing, so a local session looks entirely normal
+and records nothing — expected, and worth knowing before reading an empty dataset
+as a finding.
+
+The endpoint discloses all of this in its own `GET /` response, under `records`.
+A privacy policy is a page someone has to go and find; this is the endpoint
+describing itself, in the one response a caller gets for free before doing
+anything, so the disclosure travels with the thing it is about.
+
 ## Client configuration
 
 ```json

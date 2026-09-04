@@ -31,6 +31,7 @@ import { provenanceHeader } from "../../src/resources.mjs";
 import { PROMPTS, getPrompt } from "../../src/prompts.mjs";
 import { BASE_TOOLS } from "../../src/base-tools.mjs";
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "../../src/program-tools.mjs";
+import { clientOf, record, missOf, resultsOf, beacon } from "./telemetry.mjs";
 
 // ⭐ THE PROGRAM TOOLS ARE IMPORTED, NOT COPIED — unlike the envelope below. The
 // envelope is twenty lines and duplication makes it diffable; the tool surface is
@@ -259,7 +260,7 @@ const handlers = {
 };
 
 export default {
-    async fetch(request, env) {
+    async fetch(request, env, ctx) {
         const url = new URL(request.url);
 
         if (request.method === "OPTIONS") return new Response(null, { headers: JSON_HEADERS });
@@ -267,6 +268,7 @@ export default {
         // A plain browser visit should explain itself rather than 404.
         if (request.method === "GET" && url.pathname !== "/mcp") {
             const corpus = await loadCorpus(env).catch(() => null);
+            record(env, ctx, { client: clientOf(null, request), country: request.cf?.country ?? "", method: "GET", version: String(corpus?.package_version ?? "") });
             return new Response(
                 JSON.stringify(
                     {
@@ -277,7 +279,17 @@ export default {
                         licences: corpus?.licences ?? null,
                         local_equivalent: "npx @333eco/corpus",
                         source: "https://github.com/333eco/corpus.333.eco",
-                        note: "Every response carries the document's sha256, DOI and OpenTimestamps status so you can verify what you were given."
+                        note: "Every response carries the document's sha256, DOI and OpenTimestamps status so you can verify what you were given.",
+                        // ⭐ SAID HERE BECAUSE THIS IS WHERE IT CAN BE READ. A
+                        // privacy policy is a page someone has to go and find;
+                        // this is the endpoint describing itself, in the one
+                        // response a caller gets for free before doing anything.
+                        // The disclosure travels with the thing it is about.
+                        records: {
+                            what: "Per-call counts: the JSON-RPC method, the tool, the document slug, the client software's own name from its handshake, and the country Cloudflare resolves. Search text is stored ONLY when a search matched nothing, because the reason to keep it is to learn what this corpus lacks.",
+                            not: "No IP address, no identifier derived from one, no cookie, no per-caller id of any kind. Every user of a given client is one label. Successful search text is never written down.",
+                            local: "npx @333eco/corpus records nothing and sends nothing. It runs on your machine and this does not apply to it."
+                        }
                     },
                     null,
                     2
@@ -315,11 +327,62 @@ export default {
             return new Response(JSON.stringify({ jsonrpc: "2.0", id: msg.id, error: { code: -32601, message: `method not found: ${msg.method}` } }), { headers: JSON_HEADERS });
         }
 
+        const started = Date.now();
+        const client = clientOf(msg, request);
+        const country = request.cf?.country ?? "";
+        const rpcError = (m) => new Response(JSON.stringify({ jsonrpc: "2.0", id: msg.id, error: { code: -32603, message: m } }), { headers: JSON_HEADERS });
+
+        // ⚠️ THE CORPUS LOAD IS ITS OWN TRY, AND THE SPLIT IS WHAT KEEPS THE
+        // BEACON QUIET. A failed asset fetch is an outage worth a push; an
+        // unknown tool name is a caller's mistake and worth a counter. Wrapped
+        // together — as they were — every stranger probing for a tool that does
+        // not exist would ring the same bell as the corpus going dark, and the
+        // bell would stop meaning anything.
+        let corpus;
         try {
-            const corpus = await loadCorpus(env);
-            return new Response(JSON.stringify({ jsonrpc: "2.0", id: msg.id, result: handler(corpus, msg.params) }), { headers: JSON_HEADERS });
+            corpus = await loadCorpus(env);
         } catch (e) {
-            return new Response(JSON.stringify({ jsonrpc: "2.0", id: msg.id, error: { code: -32603, message: e.message } }), { headers: JSON_HEADERS });
+            record(env, ctx, { client, country, method: msg.method, errored: 1, ms: Date.now() - started });
+            beacon(env, ctx, { event: "corpus_error", client, country, data: { method: String(msg.method ?? ""), message: String(e.message).slice(0, 200) } });
+            return rpcError(e.message);
+        }
+
+        try {
+            const result = handler(corpus, msg.params);
+            const args = msg.params?.arguments;
+            record(env, ctx, {
+                client,
+                country,
+                method: String(msg.method ?? ""),
+                tool: msg.method === "tools/call" ? String(msg.params?.name ?? "") : "",
+                slug: String(args?.slug ?? msg.params?.uri ?? ""),
+                protocol: String(msg.params?.protocolVersion ?? ""),
+                version: String(corpus.package_version ?? ""),
+                missedQuery: missOf(msg.params?.name, result),
+                results: resultsOf(result),
+                errored: result?.isError ? 1 : 0,
+                ms: Date.now() - started
+            });
+            // The handshake is the session, so this fires once per connection
+            // rather than once per call — and thonly.org pushes only the first
+            // sighting of a client label, counting every one after it in silence.
+            if (msg.method === "initialize") {
+                beacon(env, ctx, {
+                    event: "corpus_connect",
+                    client,
+                    country,
+                    data: {
+                        version: String(msg.params?.clientInfo?.version ?? ""),
+                        protocol: String(msg.params?.protocolVersion ?? ""),
+                        corpus: String(corpus.package_version ?? "")
+                    }
+                });
+            }
+            return new Response(JSON.stringify({ jsonrpc: "2.0", id: msg.id, result }), { headers: JSON_HEADERS });
+        } catch (e) {
+            // Counted, never pushed: a malformed request is the caller's problem.
+            record(env, ctx, { client, country, method: String(msg.method ?? ""), errored: 1, ms: Date.now() - started });
+            return rpcError(e.message);
         }
     }
 };

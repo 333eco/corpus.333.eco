@@ -37,3 +37,18 @@ run_worker_first = true
 
 [observability]
 enabled = true
+
+# ⭐ COUNTING LIVES HERE, NOT IN THE NOTIFICATION CHANNEL. Analytics Engine takes
+# one data point per JSON-RPC call — free, same-datacenter, written inside
+# waitUntil so it is never in front of a response — and is queried with SQL over
+# the /analytics_engine/sql API. The beacon to thonly.org is deliberately NOT this:
+# it carries two events, both surprises. See src/telemetry.mjs for what each
+# column holds and, more to the point, for what is deliberately not collected.
+#
+# ⚠️ UNBOUND IN `wrangler dev` UNLESS YOU PASS --remote. The module degrades to a
+# no-op rather than throwing, so a local session looks normal and silently records
+# nothing — expected, and worth knowing before reading an empty dataset as a
+# finding.
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "corpus_333_eco"
