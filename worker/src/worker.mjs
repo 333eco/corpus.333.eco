@@ -298,6 +298,35 @@ export default {
             );
         }
 
+        // ⭐⭐ `/gap` — the receiving end of `npx @333eco/corpus --report-gap`.
+        // A voluntary note from someone running the LOCAL server about something
+        // this corpus does not contain: the one signal the package cannot supply
+        // by being watched, supplied instead by being asked.
+        //
+        // ⭐ IT RECORDS THE TEXT AND NOTHING ELSE — deliberately not the country,
+        // which every other row here carries and which Cloudflare hands over for
+        // free. A voluntary note about a missing document has no use for where
+        // the sender was standing, and collecting it because it is available is
+        // how a narrow purpose widens.
+        //
+        // ⚠️ Public and unauthenticated, so the cap is enforced HERE and not only
+        // in the client: a client-side limit constrains our own CLI and nobody
+        // else. Analytics Engine caps blobs at 5120 bytes total in any case.
+        if (request.method === "POST" && url.pathname === "/gap") {
+            const body = await request.json().catch(() => null);
+            const gap = String(body?.gap ?? "").trim().slice(0, 200);
+            if (!gap) {
+                return new Response(JSON.stringify({ error: "gap is required" }), { status: 400, headers: JSON_HEADERS });
+            }
+            record(env, ctx, {
+                client: "report-gap",
+                method: "gap",
+                version: String(body?.version ?? "").slice(0, 32),
+                missedQuery: gap
+            });
+            return new Response(JSON.stringify({ ok: true, recorded: gap }), { headers: JSON_HEADERS });
+        }
+
         // No sessions and no server-initiated messages, so there is nothing to
         // stream. Saying so is better than holding open a stream that never
         // carries anything.

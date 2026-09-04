@@ -48,6 +48,10 @@ manufactured on a schedule.
 | Tool | Returns |
 | --- | --- |
 | `search_corpus` | matching documents, provenance envelope, and an excerpt around each match |
+
+⚠️ **`search_corpus` matches a LITERAL SUBSTRING**, case-insensitively — not tokens, not
+stems, not embeddings. `"gratitude"` matches; `"gratitude and human wellbeing"` matches only
+a document containing that exact phrase, which is usually none. **Search one term at a time.**
 | `get_document` | one document in full — canonical text, never a summary |
 | `list_documents` | slugs, titles, genres, licences, provenance summaries |
 | `list_predictions` | the research program's pre-registered predictions, with falsifiers and status |
@@ -259,6 +263,37 @@ npm run deploy     # sync + wrangler deploy
 ```json
 { "mcpServers": { "corpus": { "url": "https://corpus.333.eco/mcp" } } }
 ```
+
+## Telling us what is missing
+
+```sh
+npx @333eco/corpus --report-gap "what you looked for and did not find"
+```
+
+⭐⭐ **A command, not telemetry, and the difference is the whole point.** The most
+useful thing a corpus server can learn is what someone went looking for and did
+not find. The hosted endpoint learns that from its own callers as a property of
+being the server they called. This package runs on *your* machine, so collecting
+it here would be an outbound report about your private reading — and the guard
+against that is not a consent prompt or an opt-out flag. **It is that the serving
+path cannot reach the code that sends.** `server.mjs` loads `report-gap.mjs` with
+a dynamic import inside the argv branch, so a normal session never reads the file
+off disk at all.
+
+The command prints the entire payload before sending it, and the payload is the
+text you typed plus the version you have. No machine id, no username, no
+hostname, no path. ⭐ The receiving end deliberately does not record the country
+it could resolve for free: a voluntary note about a missing document has no use
+for where the sender was standing, and collecting a thing because it is available
+is how a narrow purpose widens.
+
+⚠️ **The honest limit, because the claim changed shape when this was added.**
+Before it, *"this package makes no network call"* was verifiable by
+`grep -r fetch src/` returning nothing — the strongest kind of evidence, since it
+needs no reasoning. The claim is now narrower: **there is exactly one `fetch` in
+the package, it is in `src/report-gap.mjs`, and that file is imported from exactly
+one place — a branch requiring an explicit flag.** Still checkable in under a
+minute, but it is a chain of two facts rather than one absence.
 
 ## What the remote server records
 

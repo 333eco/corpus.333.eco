@@ -46,6 +46,27 @@ const INDEX = resolve(HERE, "..", "dist", "corpus.json");
 
 const log = (...a) => console.error("[corpus-mcp]", ...a);
 
+// ⭐⭐ THE ONE NON-SERVING PATH, AND IT IS GUARDED BY BEING A SEPARATE MODULE.
+// `--report-gap "<text>"` sends a voluntary note about something this corpus does
+// not contain. It is a COMMAND, never telemetry: nothing here runs unless the
+// flag is typed, and the reporter is loaded with a DYNAMIC IMPORT so the serving
+// path does not so much as read the file off disk. ⛔ Never import report-gap.mjs
+// at the top of this file — a static import would put a fetch in the module graph
+// of every session, which is exactly the property this arrangement preserves.
+// ⚠️ Handled before the index check on purpose: reporting a gap must not require
+// a built corpus, since "there is no corpus here" is itself a reportable gap.
+const gapAt = process.argv.indexOf("--report-gap");
+if (gapAt !== -1) {
+    const { reportGap } = await import("./report-gap.mjs");
+    let version = null;
+    try {
+        version = JSON.parse(readFileSync(resolve(HERE, "..", "package.json"), "utf8")).version;
+    } catch {
+        // Version is a convenience for whoever reads the report, never required.
+    }
+    process.exit(await reportGap(process.argv[gapAt + 1], version));
+}
+
 if (!existsSync(INDEX)) {
     log("dist/corpus.json is missing. Build it: node scripts/build-index.mjs --from <corpus repos>");
     process.exit(1);
