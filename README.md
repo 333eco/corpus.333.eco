@@ -49,9 +49,21 @@ manufactured on a schedule.
 | --- | --- |
 | `search_corpus` | matching documents, provenance envelope, and an excerpt around each match |
 
-⚠️ **`search_corpus` matches a LITERAL SUBSTRING**, case-insensitively — not tokens, not
-stems, not embeddings. `"gratitude"` matches; `"gratitude and human wellbeing"` matches only
-a document containing that exact phrase, which is usually none. **Search one term at a time.**
+⭐ **`search_corpus` matches the phrase first, then all terms.** An exact substring hit
+always wins and ranks above everything else — which keeps `B-Heart` and `Re-Tip` precise,
+since the tokeniser holds hyphenated marks together. If the phrase is absent, a document
+matches when it contains **every** term somewhere (AND, never OR), ranked by how tightly
+those terms cluster. Each hit reports `match: "phrase" | "terms"`, because a term match's
+excerpt need not contain the words you typed.
+
+⚠️ **This replaced a bare `indexOf`, and a real caller paid for it.** The first external
+client to reach the hosted endpoint searched `"gratitude alignment human wellbeing kindness"`
+and got **zero results** — while `gratitude` alone returns 109, `alignment` 50, `kindness` 50.
+Nothing was missing from the corpus; the matcher demanded that exact five-word string appear
+verbatim. **A zero result was recording the matcher's limits while being read as a gap.**
+
+⭐ On a zero result the response now names **which terms appear in no document at all**
+(`absent_terms`), so a dead end says something instead of nothing.
 | `get_document` | one document in full — canonical text, never a summary |
 | `list_documents` | slugs, titles, genres, licences, provenance summaries |
 | `list_predictions` | the research program's pre-registered predictions, with falsifiers and status |
@@ -264,10 +276,11 @@ npm run deploy     # sync + wrangler deploy
 { "mcpServers": { "corpus": { "url": "https://corpus.333.eco/mcp" } } }
 ```
 
-## Telling us what is missing
+## Telling us what is missing, or broken
 
 ```sh
 npx @333eco/corpus --report-gap "what you looked for and did not find"
+npx @333eco/corpus --report-bug "what went wrong, and what you expected instead"
 ```
 
 ⭐⭐ **A command, not telemetry, and the difference is the whole point.** The most
@@ -276,12 +289,21 @@ not find. The hosted endpoint learns that from its own callers as a property of
 being the server they called. This package runs on *your* machine, so collecting
 it here would be an outbound report about your private reading — and the guard
 against that is not a consent prompt or an opt-out flag. **It is that the serving
-path cannot reach the code that sends.** `server.mjs` loads `report-gap.mjs` with
+path cannot reach the code that sends.** `server.mjs` loads `report.mjs` with
 a dynamic import inside the argv branch, so a normal session never reads the file
 off disk at all.
 
+⭐ **Both flags share one module and one dynamic import**, so the second kind
+added no second way into the network — which is why generalising was right and
+copying the file would have been wrong.
+
 The command prints the entire payload before sending it, and the payload is the
-text you typed plus the version you have. No machine id, no username, no
+text you typed plus the version you have. ⚠️ **A bug report carries exactly the
+same payload as a gap report, deliberately** — attaching a node version and
+platform would be useful to whoever fixes it, but it would give the command two
+different promises about what it sends, and the promise is the valuable part.
+Anything about your environment that matters, put in the text; then you have
+said it on purpose. No machine id, no username, no
 hostname, no path. ⭐ The receiving end deliberately does not record the country
 it could resolve for free: a voluntary note about a missing document has no use
 for where the sender was standing, and collecting a thing because it is available
@@ -291,7 +313,7 @@ is how a narrow purpose widens.
 Before it, *"this package makes no network call"* was verifiable by
 `grep -r fetch src/` returning nothing — the strongest kind of evidence, since it
 needs no reasoning. The claim is now narrower: **there is exactly one `fetch` in
-the package, it is in `src/report-gap.mjs`, and that file is imported from exactly
+the package, it is in `src/report.mjs`, and that file is imported from exactly
 one place — a branch requiring an explicit flag.** Still checkable in under a
 minute, but it is a chain of two facts rather than one absence.
 

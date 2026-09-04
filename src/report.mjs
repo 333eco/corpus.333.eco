@@ -1,5 +1,5 @@
-// `--report-gap` — the one place this package makes an outbound request, and it
-// is reached only by typing the flag.
+// `--report-gap` and `--report-bug` — the only place this package makes an
+// outbound request, and it is reached only by typing one of the flags.
 //
 // ⭐⭐ WHY THIS IS A COMMAND AND NOT TELEMETRY, because the distinction is the
 // whole design. The useful signal from a corpus server is *what someone looked
@@ -28,7 +28,23 @@
 // Origin header a CLI can trivially assert. The worker's /gap endpoint writes to
 // Analytics Engine and pushes nothing at anyone.
 
-const ENDPOINT = "https://corpus.333.eco/gap";
+const ENDPOINT = "https://corpus.333.eco/report";
+
+// ⚠️ A BUG REPORT AND A GAP REPORT CARRY THE SAME PAYLOAD, DELIBERATELY. It is
+// tempting to attach a node version and a platform to a bug — genuinely useful
+// to whoever fixes it — but that would give this command two different promises
+// about what it sends, and the promise is the valuable part. Anything about your
+// environment that matters, put in the text; then you have said it on purpose.
+const KINDS = {
+    gap: {
+        prompt: "what you looked for and did not find",
+        thanks: "Thank you — recorded. It joins the gaps the hosted endpoint already sees."
+    },
+    bug: {
+        prompt: "what went wrong, and what you expected instead",
+        thanks: "Thank you — recorded. Issues are also welcome at github.com/333eco/corpus.333.eco/issues."
+    }
+};
 const MAX = 200;
 
 // ⭐ WHAT IS SENT IS THE WHOLE OF WHAT IS SENT. The text you typed, and the
@@ -36,14 +52,16 @@ const MAX = 200;
 // path, no timestamp of your own — and the receiving end deliberately does not
 // record the country it could resolve, because a voluntary note about a missing
 // document has no use for where the sender was standing.
-export const reportGap = async (text, version) => {
-    const gap = String(text ?? "").trim().slice(0, MAX);
-    if (!gap) {
-        console.error("usage: corpus-mcp --report-gap \"what you looked for and did not find\"");
+export const report = async (kind, text, version) => {
+    const spec = KINDS[kind];
+    if (!spec) throw new Error(`unknown report kind: ${kind}`);
+    const body = String(text ?? "").trim().slice(0, MAX);
+    if (!body) {
+        console.error(`usage: corpus-mcp --report-${kind} "${spec.prompt}"`);
         return 1;
     }
 
-    const payload = { gap, version: version ?? null };
+    const payload = { kind, text: body, version: version ?? null };
 
     // Printed BEFORE the request, not after, so the disclosure is not
     // contingent on the request succeeding.
@@ -67,13 +85,13 @@ export const reportGap = async (text, version) => {
         // never accidentally satisfy it.
         const ack = await res.json().catch(() => null);
         if (res.ok && ack?.ok === true) {
-            console.log("Thank you — recorded. It joins the gaps the hosted endpoint already sees.");
+            console.log(spec.thanks);
             return 0;
         }
         console.error(
             res.ok
                 ? "The endpoint accepted the request but did not confirm it recorded anything —\n" +
-                  "it is probably running a version without /gap. Nothing was recorded."
+                  "it is probably running a version without /report. Nothing was recorded."
                 : `The endpoint answered ${res.status}. Nothing was recorded.`
         );
         return 1;

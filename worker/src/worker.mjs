@@ -32,6 +32,7 @@ import { PROMPTS, getPrompt } from "../../src/prompts.mjs";
 import { BASE_TOOLS } from "../../src/base-tools.mjs";
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "../../src/program-tools.mjs";
 import { clientOf, record, missOf, resultsOf, beacon } from "./telemetry.mjs";
+import { match, rank, absentTerms } from "../../src/search.mjs";
 
 // ⭐ THE PROGRAM TOOLS ARE IMPORTED, NOT COPIED — unlike the envelope below. The
 // envelope is twenty lines and duplication makes it diffable; the tool surface is
@@ -134,28 +135,40 @@ const KNOWN_TOOLS = new Set([...BASE_TOOLS, ...PROGRAM_TOOLS].map((t) => t.name)
 
 const asText = (v) => ({ content: [{ type: "text", text: typeof v === "string" ? v : JSON.stringify(v, null, 2) }] });
 
-const excerpt = (body, query, span = 320) => {
-    const i = body.toLowerCase().indexOf(query.toLowerCase());
-    if (i === -1) return null;
-    const from = Math.max(0, i - span / 2);
-    return (from > 0 ? "…" : "") + body.slice(from, from + span).trim() + (from + span < body.length ? "…" : "");
-};
 
 const callTool = (corpus, name, args) => {
     if (name === "search_corpus") {
         const q = String(args?.query ?? "");
         if (!q) throw new Error("query is required");
-        const results = corpus.documents
-            .filter((d) => !args?.genre || d.genre === args.genre)
-            .map((d) => ({ d, ex: excerpt(d.text, q) }))
-            .filter((h) => h.ex !== null)
-            .slice(0, Number(args?.limit ?? 10))
-            .map((h) => ({ ...envelope(h.d), genre: h.d.genre, excerpt: h.ex }));
+        const pool = corpus.documents.filter((d) => !args?.genre || d.genre === args.genre);
+        const hits = pool.map((d) => ({ d, m: match(d.text, q) })).filter((h) => h.m !== null);
+        const results = rank(hits, Number(args?.limit ?? 10)).map((h) => ({
+            ...envelope(h.d),
+            genre: h.d.genre,
+            excerpt: h.m.excerpt,
+            // ⭐ HOW it matched, not just that it did: a "terms" excerpt need not
+            // contain the literal query, and a caller reading it should know
+            // which question the excerpt is answering.
+            match: h.m.mode
+        }));
+        // ⚠️ `matches` is the TOTAL found, not the number returned — it used to be
+        // capped at `limit`, which made "10 matches" and "at least 10 matches"
+        // indistinguishable. `returned` carries the capped count.
+        const absent = hits.length ? [] : absentTerms(pool, q);
         const readable = results.length
-            ? results.map((h) => `${h.slug} — ${h.title}\n  ${h.excerpt}`).join("\n\n")
-            : `no document matches "${q}".`;
-        return structuredWithText(readable, { query: q, matches: results.length, results: results });
+            ? results.map((h) => `${h.slug} — ${h.title}${h.match === "terms" ? "  [all terms, not the phrase]" : ""}\n  ${h.excerpt}`).join("\n\n")
+            : absent.length
+              ? `no document matches "${q}". No document contains: ${absent.join(", ")}.`
+              : `no document matches "${q}" — every term appears somewhere, but no single document holds them all. Try fewer terms.`;
+        return structuredWithText(readable, {
+            query: q,
+            matches: hits.length,
+            returned: results.length,
+            ...(absent.length ? { absent_terms: absent } : {}),
+            results: results
+        });
     }
+
     if (name === "get_document") {
         const d = corpus.bySlug.get(String(args?.slug ?? ""));
         if (!d) throw new Error(`no document with slug "${args?.slug}". Call list_documents to see what is available.`);
@@ -288,7 +301,8 @@ export default {
                         records: {
                             what: "Per-call counts: the JSON-RPC method, the tool, the document slug, the client software's own name from its handshake, and the country Cloudflare resolves. Search text is stored ONLY when a search matched nothing, because the reason to keep it is to learn what this corpus lacks.",
                             not: "No IP address, no identifier derived from one, no cookie, no per-caller id of any kind. Every user of a given client is one label. Successful search text is never written down.",
-                            local: "npx @333eco/corpus records nothing and sends nothing. It runs on your machine and this does not apply to it."
+                            local: "npx @333eco/corpus records nothing and sends nothing. It runs on your machine and this does not apply to it — except for its --report-gap and --report-bug commands, which send only when you type them and print the whole payload first.",
+                            reports: "POST /report stores the text of a voluntary gap or bug report and the reporter's package version. Not the country, which this endpoint resolves for everything else and deliberately drops here."
                         }
                     },
                     null,
@@ -298,33 +312,41 @@ export default {
             );
         }
 
-        // ⭐⭐ `/gap` — the receiving end of `npx @333eco/corpus --report-gap`.
-        // A voluntary note from someone running the LOCAL server about something
-        // this corpus does not contain: the one signal the package cannot supply
-        // by being watched, supplied instead by being asked.
+        // ⭐⭐ `/report` — the receiving end of `--report-gap` and `--report-bug`.
+        // The one signal a corpus server cannot get by observing: what someone
+        // running the LOCAL package looked for and did not find, or found broken.
+        // Supplied by being asked, never by watching.
         //
         // ⭐ IT RECORDS THE TEXT AND NOTHING ELSE — deliberately not the country,
         // which every other row here carries and which Cloudflare hands over for
-        // free. A voluntary note about a missing document has no use for where
-        // the sender was standing, and collecting it because it is available is
-        // how a narrow purpose widens.
+        // free. A voluntary note has no use for where the sender was standing,
+        // and collecting a thing because it is available is how a narrow purpose
+        // widens.
         //
         // ⚠️ Public and unauthenticated, so the cap is enforced HERE and not only
         // in the client: a client-side limit constrains our own CLI and nobody
         // else. Analytics Engine caps blobs at 5120 bytes total in any case.
-        if (request.method === "POST" && url.pathname === "/gap") {
+        //
+        // ⚠️ `/gap` is kept as an alias because it was deployed and documented
+        // before `--report-bug` existed. It costs one line, and a published
+        // endpoint that starts 404ing is a worse trade than a spare route.
+        if (request.method === "POST" && (url.pathname === "/report" || url.pathname === "/gap")) {
             const body = await request.json().catch(() => null);
-            const gap = String(body?.gap ?? "").trim().slice(0, 200);
-            if (!gap) {
-                return new Response(JSON.stringify({ error: "gap is required" }), { status: 400, headers: JSON_HEADERS });
+            const kind = url.pathname === "/gap" ? "gap" : String(body?.kind ?? "");
+            const text = String(body?.text ?? body?.gap ?? "").trim().slice(0, 200);
+            if (kind !== "gap" && kind !== "bug") {
+                return new Response(JSON.stringify({ error: 'kind must be "gap" or "bug"' }), { status: 400, headers: JSON_HEADERS });
+            }
+            if (!text) {
+                return new Response(JSON.stringify({ error: "text is required" }), { status: 400, headers: JSON_HEADERS });
             }
             record(env, ctx, {
-                client: "report-gap",
-                method: "gap",
+                client: `report-${kind}`,
+                method: kind,
                 version: String(body?.version ?? "").slice(0, 32),
-                missedQuery: gap
+                missedQuery: text
             });
-            return new Response(JSON.stringify({ ok: true, recorded: gap }), { headers: JSON_HEADERS });
+            return new Response(JSON.stringify({ ok: true, kind, recorded: text }), { headers: JSON_HEADERS });
         }
 
         // No sessions and no server-initiated messages, so there is nothing to
