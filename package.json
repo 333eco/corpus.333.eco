@@ -1,7 +1,7 @@
 {
     "name": "@333eco/corpus",
-    "version": "2.0.0",
-    "description": "An MCP server for an open-licensed corpus, served with verifiable provenance \u2014 every document carries its sha256, DOI and OpenTimestamps proof so a consuming agent can check its own citation.",
+    "version": "2.1.0",
+    "description": "An MCP server for an open-licensed corpus, served with verifiable provenance — every document carries its sha256, DOI and OpenTimestamps proof so a consuming agent can check its own citation.",
     "license": "CC0-1.0",
     "author": "Thon Ly",
     "homepage": "https://thonly.org/research",
