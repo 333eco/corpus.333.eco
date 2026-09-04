@@ -42,10 +42,54 @@ export const terms = (query) => {
     return kept.length ? kept : all;
 };
 
+// ⚠️ THE EDGES SNAP TO WHITESPACE, because a fixed-width slice cuts words in
+// half — `…ratitude is immen…` — and a half-word at an excerpt boundary is not a
+// cosmetic problem here. These excerpts are read by agents deciding whether a
+// document is worth fetching, and a truncated token is a token that can be
+// matched, quoted or reasoned about as if it were a word.
+//
+// ⚠️ THE SNAP IS BUDGETED, AND THE BUDGET IS THE WHOLE SAFETY OF IT. A corpus
+// document can contain a 200-character unbroken run — a base64 blob, a sha256, a
+// long URL — and an unbounded search for whitespace would eat the entire excerpt
+// looking for a space that is not there. Past LOOK characters we accept the hard
+// cut: a slightly ugly excerpt beats an empty one.
+const LOOK = 40;
+
 const clip = (body, centre, span) => {
-    const from = Math.max(0, Math.min(centre - Math.floor(span / 2), body.length - span));
-    const start = Math.max(0, from);
-    return (start > 0 ? "…" : "") + body.slice(start, start + span).trim() + (start + span < body.length ? "…" : "");
+    if (body.length <= span) return body.trim();
+
+    let start = Math.max(0, Math.min(Math.round(centre - span / 2), body.length - span));
+    let end = start + span;
+
+    // ⭐ EACH EDGE TRIES BOTH DIRECTIONS, and the second direction is what fixes
+    // the long-token case. Snapping INWARD is preferred (it never grows the
+    // excerpt), but this corpus is full of runs that exceed LOOK with no space
+    // in them at all — `project_future_kindness_operating_noun`, bare URLs,
+    // markdown link targets, sha256 hex. Inward alone gave up on exactly those
+    // and left the half-word it was meant to prevent. Snapping OUTWARD instead
+    // costs at most LOOK extra characters and always lands on a real boundary.
+    if (start > 0) {
+        const ahead = body.slice(start, start + LOOK).search(/\s/);
+        if (ahead !== -1) {
+            start += ahead + 1;
+        } else {
+            const back = /\s\S*$/.exec(body.slice(Math.max(0, start - LOOK), start));
+            if (back) start = Math.max(0, start - LOOK) + back.index + 1;
+        }
+    }
+    if (end < body.length) {
+        const from = Math.max(start + 1, end - LOOK);
+        const back = /\s\S*$/.exec(body.slice(from, end));
+        if (back) {
+            end = from + back.index;
+        } else {
+            const ahead = body.slice(end, end + LOOK).search(/\s/);
+            end = ahead !== -1 ? end + ahead : Math.min(body.length, end + LOOK);
+        }
+    }
+    if (end <= start) end = Math.min(body.length, start + span); // pathological input
+
+    return (start > 0 ? "…" : "") + body.slice(start, end).trim() + (end < body.length ? "…" : "");
 };
 
 // Positions of a term, capped: a common word can appear thousands of times and
