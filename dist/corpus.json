@@ -1,5 +1,5 @@
 {
-  "package_version": "2.1.7",
+  "package_version": "2.2.0",
   "generated_from": [
     "H3/publications",
     "TH/publications",
@@ -3939,7 +3939,7 @@
         "zenodo_url": null,
         "deposited_sha256": null,
         "deposited_matches_current": null,
-        "opentimestamps": false,
+        "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/about/the-founder.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/about"

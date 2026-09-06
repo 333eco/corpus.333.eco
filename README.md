@@ -5,7 +5,7 @@ institutional positions, white papers and the Letters to Miss Aquarius — serve
 with **verifiable provenance**.
 
 <!-- COUNTS:START -->
-**142 documents.** 134 CC0-1.0 · 8 CC-BY-4.0. 72 carry a DOI; 141 carry an OpenTimestamps proof.
+**142 documents.** 134 CC0-1.0 · 8 CC-BY-4.0. 72 carry a DOI; 142 carry an OpenTimestamps proof.
 
 *Written by `npm run build` from the index itself — see scripts/build-index.mjs.*
 <!-- COUNTS:END -->
