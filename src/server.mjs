@@ -207,6 +207,14 @@ const callTool = (name, args) => {
         return structuredWithText(provenanceHeader(d) + "\n\n" + d.text, {
             ...envelope(d),
             genre: d.genre,
+            // ⚠️ category and voice were in list_documents and NOT here, so a
+            // caller who fetched ONE document could not see the facets it had
+            // just filtered on — the discovery call and the read call disagreed
+            // about what a document is. Both are cheap strings; the reason the
+            // body is excluded (it is in `content`, never sent twice) does not
+            // apply to them.
+            category: d.category,
+            voice: d.voice,
             repo: d.repo,
             path: d.path,
             metadata_convention: d.metadata_convention,
