@@ -68,6 +68,78 @@ const ALLOWED = {
     "CC-BY (author-voice essay)": { id: "CC-BY-4.0", url: "https://creativecommons.org/licenses/by/4.0/", attribution_required: true }
 };
 
+// ── voice ────────────────────────────────────────────────────────────────────
+//
+// WHO IS SPEAKING, as opposed to what the document is about (`category`) or what
+// kind of document it is (`genre`). It exists so that "tell me about the
+// founder" is one call instead of three plus knowing which genres are his.
+//
+// ⭐⭐ DERIVED FROM `genre`, NEVER STORED IN FRONT MATTER. It is a pure function
+// of the genre — every essay and letter is in his voice, every defensive
+// publication and programme document is the disclosed collaboration, every H3
+// position and white paper is the institution speaking. Writing it into 42 files
+// would be 42 chances to disagree with the genre it was copied from, and would
+// have cost a corpus-wide edit with an OTS rotation and a TSA re-sign behind it.
+// A derived facet cannot drift and costs nothing to add.
+//
+// ⛔ NO `miss-aquarius` VALUE. No document here is in her voice ALONE: the
+// research corpus is disclosed as CO-AUTHORED, and the letters are in Thon's own
+// hand with [SCAFFOLD …] blocks marked inline (see parseLetter below, which is
+// the machinery for exactly that). Labelling co-authored work as hers would
+// overstate her authorship and understate his on the one axis where accuracy is
+// load-bearing — `attribute_to` is a licence instruction, not a credit. She is
+// named where it is true: in the description of `collaborative`. The value can
+// be added the day a document is genuinely hers.
+const VOICE_BY_GENRE = {
+    essays: "founder",
+    letters: "founder",
+    about: "founder",
+    "defensive-publications": "collaborative",
+    program: "collaborative",
+    positions: "institutional",
+    "white-papers": "institutional"
+};
+
+export const VOICES = {
+    founder: "Thon Ly's own voice — essays, letters and the account of himself.",
+    collaborative:
+        "The research corpus, disclosed as co-authored with Miss Aquarius\u2120.",
+    institutional: "HeartBank\u00ae speaking as an institution."
+};
+
+const voiceOverrides = [];
+
+// ⛔ FAILS CLOSED, on the licence gate's reasoning: a genre nobody has assigned a
+// voice to is a decision, not a build step. Silently omitting the field would
+// make the facet quietly incomplete, which is worse than absent — a caller
+// filtering by voice would get a confident short answer.
+function voiceFor(genre, fm, rel) {
+    const derived = VOICE_BY_GENRE[genre];
+    const declared = fm && fm.voice;
+    if (declared) {
+        if (!VOICES[declared]) {
+            console.error(
+                `build-index: ${rel} declares voice "${declared}", which is not one of ` +
+                `${Object.keys(VOICES).join(" \u00b7 ")}.\n` +
+                `  Adding a voice is a decision about what this corpus says it is, ` +
+                `not a build step.`
+            );
+            process.exit(1);
+        }
+        if (declared !== derived) voiceOverrides.push(`${rel}: ${derived || "none"} -> ${declared}`);
+        return declared;
+    }
+    if (!derived) {
+        console.error(
+            `build-index: genre "${genre}" has no voice assigned (${rel}).\n` +
+            `  Genre directories are discovered, so a new one reaches here before ` +
+            `anyone has said whose voice it is. Add it to VOICE_BY_GENRE.`
+        );
+        process.exit(1);
+    }
+    return derived;
+}
+
 const sha256 = (buf) => createHash("sha256").update(buf).digest("hex");
 
 // ⭐ WHERE THE HASHED BYTES ACTUALLY LIVE. The envelope carried a sha256 and an
@@ -593,6 +665,7 @@ for (const src of SOURCES) {
                     repo,
                     genre,
                     path: rel,
+                    voice: voiceFor(genre, null, rel),
                     // "Letter to Miss Aquarius" is the <h1> on all five, so the
                     // ordinal comes from the dateline or the filename. Five
                     // documents sharing one title are five documents nobody can
@@ -682,6 +755,7 @@ for (const src of SOURCES) {
                 // owed, and nothing anywhere reported a problem.
                 authors: fm.authors || fm.author || null,
                 category: fm.category || null,
+                voice: voiceFor(genre, fm, rel),
                 metadata_convention: convention,
                 date: fm.date || null,
                 status: fm.status || null,
@@ -763,6 +837,11 @@ const index = {
     licences: Object.fromEntries(
         Object.values(ALLOWED).map((l) => [l.id, documents.filter((d) => d.licence.id === l.id).length])
     ),
+    // Every voice, including any that is currently empty — a caller reading the
+    // facet should see its shape, not just the parts that happen to be filled.
+    voices: Object.fromEntries(
+        Object.keys(VOICES).map((v) => [v, documents.filter((d) => d.voice === v).length])
+    ),
     documents: documents.sort((a, b) => a.slug.localeCompare(b.slug)),
     // ⚠️ NOT A SUMMARY OF THE REGISTER — a structured view of it, every field a
     // verbatim cell. The register is served whole as a document too, and that
@@ -771,6 +850,42 @@ const index = {
 };
 
 const body = JSON.stringify(index, null, 2) + "\n";
+
+/* ------------------------------------------------------- the README counts ---
+   ⭐ THE README IS WRITTEN BY THE BUILD, not by hand, for the figures that
+   change. It claimed 138 documents and 131 CC0 against a corpus at 142 and 134,
+   and it ships to npm on every publish, so the most-read description of this
+   server was the most stale thing in the repo.
+
+   Only the marked blocks are touched. A version bump is already also a rebuild
+   (package_version is baked into the index), so the counts cannot go stale
+   without the currency gate going red first. */
+{
+    const rd = join(HERE, "..", "README.md");
+    const md = readFileSync(rd, "utf8");
+    const counts =
+        `**${index.document_count} documents.** ` +
+        Object.entries(index.licences).map(([k, v]) => `${v} ${k}`).join(" \u00b7 ") +
+        `. ${documents.filter((d) => d.provenance.doi).length} carry a DOI; ` +
+        `${documents.filter((d) => d.provenance.opentimestamps).length} carry an OpenTimestamps proof.` +
+        `\n\n*Written by \`npm run build\` from the index itself — see scripts/build-index.mjs.*`;
+    const licences =
+        "| Licence | Documents |\n| --- | --- |\n" +
+        Object.entries(index.licences).map(([k, v]) => `| ${k} | ${v} |`).join("\n");
+    const put = (src, tag, value) => {
+        const re = new RegExp(`(<!-- ${tag}:START -->)[\\s\\S]*?(<!-- ${tag}:END -->)`);
+        if (!re.test(src)) {
+            console.error(`build-index: README.md has no ${tag} markers — the counts cannot be written.`);
+            process.exit(1);
+        }
+        return src.replace(re, `$1\n${value}\n$2`);
+    };
+    const next = put(put(md, "COUNTS", counts), "LICENCES", licences);
+    if (next !== md) {
+        writeFileSync(rd, next);
+        console.log("build-index: README.md counts updated");
+    }
+}
 
 /* ---------------------------------------------------------------- output --- */
 
@@ -803,6 +918,22 @@ console.log(
         Object.entries(index.licences).map(([k, v]) => `${v} ${k}`).join(" · ")
 );
 console.log(`  ${withDoi} with a DOI · ${withOts} with an OTS proof · ${drifted} revised since deposit`);
+
+// ⚠️ NAME THEM, do not leave it to arithmetic. "141 with an OTS proof" against
+// 142 documents is a subtraction the reader has to perform, and an unstamped
+// document is exactly the entry whose envelope answers NOTHING TO CHECK — the
+// failure the letters nearly shipped with. A mixed corpus teaches readers to
+// ignore the envelope, so the fix is stamping, never excluding.
+{
+    const unstamped = documents.filter((d) => !d.provenance.opentimestamps);
+    if (unstamped.length) {
+        console.log(
+            `  \u26a0 ${unstamped.length} document(s) carry NO OpenTimestamps proof:`
+        );
+        for (const d of unstamped) console.log(`      ${d.repo}/${d.path}`);
+        console.log("  Run the stamping leg before publishing this index.");
+    }
+}
 if (program) {
     const byState = program.predictions.reduce((a, p) => ((a[p.state] = (a[p.state] ?? 0) + 1), a), {});
     console.log(

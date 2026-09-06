@@ -38,7 +38,7 @@ import { RESOURCE_TEMPLATES, listResources, readResource, completeArgument } fro
 import { structured, structuredWithText } from "./results.mjs";
 import { provenanceHeader } from "./resources.mjs";
 import { PROMPTS, getPrompt } from "./prompts.mjs";
-import { BASE_TOOLS } from "./base-tools.mjs";
+import { BASE_TOOLS, withFacets } from "./base-tools.mjs";
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "./program-tools.mjs";
 import { match, rank, absentTerms } from "./search.mjs";
 
@@ -229,6 +229,7 @@ const callTool = (name, args) => {
         const list = corpus.documents
             .filter((d) => (!args?.genre || d.genre === args.genre) &&
                     (!args?.licence || d.licence.id === args.licence) &&
+                    (!args?.voice || d.voice === args.voice) &&
                     (!args?.category || d.category === args.category))
             .map((d) => ({
                 slug: d.slug,
@@ -239,6 +240,10 @@ const callTool = (name, args) => {
                 // `mechanism` the how-it-works shelf — the corpus already had a
                 // topic taxonomy and no way to ask it a question.
                 category: d.category,
+                // ⭐ WHO IS SPEAKING, derived from genre in the builder rather
+                // than stored per file. It is what makes "tell me about the
+                // founder" one call instead of three.
+                voice: d.voice,
                 date: d.date,
                 licence: d.licence.id,
                 doi: d.provenance.doi,
@@ -249,6 +254,10 @@ const callTool = (name, args) => {
             licences: corpus.licences,
             // The shelves, so a caller can narrow without guessing the vocabulary.
             categories: corpus.documents.reduce((a, d) => ((a[d.category ?? "uncategorised"] = (a[d.category ?? "uncategorised"] ?? 0) + 1), a), {}),
+            // Always the FULL count, never narrowed by the filter — a set of
+            // documents means nothing without the honest denominator beside it,
+            // the same reason list_predictions returns by_state unfiltered.
+            ...(corpus.voices ? { voices: corpus.voices } : {}),
             documents: list
         });
     }
@@ -277,7 +286,12 @@ const handlers = {
             "honour it. Text is returned verbatim and is never summarised, because a summary cannot be hash-verified." +
             (program ? PROGRAM_INSTRUCTIONS : "")
     }),
-    "tools/list": () => ({ tools: program ? [...TOOLS, ...PROGRAM_TOOLS] : TOOLS }),
+    // ⭐ withFacets fills list_documents' facet enumerations FROM THE CORPUS.
+    // They used to be typed into the description and would have been wrong twice
+    // over the day the `about` genre and the `voice` axis landed.
+    "tools/list": () => ({
+        tools: withFacets(program ? [...TOOLS, ...PROGRAM_TOOLS] : TOOLS, corpus)
+    }),
     "resources/list": (params) => listResources(corpus.documents, params?.cursor),
     "resources/templates/list": () => ({ resourceTemplates: RESOURCE_TEMPLATES }),
     "resources/read": (params) => readResource(params?.uri, bySlug),

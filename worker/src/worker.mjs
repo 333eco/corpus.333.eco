@@ -29,7 +29,7 @@ import { RESOURCE_TEMPLATES, listResources, readResource, completeArgument } fro
 import { structured, structuredWithText } from "../../src/results.mjs";
 import { provenanceHeader } from "../../src/resources.mjs";
 import { PROMPTS, getPrompt } from "../../src/prompts.mjs";
-import { BASE_TOOLS } from "../../src/base-tools.mjs";
+import { BASE_TOOLS, withFacets } from "../../src/base-tools.mjs";
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "../../src/program-tools.mjs";
 import { clientOf, record, missOf, resultsOf, beacon } from "./telemetry.mjs";
 import { match, rank, absentTerms } from "../../src/search.mjs";
@@ -207,6 +207,7 @@ const callTool = (corpus, name, args) => {
         const documents = corpus.documents
             .filter((d) => (!args?.genre || d.genre === args.genre) &&
                     (!args?.licence || d.licence.id === args.licence) &&
+                    (!args?.voice || d.voice === args.voice) &&
                     (!args?.category || d.category === args.category))
             .map((d) => ({
                 slug: d.slug,
@@ -217,6 +218,10 @@ const callTool = (corpus, name, args) => {
                 // `mechanism` the how-it-works shelf — the corpus already had a
                 // topic taxonomy and no way to ask it a question.
                 category: d.category,
+                // ⭐ WHO IS SPEAKING, derived from genre in the builder rather
+                // than stored per file. It is what makes "tell me about the
+                // founder" one call instead of three.
+                voice: d.voice,
                 date: d.date,
                 licence: d.licence.id,
                 doi: d.provenance.doi,
@@ -227,6 +232,10 @@ const callTool = (corpus, name, args) => {
             licences: corpus.licences,
             // The shelves, so a caller can narrow without guessing the vocabulary.
             categories: corpus.documents.reduce((a, d) => ((a[d.category ?? "uncategorised"] = (a[d.category ?? "uncategorised"] ?? 0) + 1), a), {}),
+            // Always the FULL count, never narrowed by the filter — a set of
+            // documents means nothing without the honest denominator beside it,
+            // the same reason list_predictions returns by_state unfiltered.
+            ...(corpus.voices ? { voices: corpus.voices } : {}),
             documents: documents
         });
     }
@@ -251,7 +260,11 @@ const handlers = {
     }),
     // ⚠️ Takes the corpus, because whether the program tools exist depends on
     // whether the pinned package's index carries a program block.
-    "tools/list": (corpus) => ({ tools: corpus?.program ? [...TOOLS, ...PROGRAM_TOOLS] : TOOLS }),
+    // ⭐ Same derivation as the stdio surface, from the same pinned artifact —
+    // so the two cannot advertise different facet values.
+    "tools/list": (corpus) => ({
+        tools: withFacets(corpus?.program ? [...TOOLS, ...PROGRAM_TOOLS] : TOOLS, corpus)
+    }),
     "resources/list": (corpus, params) => listResources(corpus.documents, params?.cursor),
     "resources/templates/list": () => ({ resourceTemplates: RESOURCE_TEMPLATES }),
     "resources/read": (corpus, params) => readResource(params?.uri, corpus.bySlug),

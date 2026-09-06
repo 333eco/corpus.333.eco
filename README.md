@@ -1,8 +1,14 @@
 # corpus.333.eco
 
-An **MCP server** for an open-licensed corpus — 138 documents across mechanism
-papers, essays, institutional positions, white papers and the Letters to Miss
-Aquarius — served with **verifiable provenance**.
+An **MCP server** for an open-licensed corpus — mechanism papers, essays,
+institutional positions, white papers and the Letters to Miss Aquarius — served
+with **verifiable provenance**.
+
+<!-- COUNTS:START -->
+**142 documents.** 134 CC0-1.0 · 8 CC-BY-4.0. 72 carry a DOI; 141 carry an OpenTimestamps proof.
+
+*Written by `npm run build` from the index itself — see scripts/build-index.mjs.*
+<!-- COUNTS:END -->
 
 ```sh
 npx @333eco/corpus
@@ -58,7 +64,7 @@ excerpt need not contain the words you typed.
 
 ⚠️ **This replaced a bare `indexOf`, and a real caller paid for it.** The first external
 client to reach the hosted endpoint searched `"gratitude alignment human wellbeing kindness"`
-and got **zero results** — while `gratitude` alone returns 109, `alignment` 50, `kindness` 50.
+and got **zero results** — while each of those words alone matches many documents.
 Nothing was missing from the corpus; the matcher demanded that exact five-word string appear
 verbatim. **A zero result was recording the matcher's limits while being read as a gap.**
 
@@ -143,10 +149,12 @@ would destroy the only property this server has.
 
 ## Licences, and the gate
 
+<!-- LICENCES:START -->
 | Licence | Documents |
 | --- | --- |
-| CC0-1.0 | 131 |
-| CC-BY-4.0 | 7 |
+| CC0-1.0 | 134 |
+| CC-BY-4.0 | 8 |
+<!-- LICENCES:END -->
 
 CC-BY documents carry `attribute_to` inside their licence block, so an agent can
 comply without parsing a licence identifier.

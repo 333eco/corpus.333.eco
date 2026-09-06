@@ -10,7 +10,11 @@
 // ⚠️ WHY THIS REPLACED A BARE `indexOf`, and the evidence was a real caller.
 // The first external client to reach the hosted endpoint searched
 // `"gratitude alignment human wellbeing kindness"` and got ZERO results — while
-// `gratitude` alone returns 50, `alignment` 50, `kindness` 50, `wellbeing` 16.
+// while each of those terms alone matched many documents.
+// ⚠️ The per-term counts that used to sit on this line disagreed with the
+// README's copy of the same anecdote (50 here, 109 there, 112 in the live
+// corpus). A number in a comment about a corpus that grows is a number that
+// will be wrong; the point of the story does not need it.
 // The corpus was not missing the material; the matcher required that exact
 // five-word string to appear verbatim, which of course it never does. A literal
 // substring search silently punishes anyone who types a sentence, and it makes
