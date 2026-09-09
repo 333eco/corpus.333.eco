@@ -436,8 +436,9 @@ export default {
                 ms: Date.now() - started
             });
             // The handshake is the session, so this fires once per connection
-            // rather than once per call — and thonly.org pushes only the first
-            // sighting of a client label, counting every one after it in silence.
+            // rather than once per call. What thonly.org DOES with it is its
+            // call, not ours: since 2026-09-09 it pushes one per handshake, and
+            // its BATCH_CORPUS flag folds them back to first-sighting-only.
             if (msg.method === "initialize") {
                 beacon(env, ctx, {
                     event: "corpus_connect",

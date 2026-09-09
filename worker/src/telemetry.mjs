@@ -105,9 +105,10 @@ export const missOf = (name, result) => {
    of calls in seconds, and a notification channel that reports each of them is a
    channel nobody can read. Only two events leave this worker:
 
-     corpus_connect — an MCP handshake. thonly.org's onEventCreated pushes for the
-                      FIRST sighting of a client label and silently counts the
-                      rest, so the interruption means "something new appeared".
+     corpus_connect — an MCP handshake. thonly.org's onEventCreated pushes one
+                      per handshake by default (founder-ruled 2026-09-09); its
+                      BATCH_CORPUS flag restores first-sighting-only, which is
+                      what this comment used to describe as the only behaviour.
      corpus_error   — the corpus asset failed to load. Rare by construction, and
                       the one thing here worth an interrupt every time.
 
