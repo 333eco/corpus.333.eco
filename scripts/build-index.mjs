@@ -859,7 +859,14 @@ const body = JSON.stringify(index, null, 2) + "\n";
 
    Only the marked blocks are touched. A version bump is already also a rebuild
    (package_version is baked into the index), so the counts cannot go stale
-   without the currency gate going red first. */
+   without the currency gate going red first.
+
+   ⛔ --check NEVER WRITES. Until 2026-09-13 this block ran before the --check
+   branch, so a check rewrote a tracked file — and run with a wrong --from path it
+   wrote wrong counts (141 against a true 146) into the README of a clean repo. In
+   CI the write vanished with the runner, so it also verified nothing: README drift
+   passed. Under --check the counts are COMPARED, and a mismatch fails the gate. */
+let readmeStale = false;
 {
     const rd = join(HERE, "..", "README.md");
     const md = readFileSync(rd, "utf8");
@@ -882,8 +889,11 @@ const body = JSON.stringify(index, null, 2) + "\n";
     };
     const next = put(put(md, "COUNTS", counts), "LICENCES", licences);
     if (next !== md) {
-        writeFileSync(rd, next);
-        console.log("build-index: README.md counts updated");
+        if (args.includes("--check")) readmeStale = true;
+        else {
+            writeFileSync(rd, next);
+            console.log("build-index: README.md counts updated");
+        }
     }
 }
 
@@ -899,6 +909,13 @@ if (args.includes("--check")) {
                 "  because a citing agent cannot tell.\n" +
                 "  \u26a0\ufe0f A version bump in package.json is also a rebuild: package_version is\n" +
                 "     baked into the index so both surfaces can report the same number.\n" +
+                "  fix: node scripts/build-index.mjs --from " + SOURCES.join(" ")
+        );
+    }
+    if (readmeStale) {
+        die(
+            "README.md counts are not what the index produces (the index itself is current).\n" +
+                "  The README ships to npm on every publish, so it would describe a different corpus.\n" +
                 "  fix: node scripts/build-index.mjs --from " + SOURCES.join(" ")
         );
     }
