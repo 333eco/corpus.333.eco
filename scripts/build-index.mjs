@@ -606,6 +606,53 @@ const parseProgram = (registerText, programText, bySlug) => {
     };
 };
 
+/* ---------------------------------------------------------------- the holds ---
+   ⭐ A PER-DOCUMENT HOLD (founder 2026-09-13: "build option (b) in case another paper is held
+   back"). Until now the index was all-or-nothing: `the-reciters-protocol` deferred its legs 3–4
+   to wait for its polish round, and because nothing could hold ONE document, the refresh of
+   every other paper waited with it — three were served in superseded text for six days.
+
+   holds.json names documents that are deliberately NOT served yet:
+     { "holds": { "<slug>": { "reason": "…", "held_since": "YYYY-MM-DD", "review_by": "YYYY-MM-DD" } } }
+
+   The contract, each clause a refusal rather than a warning:
+   · ⛔ ONLY A NEVER-SERVED DOCUMENT MAY BE HELD. A served envelope's source_url tracks `main`;
+     carrying its old entry forward while main moves would assert a hash its own curl no longer
+     returns — the stale-index failure a hold exists to avoid. A served document that changed runs
+     the chain instead. "Served" = present in the committed dist/corpus.json.
+   · ⛔ A HOLD MUST NAME A DOCUMENT THAT EXISTS, so a lifted or renamed paper cannot leave a
+     hold behind that silently matches nothing.
+   · ⛔ A HOLD EXPIRES. Past `review_by` the build fails: lift it (run legs 3–4) or extend it
+     deliberately. A hold nobody reviews is an exclusion nobody decided.
+   · The held documents are printed on every build, by name, so a hold is never silent. */
+const HOLDS_PATH = join(BASE, "holds.json");
+const holds = (() => {
+    if (!existsSync(HOLDS_PATH)) return {};
+    let parsed;
+    try {
+        parsed = JSON.parse(readFileSync(HOLDS_PATH, "utf8"));
+    } catch (e) {
+        die(`holds.json is not valid JSON: ${e.message}`);
+    }
+    const h = parsed.holds ?? {};
+    const iso = /^\d{4}-\d{2}-\d{2}$/;
+    for (const [slug, v] of Object.entries(h)) {
+        if (!v || !v.reason || !iso.test(v.held_since ?? "") || !iso.test(v.review_by ?? "")) {
+            die(`holds.json: "${slug}" needs reason, held_since and review_by (YYYY-MM-DD).`);
+        }
+    }
+    return h;
+})();
+const previouslyServed = (() => {
+    if (!existsSync(OUT)) return new Set();
+    try {
+        return new Set(JSON.parse(readFileSync(OUT, "utf8")).documents.map((d) => d.slug));
+    } catch {
+        return new Set();
+    }
+})();
+const held = [];
+
 /* --------------------------------------------------------------- the walk --- */
 
 const documents = [];
@@ -790,6 +837,32 @@ for (const src of SOURCES) {
 
 if (documents.length === 0) die("no documents passed the licence gate — check --from paths");
 
+// ── apply the holds (contract above) ──
+{
+    const today = new Date().toISOString().slice(0, 10); // a day-bucket, UTC — CI and author agree within a day
+    const bySlug = new Map(documents.map((d) => [d.slug, d]));
+    for (const [slug, h] of Object.entries(holds)) {
+        const d = bySlug.get(slug);
+        if (!d) die(`holds.json holds "${slug}", which no corpus document carries. Remove the hold (a lifted or renamed paper).`);
+        if (previouslyServed.has(slug)) {
+            die(
+                `holds.json holds "${slug}", but the committed index already SERVES it.\n` +
+                    "  A served envelope tracks main, so holding it would assert a hash its own curl no longer\n" +
+                    "  returns. Only a never-served document can be held; a served one that changed runs the chain."
+            );
+        }
+        if (h.review_by < today) {
+            die(`holds.json: the hold on "${slug}" expired ${h.review_by} (${h.reason}). Lift it — run legs 3–4 — or extend review_by deliberately.`);
+        }
+        held.push({ slug, repo: d.repo, path: d.path, ...h });
+    }
+    if (held.length) {
+        const keep = documents.filter((d) => !(d.slug in holds));
+        documents.length = 0;
+        documents.push(...keep);
+    }
+}
+
 // ⛔⛔ A CC-BY DOCUMENT WITHOUT AN AUTHOR CANNOT BE SERVED. Its licence obliges
 // every consumer to attribute, and an index that cannot say to whom hands out an
 // obligation nobody can discharge — worse than an undeclared licence, because it
@@ -920,6 +993,7 @@ if (args.includes("--check")) {
         );
     }
     console.log(`build-index: dist/corpus.json is current (${index.document_count} documents)`);
+    for (const h of held) console.log(`  ⏸ HELD, not served: ${h.repo}/${h.path} — ${h.reason} (since ${h.held_since}, review by ${h.review_by})`);
     process.exit(0);
 }
 
@@ -935,6 +1009,7 @@ console.log(
         Object.entries(index.licences).map(([k, v]) => `${v} ${k}`).join(" · ")
 );
 console.log(`  ${withDoi} with a DOI · ${withOts} with an OTS proof · ${drifted} revised since deposit`);
+for (const h of held) console.log(`  ⏸ HELD, not served: ${h.repo}/${h.path} — ${h.reason} (since ${h.held_since}, review by ${h.review_by})`);
 
 // ⚠️ NAME THEM, do not leave it to arithmetic. "141 with an OTS proof" against
 // 142 documents is a subtraction the reader has to perform, and an unstamped
