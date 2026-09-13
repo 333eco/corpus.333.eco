@@ -33,6 +33,7 @@ So the check moves into the response:
   "doi": "10.5281/zenodo.22217516",
   "opentimestamps": true,
   "deposited_matches_current": true,
+  "hostile_review": null,
   "verify": {
     "sha256": "printf '%s' \"$(cat <file>)\" | shasum -a 256   # compare to provenance.sha256",
     "doi": "https://doi.org/10.5281/zenodo.22217516",
@@ -43,6 +44,11 @@ So the check moves into the response:
 
 The `verify` block is an instruction, not a promise — it tells you exactly what
 to run, so you do not have to trust this sentence either.
+
+`hostile_review` is the date of the latest ruled review by an outside reader chosen as
+the one most likely to find the document wrong, whose section structure still matches
+the text served — or `null`, stated rather than omitted. It is derived from the corpus's
+public `reviews.json` (roles only, never names), and a structural revision resets it.
 
 ⭐ **The demonstration is the contribution.** Anyone can propose provenance-carrying
 retrieval. Serving it over a corpus where the anchors are already years deep in

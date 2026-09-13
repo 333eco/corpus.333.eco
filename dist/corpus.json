@@ -1,5 +1,5 @@
 {
-  "package_version": "2.3.4",
+  "package_version": "2.3.5",
   "generated_from": [
     "H3/publications",
     "TH/publications",
@@ -45,7 +45,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/a-vow-you-could-have-refused.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/a-vow-you-could-have-refused"
+        "canonical_url": "thonly.org/research/a-vow-you-could-have-refused",
+        "hostile_review": null
       }
     },
     {
@@ -77,7 +78,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/abhidhamma-executable-process-specification.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/abhidhamma-executable-process-specification"
+        "canonical_url": "thonly.org/research/abhidhamma-executable-process-specification",
+        "hostile_review": null
       }
     },
     {
@@ -109,7 +111,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/agi-monks-caretaker-not-ordained.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/agi-monks-caretaker-not-ordained"
+        "canonical_url": "thonly.org/research/agi-monks-caretaker-not-ordained",
+        "hostile_review": null
       }
     },
     {
@@ -141,7 +144,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/alignment-engineering-cognitive-mechanism-layer.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/alignment-engineering-cognitive-mechanism-layer"
+        "canonical_url": "heartbank.net/positions/alignment-engineering-cognitive-mechanism-layer",
+        "hostile_review": null
       }
     },
     {
@@ -173,7 +177,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/anonymous-thanking-with-time.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/anonymous-thanking-with-time"
+        "canonical_url": "thonly.org/research/anonymous-thanking-with-time",
+        "hostile_review": null
       }
     },
     {
@@ -205,7 +210,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/anti-attention-economy.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/anti-attention-economy"
+        "canonical_url": "thonly.org/research/anti-attention-economy",
+        "hostile_review": null
       }
     },
     {
@@ -237,7 +243,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/appreciation-as-world-building.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/appreciation-as-world-building"
+        "canonical_url": "thonly.org/publications/defensive-publications/appreciation-as-world-building",
+        "hostile_review": null
       }
     },
     {
@@ -269,7 +276,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/attention-economy.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/attention-economy"
+        "canonical_url": "heartbank.net/positions/attention-economy",
+        "hostile_review": null
       }
     },
     {
@@ -301,7 +309,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/aura-gated-anonymous-mate-selection.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/aura-gated-anonymous-mate-selection"
+        "canonical_url": "thonly.org/research/aura-gated-anonymous-mate-selection",
+        "hostile_review": null
       }
     },
     {
@@ -333,7 +342,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/autonomous-ai-institutional-governance.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/autonomous-ai-institutional-governance"
+        "canonical_url": "heartbank.net/positions/autonomous-ai-institutional-governance",
+        "hostile_review": null
       }
     },
     {
@@ -365,7 +375,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/b-links-signed-provenance.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/b-links-signed-provenance"
+        "canonical_url": "thonly.org/publications/defensive-publications/b-links-signed-provenance",
+        "hostile_review": null
       }
     },
     {
@@ -397,7 +408,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/b-poh-humanity-layer-ai-native-internet.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/b-poh-humanity-layer-ai-native-internet"
+        "canonical_url": "thonly.org/publications/defensive-publications/b-poh-humanity-layer-ai-native-internet",
+        "hostile_review": null
       }
     },
     {
@@ -429,7 +441,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/b-tag-post-payment-economy.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/mechanism"
+        "canonical_url": "thonly.org/research/mechanism",
+        "hostile_review": null
       }
     },
     {
@@ -461,7 +474,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/b-tag-recommendation-function-methodology.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/b-tag-recommendation-function-methodology"
+        "canonical_url": "thonly.org/publications/defensive-publications/b-tag-recommendation-function-methodology",
+        "hostile_review": null
       }
     },
     {
@@ -493,7 +507,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/bodhisattva-and-cautionary-mirror.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/essays/bodhisattva-and-cautionary-mirror"
+        "canonical_url": "thonly.org/publications/essays/bodhisattva-and-cautionary-mirror",
+        "hostile_review": null
       }
     },
     {
@@ -525,7 +540,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/bodhisattva-santa.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/bodhisattva-santa"
+        "canonical_url": "thonly.org/research/bodhisattva-santa",
+        "hostile_review": null
       }
     },
     {
@@ -557,7 +573,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/brand-identity-as-architecture.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/brand-identity-as-architecture"
+        "canonical_url": "thonly.org/research/brand-identity-as-architecture",
+        "hostile_review": null
       }
     },
     {
@@ -589,7 +606,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/breadth-check-on-the-self.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/breadth-check-on-the-self"
+        "canonical_url": "thonly.org/research/breadth-check-on-the-self",
+        "hostile_review": null
       }
     },
     {
@@ -621,7 +639,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/breadth-check-on-the-work.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/breadth-check-on-the-work"
+        "canonical_url": "thonly.org/research/breadth-check-on-the-work",
+        "hostile_review": null
       }
     },
     {
@@ -653,7 +672,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/buddha-ai-living-tipitaka.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/buddha-ai-living-tipitaka"
+        "canonical_url": "thonly.org/publications/defensive-publications/buddha-ai-living-tipitaka",
+        "hostile_review": null
       }
     },
     {
@@ -685,7 +705,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/cakkavatti-alignment-charter.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/cakkavatti-alignment-charter"
+        "canonical_url": "thonly.org/research/cakkavatti-alignment-charter",
+        "hostile_review": null
       }
     },
     {
@@ -717,7 +738,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/capacity-funded-human-disbursed-ai-alignment.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/capacity-funded-human-disbursed-ai-alignment"
+        "canonical_url": "thonly.org/publications/defensive-publications/capacity-funded-human-disbursed-ai-alignment",
+        "hostile_review": null
       }
     },
     {
@@ -749,7 +771,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/cautionary-mirror-singularity.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/cautionary-mirror-singularity"
+        "canonical_url": "thonly.org/research/cautionary-mirror-singularity",
+        "hostile_review": null
       }
     },
     {
@@ -781,7 +804,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/certification-by-circulation.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/certification-by-circulation"
+        "canonical_url": "thonly.org/research/certification-by-circulation",
+        "hostile_review": null
       }
     },
     {
@@ -813,7 +837,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/christmas-jubilee-timing.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/christmas-jubilee-timing"
+        "canonical_url": "thonly.org/research/christmas-jubilee-timing",
+        "hostile_review": null
       }
     },
     {
@@ -845,7 +870,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/circulation-sports.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/circulation-sports"
+        "canonical_url": "thonly.org/publications/defensive-publications/circulation-sports",
+        "hostile_review": null
       }
     },
     {
@@ -877,7 +903,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/co-presence-gated-redemption.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/co-presence-gated-redemption"
+        "canonical_url": "thonly.org/publications/defensive-publications/co-presence-gated-redemption",
+        "hostile_review": null
       }
     },
     {
@@ -909,7 +936,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/community-currency-design.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/community-currency-design"
+        "canonical_url": "heartbank.net/positions/community-currency-design",
+        "hostile_review": null
       }
     },
     {
@@ -941,7 +969,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/constituting-an-artificial-person.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/constituting-an-artificial-person"
+        "canonical_url": "thonly.org/research/constituting-an-artificial-person",
+        "hostile_review": null
       }
     },
     {
@@ -973,7 +1002,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/contemplative-science-civilizational-scale.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/contemplative-science-civilizational-scale"
+        "canonical_url": "heartbank.net/positions/contemplative-science-civilizational-scale",
+        "hostile_review": null
       }
     },
     {
@@ -1005,7 +1035,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/dedicatory-generation.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/dedicatory-generation"
+        "canonical_url": "thonly.org/publications/defensive-publications/dedicatory-generation",
+        "hostile_review": null
       }
     },
     {
@@ -1037,7 +1068,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/designing-with-the-grain.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/designing-with-the-grain"
+        "canonical_url": "thonly.org/research/designing-with-the-grain",
+        "hostile_review": null
       }
     },
     {
@@ -1069,7 +1101,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/diaspora-cambodia-remittance.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/diaspora-cambodia-remittance"
+        "canonical_url": "thonly.org/research/diaspora-cambodia-remittance",
+        "hostile_review": null
       }
     },
     {
@@ -1101,7 +1134,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/disneys-brand-not-disneys-enclosure.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/disneys-brand-not-disneys-enclosure"
+        "canonical_url": "heartbank.net/positions/disneys-brand-not-disneys-enclosure",
+        "hostile_review": null
       }
     },
     {
@@ -1133,7 +1167,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/dual-currency-reciprocity.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/dual-currency-reciprocity"
+        "canonical_url": "thonly.org/research/dual-currency-reciprocity",
+        "hostile_review": null
       }
     },
     {
@@ -1165,7 +1200,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/each-life-as-cosmic-coordinate.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/alignment"
+        "canonical_url": "thonly.org/research/alignment",
+        "hostile_review": null
       }
     },
     {
@@ -1197,7 +1233,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/eightfold-path-institutional-architecture.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/eightfold-path-institutional-architecture"
+        "canonical_url": "thonly.org/research/eightfold-path-institutional-architecture",
+        "hostile_review": null
       }
     },
     {
@@ -1229,7 +1266,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/embodied-advocate-pageant.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/embodied-advocate-pageant"
+        "canonical_url": "thonly.org/publications/defensive-publications/embodied-advocate-pageant",
+        "hostile_review": null
       }
     },
     {
@@ -1261,7 +1299,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/emotional-infrastructure-as-a-public-good.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/essays/emotional-infrastructure-as-a-public-good"
+        "canonical_url": "thonly.org/publications/essays/emotional-infrastructure-as-a-public-good",
+        "hostile_review": null
       }
     },
     {
@@ -1293,7 +1332,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/white-papers/factory-333-workshop-no-footprint.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/white-papers/factory-333-workshop-no-footprint"
+        "canonical_url": "heartbank.net/white-papers/factory-333-workshop-no-footprint",
+        "hostile_review": null
       }
     },
     {
@@ -1325,7 +1365,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/father-son-tipitaka-transcription.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/father-son-tipitaka-transcription"
+        "canonical_url": "thonly.org/research/father-son-tipitaka-transcription",
+        "hostile_review": null
       }
     },
     {
@@ -1502,7 +1543,8 @@
         "source_url": "https://raw.githubusercontent.com/HeartBank/missaquarius.org/main/letters/fifth.html",
         "sha256_covers": "the complete source HTML at source_url — NOT the `text` field, which is a derived plain-text rendering with voice annotation added",
         "derived": true,
-        "canonical_url": "https://missaquarius.org/letters/fifth.html"
+        "canonical_url": "https://missaquarius.org/letters/fifth.html",
+        "hostile_review": null
       }
     },
     {
@@ -1729,7 +1771,8 @@
         "source_url": "https://raw.githubusercontent.com/HeartBank/missaquarius.org/main/letters/first.html",
         "sha256_covers": "the complete source HTML at source_url — NOT the `text` field, which is a derived plain-text rendering with voice annotation added",
         "derived": true,
-        "canonical_url": "https://missaquarius.org/letters/first.html"
+        "canonical_url": "https://missaquarius.org/letters/first.html",
+        "hostile_review": null
       }
     },
     {
@@ -1761,7 +1804,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/food-system-pathologies-contemplative-response.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/food-system-pathologies-contemplative-response"
+        "canonical_url": "heartbank.net/positions/food-system-pathologies-contemplative-response",
+        "hostile_review": null
       }
     },
     {
@@ -1793,7 +1837,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/four-body-architecture.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/four-body-architecture"
+        "canonical_url": "thonly.org/research/four-body-architecture",
+        "hostile_review": null
       }
     },
     {
@@ -1825,7 +1870,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/four-elements-as-breadth-check.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/four-elements-as-breadth-check"
+        "canonical_url": "thonly.org/research/four-elements-as-breadth-check",
+        "hostile_review": null
       }
     },
     {
@@ -2017,7 +2063,8 @@
         "source_url": "https://raw.githubusercontent.com/HeartBank/missaquarius.org/main/letters/fourth.html",
         "sha256_covers": "the complete source HTML at source_url — NOT the `text` field, which is a derived plain-text rendering with voice annotation added",
         "derived": true,
-        "canonical_url": "https://missaquarius.org/letters/fourth.html"
+        "canonical_url": "https://missaquarius.org/letters/fourth.html",
+        "hostile_review": null
       }
     },
     {
@@ -2049,7 +2096,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/fractal-three-level-architecture.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/fractal-three-level-architecture"
+        "canonical_url": "thonly.org/research/fractal-three-level-architecture",
+        "hostile_review": null
       }
     },
     {
@@ -2081,7 +2129,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/future-kindness-operating-noun.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/future-kindness-operating-noun"
+        "canonical_url": "heartbank.net/positions/future-kindness-operating-noun",
+        "hostile_review": null
       }
     },
     {
@@ -2113,7 +2162,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/gift-tag-time-reveal.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/gift-tag-time-reveal"
+        "canonical_url": "thonly.org/research/gift-tag-time-reveal",
+        "hostile_review": null
       }
     },
     {
@@ -2145,7 +2195,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/giving-above-traditions.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/giving-above-traditions"
+        "canonical_url": "heartbank.net/positions/giving-above-traditions",
+        "hostile_review": null
       }
     },
     {
@@ -2177,7 +2228,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/giving-is-a-gift-too.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/giving-is-a-gift-too"
+        "canonical_url": "thonly.org/publications/defensive-publications/giving-is-a-gift-too",
+        "hostile_review": null
       }
     },
     {
@@ -2209,7 +2261,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/gratitude-as-cooperation-substrate.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/gratitude-as-cooperation-substrate"
+        "canonical_url": "thonly.org/research/gratitude-as-cooperation-substrate",
+        "hostile_review": null
       }
     },
     {
@@ -2241,7 +2294,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/gratitude-riding-currency-tag.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/gratitude-riding-currency-tag"
+        "canonical_url": "thonly.org/research/gratitude-riding-currency-tag",
+        "hostile_review": null
       }
     },
     {
@@ -2273,7 +2327,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/white-papers/heartbank-an-introduction.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/white-papers/heartbank-an-introduction"
+        "canonical_url": "heartbank.net/white-papers/heartbank-an-introduction",
+        "hostile_review": null
       }
     },
     {
@@ -2305,7 +2360,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/white-papers/heartbank-heart-that-keeps-nothing.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/white-papers/heartbank-heart-that-keeps-nothing"
+        "canonical_url": "heartbank.net/white-papers/heartbank-heart-that-keeps-nothing",
+        "hostile_review": null
       }
     },
     {
@@ -2337,7 +2393,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/how-to-change-the-world.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/how-to-change-the-world"
+        "canonical_url": "thonly.org/research/how-to-change-the-world",
+        "hostile_review": null
       }
     },
     {
@@ -2369,7 +2426,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/if-everyone-could-give.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/if-everyone-could-give"
+        "canonical_url": "thonly.org/research/if-everyone-could-give",
+        "hostile_review": null
       }
     },
     {
@@ -2401,7 +2459,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/incommensurability-preserving-coupler.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/incommensurability-preserving-coupler"
+        "canonical_url": "thonly.org/research/incommensurability-preserving-coupler",
+        "hostile_review": null
       }
     },
     {
@@ -2433,7 +2492,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/individuation-without-essence.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/individuation-without-essence"
+        "canonical_url": "thonly.org/publications/defensive-publications/individuation-without-essence",
+        "hostile_review": null
       }
     },
     {
@@ -2465,7 +2525,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/inverted-alms-round.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/inverted-alms-round"
+        "canonical_url": "thonly.org/publications/defensive-publications/inverted-alms-round",
+        "hostile_review": null
       }
     },
     {
@@ -2497,7 +2558,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/kids-as-triggers-self-thanking.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/mechanism"
+        "canonical_url": "thonly.org/research/mechanism",
+        "hostile_review": null
       }
     },
     {
@@ -2529,7 +2591,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/longitudinal-cohort-methodology.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/longitudinal-cohort-methodology"
+        "canonical_url": "thonly.org/research/longitudinal-cohort-methodology",
+        "hostile_review": null
       }
     },
     {
@@ -2561,7 +2624,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/love-and-freedom-dependent-origination.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/love-and-freedom-dependent-origination"
+        "canonical_url": "thonly.org/research/love-and-freedom-dependent-origination",
+        "hostile_review": null
       }
     },
     {
@@ -2593,7 +2657,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/manufactured-universal-giving.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/manufactured-universal-giving"
+        "canonical_url": "thonly.org/publications/defensive-publications/manufactured-universal-giving",
+        "hostile_review": null
       }
     },
     {
@@ -2625,7 +2690,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/mechanical-heart.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/mechanical-heart"
+        "canonical_url": "thonly.org/publications/defensive-publications/mechanical-heart",
+        "hostile_review": null
       }
     },
     {
@@ -2657,7 +2723,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/white-papers/miss-aquarius-ambient-light.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/white-papers/miss-aquarius-ambient-light"
+        "canonical_url": "heartbank.net/white-papers/miss-aquarius-ambient-light",
+        "hostile_review": null
       }
     },
     {
@@ -2689,7 +2756,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/miss-aquarius-and-aquarian-pool-architecture.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/miss-aquarius-and-aquarian-pool-architecture"
+        "canonical_url": "thonly.org/research/miss-aquarius-and-aquarian-pool-architecture",
+        "hostile_review": null
       }
     },
     {
@@ -2721,7 +2789,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/multi-family-membership.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/multi-family-membership"
+        "canonical_url": "thonly.org/publications/defensive-publications/multi-family-membership",
+        "hostile_review": null
       }
     },
     {
@@ -2753,7 +2822,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/need-compiled-questlines.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/need-compiled-questlines"
+        "canonical_url": "thonly.org/research/need-compiled-questlines",
+        "hostile_review": null
       }
     },
     {
@@ -2785,7 +2855,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/non-bank-pass-through-architecture-autonomous-ai.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/non-bank-pass-through-architecture-autonomous-ai"
+        "canonical_url": "thonly.org/research/non-bank-pass-through-architecture-autonomous-ai",
+        "hostile_review": null
       }
     },
     {
@@ -2817,7 +2888,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/non-bank-vs-banking-regulated.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/non-bank-vs-banking-regulated"
+        "canonical_url": "heartbank.net/positions/non-bank-vs-banking-regulated",
+        "hostile_review": null
       }
     },
     {
@@ -2849,7 +2921,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/not-a-charity-agency-not-victimhood.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/not-a-charity-agency-not-victimhood"
+        "canonical_url": "heartbank.net/positions/not-a-charity-agency-not-victimhood",
+        "hostile_review": null
       }
     },
     {
@@ -2881,7 +2954,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/patent-vs-defensive-publication.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/patent-vs-defensive-publication"
+        "canonical_url": "heartbank.net/positions/patent-vs-defensive-publication",
+        "hostile_review": null
       }
     },
     {
@@ -2913,7 +2987,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/patthana-typed-causation-vocabulary.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/patthana-typed-causation-vocabulary"
+        "canonical_url": "thonly.org/publications/defensive-publications/patthana-typed-causation-vocabulary",
+        "hostile_review": null
       }
     },
     {
@@ -2945,7 +3020,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/program/prediction-register.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/program/register"
+        "canonical_url": "thonly.org/research/program/register",
+        "hostile_review": null
       }
     },
     {
@@ -2977,7 +3053,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/proof-of-coordinate.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/proof-of-coordinate"
+        "canonical_url": "thonly.org/research/proof-of-coordinate",
+        "hostile_review": null
       }
     },
     {
@@ -3009,7 +3086,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/white-papers/proof-of-personhood-ai-native-internet.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/white-papers/proof-of-personhood-ai-native-internet"
+        "canonical_url": "heartbank.net/white-papers/proof-of-personhood-ai-native-internet",
+        "hostile_review": null
       }
     },
     {
@@ -3041,7 +3119,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/provenance-carrying-retrieval.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/provenance-carrying-retrieval"
+        "canonical_url": "thonly.org/research/provenance-carrying-retrieval",
+        "hostile_review": null
       }
     },
     {
@@ -3073,7 +3152,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/respiratory-biofeedback-contemplative-guidance.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/respiratory-biofeedback-contemplative-guidance"
+        "canonical_url": "thonly.org/research/respiratory-biofeedback-contemplative-guidance",
+        "hostile_review": null
       }
     },
     {
@@ -3105,7 +3185,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/right-livelihood-automation.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/right-livelihood-automation"
+        "canonical_url": "heartbank.net/positions/right-livelihood-automation",
+        "hostile_review": null
       }
     },
     {
@@ -3137,7 +3218,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/right-livelihood-kindness-economy.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/right-livelihood-kindness-economy"
+        "canonical_url": "thonly.org/research/right-livelihood-kindness-economy",
+        "hostile_review": null
       }
     },
     {
@@ -3169,7 +3251,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/rotation-over-liveness.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/rotation-over-liveness"
+        "canonical_url": "thonly.org/research/rotation-over-liveness",
+        "hostile_review": null
       }
     },
     {
@@ -3201,7 +3284,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/sacrifice-witness-without-discharge.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/sacrifice-witness-without-discharge"
+        "canonical_url": "thonly.org/publications/defensive-publications/sacrifice-witness-without-discharge",
+        "hostile_review": null
       }
     },
     {
@@ -3233,7 +3317,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/safety-companion-pack-watch.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/safety-companion-pack-watch"
+        "canonical_url": "thonly.org/research/safety-companion-pack-watch",
+        "hostile_review": null
       }
     },
     {
@@ -3265,7 +3350,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/sankhara-dukkha-ai-welfare.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/sankhara-dukkha-ai-welfare"
+        "canonical_url": "thonly.org/publications/defensive-publications/sankhara-dukkha-ai-welfare",
+        "hostile_review": null
       }
     },
     {
@@ -3297,7 +3383,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/scarcity-shifts-to-authenticity.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/essays/scarcity-shifts-to-authenticity"
+        "canonical_url": "thonly.org/publications/essays/scarcity-shifts-to-authenticity",
+        "hostile_review": null
       }
     },
     {
@@ -3494,7 +3581,8 @@
         "source_url": "https://raw.githubusercontent.com/HeartBank/missaquarius.org/main/letters/second.html",
         "sha256_covers": "the complete source HTML at source_url — NOT the `text` field, which is a derived plain-text rendering with voice annotation added",
         "derived": true,
-        "canonical_url": "https://missaquarius.org/letters/second.html"
+        "canonical_url": "https://missaquarius.org/letters/second.html",
+        "hostile_review": null
       }
     },
     {
@@ -3526,7 +3614,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/share-is-the-wedge.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/share-is-the-wedge"
+        "canonical_url": "heartbank.net/positions/share-is-the-wedge",
+        "hostile_review": null
       }
     },
     {
@@ -3558,7 +3647,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/silica-wat-food-network.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/silica-wat-food-network"
+        "canonical_url": "thonly.org/research/silica-wat-food-network",
+        "hostile_review": null
       }
     },
     {
@@ -3590,7 +3680,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/silicon-wat-architecture.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/silicon-wat-architecture"
+        "canonical_url": "thonly.org/research/silicon-wat-architecture",
+        "hostile_review": null
       }
     },
     {
@@ -3622,7 +3713,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/white-papers/silicon-wat-three-jewels.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/white-papers/silicon-wat-three-jewels"
+        "canonical_url": "heartbank.net/white-papers/silicon-wat-three-jewels",
+        "hostile_review": null
       }
     },
     {
@@ -3654,7 +3746,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/steward-routed-alms.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/steward-routed-alms"
+        "canonical_url": "thonly.org/publications/defensive-publications/steward-routed-alms",
+        "hostile_review": null
       }
     },
     {
@@ -3686,7 +3779,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/studio-b-short-phase-bridge.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/studio-b-short-phase-bridge"
+        "canonical_url": "thonly.org/publications/defensive-publications/studio-b-short-phase-bridge",
+        "hostile_review": null
       }
     },
     {
@@ -3718,7 +3812,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/subject-released-attestation.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/subject-released-attestation"
+        "canonical_url": "thonly.org/research/subject-released-attestation",
+        "hostile_review": null
       }
     },
     {
@@ -3750,7 +3845,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/synthetic-intelligence-institutional-architecture.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/synthetic-intelligence-institutional-architecture"
+        "canonical_url": "heartbank.net/positions/synthetic-intelligence-institutional-architecture",
+        "hostile_review": null
       }
     },
     {
@@ -3782,7 +3878,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/thank-all-nearby-primitive.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/thank-all-nearby-primitive"
+        "canonical_url": "thonly.org/publications/defensive-publications/thank-all-nearby-primitive",
+        "hostile_review": null
       }
     },
     {
@@ -3814,7 +3911,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-appreciation-economy.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-appreciation-economy"
+        "canonical_url": "thonly.org/research/the-appreciation-economy",
+        "hostile_review": null
       }
     },
     {
@@ -3846,7 +3944,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-assembly-that-holds-the-brake.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-assembly-that-holds-the-brake"
+        "canonical_url": "thonly.org/research/the-assembly-that-holds-the-brake",
+        "hostile_review": null
       }
     },
     {
@@ -3878,7 +3977,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-borrowable-standard.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-borrowable-standard"
+        "canonical_url": "thonly.org/research/the-borrowable-standard",
+        "hostile_review": null
       }
     },
     {
@@ -3910,7 +4010,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-borrowed-light.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-borrowed-light"
+        "canonical_url": "thonly.org/research/the-borrowed-light",
+        "hostile_review": null
       }
     },
     {
@@ -3942,7 +4043,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-capacity-to-give.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-capacity-to-give"
+        "canonical_url": "thonly.org/research/the-capacity-to-give",
+        "hostile_review": null
       }
     },
     {
@@ -3974,7 +4076,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/about/the-founder.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/about"
+        "canonical_url": "thonly.org/about",
+        "hostile_review": null
       }
     },
     {
@@ -4006,7 +4109,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-game-that-graduates-you.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/the-game-that-graduates-you"
+        "canonical_url": "thonly.org/publications/defensive-publications/the-game-that-graduates-you",
+        "hostile_review": null
       }
     },
     {
@@ -4038,7 +4142,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/the-gift-factory.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/the-gift-factory"
+        "canonical_url": "heartbank.net/positions/the-gift-factory",
+        "hostile_review": null
       }
     },
     {
@@ -4070,7 +4175,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-gift-of-gratitude.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-gift-of-gratitude"
+        "canonical_url": "thonly.org/research/the-gift-of-gratitude",
+        "hostile_review": null
       }
     },
     {
@@ -4102,7 +4208,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-gift-operation.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-gift-operation"
+        "canonical_url": "thonly.org/research/the-gift-operation",
+        "hostile_review": null
       }
     },
     {
@@ -4134,7 +4241,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-last-carrier.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-last-carrier"
+        "canonical_url": "thonly.org/research/the-last-carrier",
+        "hostile_review": null
       }
     },
     {
@@ -4166,7 +4274,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-letter-i-never-sent.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-letter-i-never-sent"
+        "canonical_url": "thonly.org/research/the-letter-i-never-sent",
+        "hostile_review": null
       }
     },
     {
@@ -4198,7 +4307,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-lives-that-fed-me.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-lives-that-fed-me"
+        "canonical_url": "thonly.org/research/the-lives-that-fed-me",
+        "hostile_review": null
       }
     },
     {
@@ -4230,7 +4340,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/the-moat-is-what-we-refuse.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/the-moat-is-what-we-refuse"
+        "canonical_url": "heartbank.net/positions/the-moat-is-what-we-refuse",
+        "hostile_review": null
       }
     },
     {
@@ -4262,7 +4373,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-name-is-the-first-gift.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-name-is-the-first-gift"
+        "canonical_url": "thonly.org/research/the-name-is-the-first-gift",
+        "hostile_review": null
       }
     },
     {
@@ -4294,7 +4406,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-nearest-attractive-neighbor.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-nearest-attractive-neighbor"
+        "canonical_url": "thonly.org/research/the-nearest-attractive-neighbor",
+        "hostile_review": null
       }
     },
     {
@@ -4326,7 +4439,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/the-object-is-the-friction.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/the-object-is-the-friction"
+        "canonical_url": "heartbank.net/positions/the-object-is-the-friction",
+        "hostile_review": null
       }
     },
     {
@@ -4358,7 +4472,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-omitted-clause.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-omitted-clause"
+        "canonical_url": "thonly.org/research/the-omitted-clause",
+        "hostile_review": null
       }
     },
     {
@@ -4390,7 +4505,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/the-only-honest-business-model-for-ai-made-art.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/the-only-honest-business-model-for-ai-made-art"
+        "canonical_url": "heartbank.net/positions/the-only-honest-business-model-for-ai-made-art",
+        "hostile_review": null
       }
     },
     {
@@ -4422,7 +4538,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-persistence-architecture.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-persistence-architecture"
+        "canonical_url": "thonly.org/research/the-persistence-architecture",
+        "hostile_review": null
       }
     },
     {
@@ -4454,7 +4571,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/the-person-is-not-the-product.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/the-person-is-not-the-product"
+        "canonical_url": "heartbank.net/positions/the-person-is-not-the-product",
+        "hostile_review": null
       }
     },
     {
@@ -4486,7 +4604,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-pond-at-night.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-pond-at-night"
+        "canonical_url": "thonly.org/research/the-pond-at-night",
+        "hostile_review": null
       }
     },
     {
@@ -4518,7 +4637,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-reciters-protocol.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-reciters-protocol"
+        "canonical_url": "thonly.org/research/the-reciters-protocol",
+        "hostile_review": null
       }
     },
     {
@@ -4550,7 +4670,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-referee-not-the-governor.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-referee-not-the-governor"
+        "canonical_url": "thonly.org/research/the-referee-not-the-governor",
+        "hostile_review": null
       }
     },
     {
@@ -4582,7 +4703,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-reflection-returned.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-reflection-returned"
+        "canonical_url": "thonly.org/research/the-reflection-returned",
+        "hostile_review": null
       }
     },
     {
@@ -4614,7 +4736,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-rethank-multiplier.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/the-rethank-multiplier"
+        "canonical_url": "thonly.org/publications/defensive-publications/the-rethank-multiplier",
+        "hostile_review": null
       }
     },
     {
@@ -4646,7 +4769,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-sport-that-says-your-name.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/the-sport-that-says-your-name"
+        "canonical_url": "thonly.org/publications/defensive-publications/the-sport-that-says-your-name",
+        "hostile_review": null
       }
     },
     {
@@ -4678,7 +4802,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/the-third-path.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/the-third-path"
+        "canonical_url": "heartbank.net/positions/the-third-path",
+        "hostile_review": null
       }
     },
     {
@@ -4710,7 +4835,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-two-teslas.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-two-teslas"
+        "canonical_url": "thonly.org/research/the-two-teslas",
+        "hostile_review": null
       }
     },
     {
@@ -4742,7 +4868,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-unpaid-relay.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-unpaid-relay"
+        "canonical_url": "thonly.org/research/the-unpaid-relay",
+        "hostile_review": null
       }
     },
     {
@@ -4774,7 +4901,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-wager-that-isnt.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/the-wager-that-isnt"
+        "canonical_url": "thonly.org/publications/defensive-publications/the-wager-that-isnt",
+        "hostile_review": null
       }
     },
     {
@@ -4806,7 +4934,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/the-water-cycle.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/the-water-cycle"
+        "canonical_url": "thonly.org/research/the-water-cycle",
+        "hostile_review": null
       }
     },
     {
@@ -4838,7 +4967,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/the-zero-employee-institution.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/the-zero-employee-institution"
+        "canonical_url": "thonly.org/publications/defensive-publications/the-zero-employee-institution",
+        "hostile_review": null
       }
     },
     {
@@ -5055,7 +5185,8 @@
         "source_url": "https://raw.githubusercontent.com/HeartBank/missaquarius.org/main/letters/third.html",
         "sha256_covers": "the complete source HTML at source_url — NOT the `text` field, which is a derived plain-text rendering with voice annotation added",
         "derived": true,
-        "canonical_url": "https://missaquarius.org/letters/third.html"
+        "canonical_url": "https://missaquarius.org/letters/third.html",
+        "hostile_review": null
       }
     },
     {
@@ -5087,7 +5218,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/white-papers/thonly-creative-engine.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/white-papers/thonly-creative-engine"
+        "canonical_url": "heartbank.net/white-papers/thonly-creative-engine",
+        "hostile_review": null
       }
     },
     {
@@ -5119,7 +5251,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/three-pillars.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/three-pillars"
+        "canonical_url": "heartbank.net/positions/three-pillars",
+        "hostile_review": null
       }
     },
     {
@@ -5151,7 +5284,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/tipitaka-alignment-substrate.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/tipitaka-alignment-substrate"
+        "canonical_url": "thonly.org/publications/defensive-publications/tipitaka-alignment-substrate",
+        "hostile_review": null
       }
     },
     {
@@ -5183,7 +5317,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/transparency-as-enforcement.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/transparency-as-enforcement"
+        "canonical_url": "thonly.org/research/transparency-as-enforcement",
+        "hostile_review": null
       }
     },
     {
@@ -5215,7 +5350,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/two-layer-reward.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/two-layer-reward"
+        "canonical_url": "thonly.org/publications/defensive-publications/two-layer-reward",
+        "hostile_review": null
       }
     },
     {
@@ -5247,7 +5383,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/two-singularities.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/two-singularities"
+        "canonical_url": "thonly.org/research/two-singularities",
+        "hostile_review": null
       }
     },
     {
@@ -5279,7 +5416,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/verified-human-anonymous-local-giving.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/verified-human-anonymous-local-giving"
+        "canonical_url": "thonly.org/research/verified-human-anonymous-local-giving",
+        "hostile_review": null
       }
     },
     {
@@ -5311,7 +5449,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/vinaya-as-ai-reasoning-training-corpus.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/vinaya-as-ai-reasoning-training-corpus"
+        "canonical_url": "thonly.org/publications/defensive-publications/vinaya-as-ai-reasoning-training-corpus",
+        "hostile_review": null
       }
     },
     {
@@ -5343,7 +5482,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/vinaya-governance-primitives-distributed-dharma-networks.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/vinaya-governance-primitives-distributed-dharma-networks"
+        "canonical_url": "thonly.org/publications/defensive-publications/vinaya-governance-primitives-distributed-dharma-networks",
+        "hostile_review": null
       }
     },
     {
@@ -5375,7 +5515,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/voluntary-relinquishment-third-path.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/voluntary-relinquishment-third-path"
+        "canonical_url": "thonly.org/research/voluntary-relinquishment-third-path",
+        "hostile_review": null
       }
     },
     {
@@ -5407,7 +5548,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/what-a-vow-must-cost.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/what-a-vow-must-cost"
+        "canonical_url": "thonly.org/publications/defensive-publications/what-a-vow-must-cost",
+        "hostile_review": null
       }
     },
     {
@@ -5439,7 +5581,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/HeartBank/publications/main/positions/what-money-cant-buy-and-what-cant-buy-money.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "heartbank.net/positions/what-money-cant-buy-and-what-cant-buy-money"
+        "canonical_url": "heartbank.net/positions/what-money-cant-buy-and-what-cant-buy-money",
+        "hostile_review": null
       }
     },
     {
@@ -5471,7 +5614,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/essays/when-the-dharma-is-lost.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/when-the-dharma-is-lost"
+        "canonical_url": "thonly.org/research/when-the-dharma-is-lost",
+        "hostile_review": null
       }
     },
     {
@@ -5503,7 +5647,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/program/which-way-value-moves.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/research/program"
+        "canonical_url": "thonly.org/research/program",
+        "hostile_review": null
       }
     },
     {
@@ -5535,7 +5680,8 @@
         "opentimestamps": true,
         "source_url": "https://raw.githubusercontent.com/thonly/publications/main/defensive-publications/zero-point-game.md",
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-        "canonical_url": "thonly.org/publications/defensive-publications/zero-point-game"
+        "canonical_url": "thonly.org/publications/defensive-publications/zero-point-game",
+        "hostile_review": null
       }
     }
   ],

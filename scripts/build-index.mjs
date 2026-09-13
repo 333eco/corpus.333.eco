@@ -666,6 +666,30 @@ for (const src of SOURCES) {
     const repo = basename(root) === "publications" ? basename(dirname(root)) + "/publications" : basename(root);
     repos.add(repo);
 
+    // ⭐ THE HOSTILE-READ MARKER (founder 2026-09-13). The corpus's reviews.json lists every review round
+    // (roles, never names). `provenance.hostile_review` is the date of the latest RULED human round whose
+    // roles include `hostile` and whose recorded `##` heading set still matches this text — null otherwise,
+    // stated explicitly, because a machine reader deciding how far to trust a passage needs the "no" too.
+    // ⚠️ Same rule and heading normalisation as check-frontmatter.mjs rule 4 and thonly.org's
+    // sync-publications.mjs; a structural revision retires the marker as it retires `published`.
+    let reviewRounds = {};
+    const rPath = join(root, "reviews.json");
+    if (existsSync(rPath)) {
+        try {
+            reviewRounds = JSON.parse(readFileSync(rPath, "utf8")).papers ?? {};
+        } catch (e) {
+            die(`${rPath} is not valid JSON: ${e.message}`);
+        }
+    }
+    const hostileReviewOf = (slug, body) => {
+        const now = body.split("\n").filter((l) => /^##\s/.test(l)).map((l) => l.replace(/^##\s+/, "").replace(/\s+/g, " ").trim());
+        const ok = (reviewRounds[slug] ?? []).filter(
+            (r) => r.lane === "human" && r.ruled && (r.roles ?? []).includes("hostile") && Array.isArray(r.sections) &&
+                r.sections.length === now.length && r.sections.every((h) => now.includes(h))
+        );
+        return ok.length ? String(ok[ok.length - 1].ruled) : null;
+    };
+
     // Zenodo record, if the repo keeps one. Absent is fine — it means no DOIs,
     // not an error, and the envelope simply omits them.
     let zenodo = {};
@@ -757,7 +781,8 @@ for (const src of SOURCES) {
                             "the complete source HTML at source_url — NOT the `text` field, which is a derived " +
                             "plain-text rendering with voice annotation added",
                         derived: true,
-                        canonical_url: `https://missaquarius.org/letters/${file}`
+                        canonical_url: `https://missaquarius.org/letters/${file}`,
+                        hostile_review: null
                     }
                 });
                 continue;
@@ -828,7 +853,8 @@ for (const src of SOURCES) {
                     // What provenance.sha256 covers, said plainly: the whole file
                     // as committed, not the `text` field this response carries.
                     sha256_covers: "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
-                    canonical_url: fm.venue?.split(" ")[0] ?? null
+                    canonical_url: fm.venue?.split(" ")[0] ?? null,
+                    hostile_review: hostileReviewOf(slug, text.slice(bodyStart))
                 }
             });
         }
