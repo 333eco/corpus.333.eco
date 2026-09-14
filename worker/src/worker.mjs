@@ -34,6 +34,7 @@ import { READ_TOOLS, READ_INSTRUCTIONS, filterDocuments, readDocuments, getDocum
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "../../src/program-tools.mjs";
 import { clientOf, record, missOf, resultsOf, beacon } from "./telemetry.mjs";
 import { searchCorpus } from "../../src/search.mjs";
+import { CONFORMANCE_TOOLS, checkPassage } from "../../src/conformance.mjs";
 
 // ⭐ THE PROGRAM TOOLS, THE READ TOOLS AND THE ENVELOPE ARE IMPORTED, NOT COPIED. A
 // hand-kept second copy is exactly how this endpoint would end up advertising — or
@@ -85,7 +86,7 @@ const loadCorpus = (env) => {
 };
 
 
-const TOOLS = [...BASE_TOOLS, ...READ_TOOLS];
+const TOOLS = [...BASE_TOOLS, ...READ_TOOLS, ...CONFORMANCE_TOOLS];
 
 const KNOWN_TOOLS = new Set([...TOOLS, ...PROGRAM_TOOLS].map((t) => t.name));
 
@@ -102,6 +103,10 @@ const callTool = (corpus, name, args) => {
     if (name === "get_document") {
         // Shared (read-tools.mjs), and TEXT ONLY since 2.4.2 — see §the-text-never-arrived there.
         return getDocument({ bySlug: corpus.bySlug }, args);
+    }
+    if (name === "check_passage") {
+        // Shared (conformance.mjs): judges the passage, never who quotes it.
+        return checkPassage({ documents: corpus.documents, bySlug: corpus.bySlug, envelope }, args);
     }
     if (name === "read_documents") {
         return readDocuments({ documents: corpus.documents, bySlug: corpus.bySlug, version: String(corpus.package_version ?? "") }, args);

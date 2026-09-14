@@ -134,6 +134,12 @@ const post = async (env, body) => {
 // So the delivery status is written to Analytics Engine as its own row: silence
 // on the phone is then something you can go and check rather than infer.
 export const beacon = (env, ctx, { event, client, country, data }) => {
+    // ⛔ NO BINDING, NO BEACON (2.5.0). The beacon is a real POST to thonly.org, and check-parity runs this worker
+    // IN PROCESS — so every `npm run check` sent a live corpus_connect, which pushes a notification per handshake
+    // (37 `check-parity` handshakes in one month's /estate §5). Production always has the ANALYTICS binding;
+    // a test, and `wrangler dev` without --remote, never does. A dead beacon still cannot look quiet in production,
+    // because production is exactly where the binding exists.
+    if (!env.ANALYTICS) return;
     ctx.waitUntil(
         post(env, {
             event,

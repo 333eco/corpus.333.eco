@@ -1,28 +1,26 @@
 // How a tool result is shaped.
 //
-// ⭐⭐ JSON IS THE PAYLOAD; THE TEXT BLOCK IS THE HUMAN FORM. Until 2026-09-02 every
-// tool returned pretty-printed JSON inside a text block, which meant a consuming
-// program had to parse a string to reach data the server already had as an object.
-// `structuredContent` is where that object belongs.
+// ⭐⭐ TWO SHAPES, CHOSEN BY WHAT THE TOOL RETURNS.
 //
-// ⚠️ THE SPEC'S BACK-COMPAT ADVICE — also serialise the JSON into `content` — is a
-// SHOULD, and following it literally DOUBLES every response (measured: 1.76×–2.00×
-// across the six tools). So this file does not duplicate. It SPLITS BY ROLE:
+//     metadata tools (search, list, program)  — structuredContent: the typed object, plus a
+//                                               readable or compact `content`
+//     document tools (get_document, read_documents) — `content` ONLY: each document behind its
+//                                               provenance header (read-tools.mjs); never these helpers
 //
-//     content            — what a reader reads: document text, excerpts, a listing
-//     structuredContent  — what a program validates: the typed envelope and metadata
+// ⛔⛔ WHY THE DOCUMENT TOOLS DO NOT USE THIS FILE (2.4.2, founder-ruled 2026-09-13). From 2.0.0 this file
+// "split by role": document text in `content`, the envelope WITHOUT THE BODY in `structuredContent`,
+// nothing sent twice. A Claude client shown a result that carries structuredContent hands its model ONLY
+// that part — so no document text reached any Claude reader for eleven days, while every check passed
+// because every check read the server, never a client. The spec assumes both parts carry the same
+// information; a server that splits them is at the mercy of whichever part a client picks.
+// ⛔ So for a METADATA tool, everything a reader needs must be in structuredContent (search's `reading`
+// line rides there for that reason). ⛔ NEVER give a document tool structuredContent again —
+// scripts/check-parity.mjs fails on it. Retirement recorded in TH/notes/memory/retired-rulings.md.
 //
-// Nothing appears in both. For the document tools that makes `content` the text
-// WITH ITS PROVENANCE HEADER — identical to what resources/read returns, so the two
-// ways into the same document finally agree — and `structuredContent` the envelope
-// without the body. Measured cost: 1.00× on the large tools, 0.76×–0.78× on the
-// metadata tools, which are smaller than what they replaced.
-//
-// ⛔ NO `outputSchema` YET, and that is a decision rather than an omission. The spec
-// makes a declared schema binding — "servers MUST provide structured results that
-// conform" — and the envelope changed twice on the day this was written. A schema
-// is a promise kept on every future change; publishing one over a shape still in
-// motion buys validation now and breaks validating clients later.
+// ⚠️ THE SPEC'S BACK-COMPAT ADVICE — also serialise the JSON into `content` — DOUBLES a response
+// (measured 1.76×–2.00×). For the metadata tools `content` is therefore a compact serialisation or a
+// readable summary, not a second copy of a large body. ⛔ No `outputSchema` yet: the spec makes a
+// declared schema binding, and a schema over a moving shape breaks validating clients later.
 
 // A payload that is data all the way down: the object, plus a COMPACT serialisation
 // for clients that read only `content`. Compact, not pretty — indentation is the
@@ -32,8 +30,8 @@ export const structured = (value) => ({
     structuredContent: value
 });
 
-// A payload with a human form: `text` is read, `value` is validated, and the two
-// carry different things rather than the same thing twice.
+// A metadata payload with a human form: `text` is read, `value` is validated. ⛔ Anything a model
+// needs must be in `value` too — a Claude client shows its model only `value`.
 export const structuredWithText = (text, value) => ({
     content: [{ type: "text", text }],
     structuredContent: value

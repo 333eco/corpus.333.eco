@@ -63,6 +63,7 @@ manufactured on a schedule.
 | `get_document` | one document in full — canonical text, never a summary |
 | `read_documents` | whole documents — a shelf (the `list_documents` filters) or a list of slugs — one content block each, paged by size |
 | `list_documents` | slugs, titles, genres, licences, provenance summaries, **sizes**, and the manifest's completeness counts |
+| `check_passage` | whether a passage is served — verbatim, with the same words, or not — and for a near miss, the nearest served passage and exactly how the two differ |
 | `list_predictions` | the research program's pre-registered predictions, with falsifiers and status |
 | `get_prediction` | one prediction, plus the provenance envelope of the paper that registered it |
 | `get_program` | the program's hard core, chapters, stopping rule and count reconciliation, verbatim |
@@ -128,6 +129,20 @@ route. The server never cuts a document, but a client may, and a cut document re
 complete one. The end is stated in the text, where a cut removes it — not in a field that would
 survive the cut and assert a completeness the text no longer has.
 
+### Checking a quotation
+
+⭐ **A hash tells a machine reader one bit — matched or not — and that bit is nearly useless in the case that
+actually occurs: a quotation that is almost right.** `check_passage` lays a passage beside the corpus and says
+where it is served **verbatim**, where it is served with **the same words** (differing only in punctuation,
+formatting, case or diacritics), or — for a near miss — the **nearest served passage and each difference**: a
+word changed, dropped or added. Every excerpt it returns is the corpus's own bytes; the matching folds, the
+answer never does.
+
+⛔ **It judges the passage, never the person.** No score of the asker, no inference about intent, and the passage
+text is not recorded — a quotation someone checks is their business. The idea is old: a disputed reading was laid
+beside the collection and judged by where it agreed, explicitly not by who recited it (see *The Reciters'
+Protocol* in the corpus).
+
 ### Nothing silently missing
 
 The envelope proves each served document authentic; nothing used to prove that none was
@@ -149,7 +164,7 @@ and the build refuses to emit one that is not — a field must match a *complete
 cell of its source, because a fragment of a cell is still a substring of it.
 
 The program tools appear only when the index carries a program block. An index
-built over a corpus without one advertises four tools, not seven.
+built over a corpus without one advertises five tools, not eight.
 
 ## Resources
 

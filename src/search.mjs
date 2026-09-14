@@ -59,7 +59,7 @@ export const fold = (s) => String(s ?? "").replace(/[^\x00-\x7f]/gu, foldChar);
 // Keyed by the string itself: the corpus holds one string per document for the life of the
 // process, so the cache is bounded by the corpus.
 const HAY = new Map();
-const hayOf = (body) => {
+export const hayOf = (body) => {
     let h = HAY.get(body);
     if (h === undefined) {
         h = fold(body.toLowerCase());

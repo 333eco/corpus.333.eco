@@ -224,6 +224,7 @@ const SAME = [
     ["list_documents, filtered", tool("list_documents", { category: "letters" })],
     ["read_documents, a small page", tool("read_documents", { category: "letters", max_bytes: 20000 })],
     ["read_documents, unknown slug", tool("read_documents", { slugs: ["no-such-document"] })],
+    ["check_passage, served", tool("check_passage", { passage: "The river I have chosen for this is the Tonlé Sap" })],
     ["get_document", tool("get_document", { slug: letter })],
     ["resources/read", { method: "resources/read", params: { uri: `corpus://${letter}` } }]
 ];
@@ -330,6 +331,45 @@ const SAME = [
     const letters = (await call("tools/call", { name: "list_documents", arguments: { category: "letters" } })).result.structuredContent;
     if (letters.read_with?.tool !== "read_documents" || JSON.stringify(letters.read_with.arguments) !== JSON.stringify({ category: "letters" })) {
         fail("list_documents does not point at read_documents with the filters it was given", JSON.stringify(letters.read_with));
+    }
+}
+
+// ── a test must not phone home ──
+// ⛔ The worker's beacon is a real POST to thonly.org, and every handshake pushes a notification. Running
+// this check in process once sent one per run (37 `check-parity` handshakes in a month). With no ANALYTICS
+// binding — as here, and as in every test — the worker must send nothing at all.
+{
+    const realFetch = globalThis.fetch;
+    let outbound = 0;
+    globalThis.fetch = (...a) => { outbound++; return realFetch(...a); };
+    try {
+        const call = await workerOver(corpusText);
+        await call("initialize", { protocolVersion: "2025-06-18", clientInfo: { name: "check-parity", version: "1" } });
+        await new Promise((r) => setTimeout(r, 50));
+    } finally {
+        globalThis.fetch = realFetch;
+    }
+    if (outbound) fail(`the in-process worker made ${outbound} outbound request(s) during a handshake`, "A test run must not send a live beacon — it pushes a notification to the founder's phone.");
+}
+
+// ── check_passage: the known answers (A87 item 2) ──
+// ⛔ Every case has an answer fixed in advance, taken from a real document: served verbatim, served with
+// the diacritic stripped, one word changed (and the diff must NAME it), and text that is nowhere.
+{
+    const call = await workerOver(corpusText);
+    const check = async (passage, extra = {}) => (await call("tools/call", { name: "check_passage", arguments: { passage, ...extra } })).result;
+    const base = "The river I have chosen for this is the Tonlé Sap, renowned as the river that reverses its course twice a year";
+    const cases = [
+        ["verbatim", base, (r) => r.verdict === "verbatim" && r.found?.[0]?.slug === "the-water-cycle"],
+        ["diacritic stripped", base.replace("Tonlé", "tonle"), (r) => r.verdict === "same-words" && r.found?.[0]?.slug === "the-water-cycle"],
+        ["one word changed", base.replace("reverses", "doubles"),
+            (r) => r.verdict === "differs" && r.nearest?.slug === "the-water-cycle" && r.nearest.differences.some((x) => x.served === "reverses" && x.passage === "doubles")],
+        ["nowhere", "Purple elephants negotiate quarterly tariffs with seven bicycles", (r) => r.verdict === "not-found"]
+    ];
+    for (const [label, passage, ok] of cases) {
+        const r = await check(passage);
+        if (!r.structuredContent) fail(`check_passage (${label}) carries no structuredContent — a Claude client would show its model nothing`);
+        else if (!ok(r.structuredContent)) fail(`check_passage gave the wrong answer for a known case: ${label}`, JSON.stringify(r.structuredContent).slice(0, 300));
     }
 }
 

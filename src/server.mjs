@@ -42,6 +42,7 @@ import { BASE_TOOLS, withFacets } from "./base-tools.mjs";
 import { READ_TOOLS, READ_TOOL_NAMES, READ_INSTRUCTIONS, filterDocuments, readDocuments, getDocument, readWith, completenessOf, manifestProblems } from "./read-tools.mjs";
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "./program-tools.mjs";
 import { searchCorpus } from "./search.mjs";
+import { CONFORMANCE_TOOLS, checkPassage } from "./conformance.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const INDEX = resolve(HERE, "..", "dist", "corpus.json");
@@ -111,7 +112,7 @@ const failure = (id, code, message) => send({ jsonrpc: "2.0", id, error: { code,
 
 /* -------------------------------------------------------------------- tools --- */
 
-const TOOLS = [...BASE_TOOLS, ...READ_TOOLS];
+const TOOLS = [...BASE_TOOLS, ...READ_TOOLS, ...CONFORMANCE_TOOLS];
 
 const KNOWN_TOOLS = new Set([...TOOLS, ...PROGRAM_TOOLS].map((t) => t.name));
 
@@ -128,6 +129,10 @@ const callTool = (name, args) => {
     if (name === "get_document") {
         // Shared (read-tools.mjs), and TEXT ONLY since 2.4.2 — see §the-text-never-arrived there.
         return getDocument({ bySlug: bySlug }, args);
+    }
+    if (name === "check_passage") {
+        // Shared (conformance.mjs): judges the passage, never who quotes it.
+        return checkPassage({ documents: corpus.documents, bySlug, envelope }, args);
     }
     if (name === "read_documents") {
         return readDocuments({ documents: corpus.documents, bySlug, version: String(corpus.package_version ?? "") }, args);

@@ -72,6 +72,10 @@ jobs:
       # from the consuming side.
       - name: Index is current against the live corpora
         run: node scripts/build-index.mjs --check --from .corpora/TH/publications .corpora/H3/publications .corpora/missaquarius.org
+      # ⛔ The two surfaces must ANSWER alike, and a document tool must never carry structuredContent — a
+      # Claude client would show its model that part and not the document (2.0.0–2.4.1). A gate, not a habit.
+      - name: The two surfaces answer identically, and the known cases hold
+        run: node scripts/check-parity.mjs
 
       # A licence that is not one of the two would mean the gate widened without
       # anyone deciding to widen it. Cheap, and it reads as documentation.
