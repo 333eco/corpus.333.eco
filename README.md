@@ -83,6 +83,18 @@ verbatim. **A zero result was recording the matcher's limits while being read as
 ⭐ On a zero result the response now names **which terms appear in no document at all**
 (`absent_terms`), so a dead end says something instead of nothing.
 
+⭐ **Diacritics are optional.** `metta` finds what `mettā` finds, and `Tonle Sap` reaches the
+text that writes `Tonlé Sap` — before 2.4.1 a plain-ASCII query found 6 documents where the
+marked one found 20. ⛔ **Fold to match, serve verbatim:** the fold touches only what is
+compared, and every excerpt carries the corpus's own spelling, because a Pāli or Sanskrit
+spelling is a tradition marker rather than a typo. Only Latin combining diacritics are folded;
+Khmer and Burmese vowel signs are marks too, and are left exactly as written.
+
+⭐ **Every result says it is an excerpt.** The text ends with a line naming how many of the
+matches it shows and the `read_documents` call that reads those documents in full. It sits in
+the result rather than only in the server's instructions, because a result reaches the model in
+every client, at the moment it decides whether to keep reading.
+
 ### Reading a whole shelf
 
 ⭐ **Search answers from excerpts, and a model answers from what it opened.** A frontier
@@ -103,6 +115,13 @@ corpus already fits one — but a way to read the shelf.
   split** — half a document verifies nothing — so one larger than the page arrives alone and
   says `over_budget`. Follow `next_cursor`; a cursor from a different corpus version is refused
   rather than serving page 2 of another corpus.
+- **`list_documents` says how to read what it listed:** `read_with` carries the same filters as
+  `read_documents` arguments.
+
+⚠️ **The server can point; it cannot make a model read.** Its instructions say *for a broad
+question, read the relevant shelf in full* — deliberately conditional, because a whole shelf read
+to answer a one-fact question is slower, costlier and often worse. Clients differ in whether they
+show server instructions at all, which is why the pointers also live in the results.
 
 ⭐ **Every document ends with an `[END OF DOCUMENT — <slug> · <n> words]` line**, by every
 route. The server never cuts a document, but a client may, and a cut document reads as a

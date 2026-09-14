@@ -27,9 +27,9 @@ export const BASE_TOOLS = [
         title: "Search the corpus",
         annotations: { ...READ_ONLY, title: "Search the corpus" },
         description:
-            "Full-text search across the open-licensed corpus. Returns matching documents with a provenance envelope " +
-            "and a short excerpt around each match — not the full text; call get_document for that. Every result can " +
-            "be independently verified via its sha256, DOI and OpenTimestamps proof.",
+            "Full-text search across the open-licensed corpus; diacritics are optional. Returns matching documents with " +
+            "a provenance envelope and a short excerpt around each match — not the full text; read_documents or " +
+            "get_document return that. Every result can be verified via its sha256, DOI and OpenTimestamps proof.",
         inputSchema: {
             type: "object",
             properties: {

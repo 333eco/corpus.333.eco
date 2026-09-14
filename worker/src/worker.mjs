@@ -31,10 +31,10 @@ import { documentText } from "../../src/resources.mjs";
 import { envelope } from "../../src/envelope.mjs";
 import { PROMPTS, getPrompt } from "../../src/prompts.mjs";
 import { BASE_TOOLS, withFacets } from "../../src/base-tools.mjs";
-import { READ_TOOLS, READ_INSTRUCTIONS, filterDocuments, readDocuments, completenessOf, manifestProblems } from "../../src/read-tools.mjs";
+import { READ_TOOLS, READ_INSTRUCTIONS, filterDocuments, readDocuments, readWith, completenessOf, manifestProblems } from "../../src/read-tools.mjs";
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "../../src/program-tools.mjs";
 import { clientOf, record, missOf, resultsOf, beacon } from "./telemetry.mjs";
-import { match, rank, absentTerms } from "../../src/search.mjs";
+import { searchCorpus } from "../../src/search.mjs";
 
 // ⭐ THE PROGRAM TOOLS, THE READ TOOLS AND THE ENVELOPE ARE IMPORTED, NOT COPIED. A
 // hand-kept second copy is exactly how this endpoint would end up advertising — or
@@ -95,35 +95,9 @@ const asText = (v) => ({ content: [{ type: "text", text: typeof v === "string" ?
 
 const callTool = (corpus, name, args) => {
     if (name === "search_corpus") {
-        const q = String(args?.query ?? "");
-        if (!q) throw new Error("query is required");
-        const pool = corpus.documents.filter((d) => !args?.genre || d.genre === args.genre);
-        const hits = pool.map((d) => ({ d, m: match(d.text, q) })).filter((h) => h.m !== null);
-        const results = rank(hits, Number(args?.limit ?? 10)).map((h) => ({
-            ...envelope(h.d),
-            genre: h.d.genre,
-            excerpt: h.m.excerpt,
-            // ⭐ HOW it matched, not just that it did: a "terms" excerpt need not
-            // contain the literal query, and a caller reading it should know
-            // which question the excerpt is answering.
-            match: h.m.mode
-        }));
-        // ⚠️ `matches` is the TOTAL found, not the number returned — it used to be
-        // capped at `limit`, which made "10 matches" and "at least 10 matches"
-        // indistinguishable. `returned` carries the capped count.
-        const absent = hits.length ? [] : absentTerms(pool, q);
-        const readable = results.length
-            ? results.map((h) => `${h.slug} — ${h.title}${h.match === "terms" ? "  [all terms, not the phrase]" : ""}\n  ${h.excerpt}`).join("\n\n")
-            : absent.length
-              ? `no document matches "${q}". No document contains: ${absent.join(", ")}.`
-              : `no document matches "${q}" — every term appears somewhere, but no single document holds them all. Try fewer terms.`;
-        return structuredWithText(readable, {
-            query: q,
-            matches: hits.length,
-            returned: results.length,
-            ...(absent.length ? { absent_terms: absent } : {}),
-            results: results
-        });
+        // Shared with the other surface (search.mjs): the answer, the excerpts and the
+        // reading line cannot differ between them.
+        return searchCorpus({ documents: corpus.documents, envelope }, args);
     }
 
     if (name === "get_document") {
@@ -211,6 +185,8 @@ const callTool = (corpus, name, args) => {
             ...(corpus.voices ? { voices: corpus.voices } : {}),
             // A87: the manifest's counts and reasons beside the listing they account for.
             ...(corpus.manifest ? { completeness: completenessOf(corpus) } : {}),
+            // 2.4.1: what to call to read this listing in full — the same filters, as arguments.
+            ...(readWith(args, documents.length) ? { read_with: readWith(args, documents.length) } : {}),
             documents: documents
         });
     }

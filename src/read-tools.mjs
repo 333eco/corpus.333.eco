@@ -65,9 +65,27 @@ export const READ_TOOLS = [
 
 export const READ_TOOL_NAMES = READ_TOOLS.map((t) => t.name);
 
+// ⚠️ CONDITIONAL ON PURPOSE (2.4.1). "Prefer read_documents" unqualified would send a model to
+// read a 260,000-token shelf to answer a one-fact question — slower, costlier and often worse.
+// ⛔ It names shelves by their facets (list_documents' own vocabulary), never by what the
+// documents say: describing the API, not the subject matter.
 export const READ_INSTRUCTIONS =
-    " Search returns excerpts; to answer broadly, read whole documents with read_documents. Every document ends " +
-    "with an [END OF DOCUMENT] line — if it is missing, the text was cut short.";
+    " For a broad question, read the relevant shelf in full: choose it with list_documents, read it with " +
+    "read_documents. Search returns excerpts, suited to finding one passage. Every document ends with an " +
+    "[END OF DOCUMENT] line; if it is missing, the text was cut short.";
+
+/**
+ * list_documents' pointer to reading what it just listed: the same filters, as arguments
+ * read_documents accepts. Only the facets actually given, so the pointer reads back exactly.
+ */
+export const readWith = (args, count) =>
+    count
+        ? {
+              tool: "read_documents",
+              arguments: Object.fromEntries(["genre", "category", "voice", "licence"].filter((k) => args?.[k]).map((k) => [k, args[k]])),
+              note: "Reads every document listed here in full, paged by size."
+          }
+        : null;
 
 // ⚠️ The cursor carries the INDEX VERSION as well as the offset. Pages are offsets
 // into a list, and a list read across a redeploy is two lists: without the version

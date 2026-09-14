@@ -219,6 +219,8 @@ async function stdioAnswers(calls) {
 
 const tool = (name, args) => ({ method: "tools/call", params: { name, arguments: args } });
 const SAME = [
+    ["search_corpus, folded", tool("search_corpus", { query: "metta", limit: 3 })],
+    ["search_corpus, a miss", tool("search_corpus", { query: "no-such-term-anywhere zzqx" })],
     ["list_documents, filtered", tool("list_documents", { category: "letters" })],
     ["read_documents, a small page", tool("read_documents", { category: "letters", max_bytes: 20000 })],
     ["read_documents, unknown slug", tool("read_documents", { slugs: ["no-such-document"] })],
@@ -284,6 +286,40 @@ const SAME = [
     const gd = (await call("tools/call", { name: "get_document", arguments: { slug: letter } })).result.content[0].text;
     const rr = (await call("resources/read", { uri: `corpus://${letter}` })).result.contents[0].text;
     if (gd !== rr || !END.test(gd)) fail("get_document and resources/read do not return the same text ending at its [END OF DOCUMENT] line");
+}
+
+// ── search: the fold, and the line that points at reading (2.4.1) ──
+{
+    const call = await workerOver(corpusText);
+    const search = async (query, limit) => (await call("tools/call", { name: "search_corpus", arguments: { query, ...(limit ? { limit } : {}) } })).result;
+    // ⭐ Diacritics optional — the case whose answer is known: `metta` and `mettā` must find
+    // the same documents, and `Tonle Sap` must reach the text that writes `Tonlé Sap`.
+    const [plain, marked] = [await search("metta", 200), await search("mettā", 200)];
+    const ids = (r) => r.structuredContent.results.map((x) => x.slug).sort().join(",");
+    if (!marked.structuredContent.matches || ids(plain) !== ids(marked)) {
+        fail(`search_corpus does not fold diacritics: "metta" matched ${plain.structuredContent.matches}, "mettā" ${marked.structuredContent.matches}`);
+    }
+    const tonle = await search("Tonle Sap");
+    if (!tonle.structuredContent.matches || !tonle.structuredContent.results.some((r) => r.excerpt.includes("Tonlé"))) {
+        fail('search_corpus("Tonle Sap") did not return the verbatim "Tonlé" excerpt', "Fold to match, serve verbatim: the excerpt must carry the corpus's own spelling.");
+    }
+    // ⛔ The fold must stay Latin-only: Khmer vowel signs are marks too, and stripping them
+    // would make Khmer text match what it does not say.
+    const { fold } = await import(pathToFileURL(join(BASE, "src", "search.mjs")).href);
+    if (fold("ស្រី") !== "ស្រី" || fold("ākāśa") !== "akasa") fail("fold() strips the wrong marks — it must fold Latin diacritics and leave Khmer untouched");
+
+    const broad = await search("Miss Aquarius", 3);
+    const line = broad.content[0].text.split("\n").at(-1);
+    const m = line.match(/^\[Showing (\d+) of (\d+) matching documents?, as excerpts\. To answer from the full texts, call read_documents with slugs (\[.*?\])/);
+    if (!m || Number(m[1]) !== broad.structuredContent.returned || Number(m[2]) !== broad.structuredContent.matches ||
+        m[3] !== JSON.stringify(broad.structuredContent.results.map((r) => r.slug))) {
+        fail("search_corpus's text does not end with a [Showing …] line naming exactly the slugs it returned", `got: ${line.slice(0, 200)}`);
+    }
+
+    const letters = (await call("tools/call", { name: "list_documents", arguments: { category: "letters" } })).result.structuredContent;
+    if (letters.read_with?.tool !== "read_documents" || JSON.stringify(letters.read_with.arguments) !== JSON.stringify({ category: "letters" })) {
+        fail("list_documents does not point at read_documents with the filters it was given", JSON.stringify(letters.read_with));
+    }
 }
 
 // ── the manifest refusal ──
