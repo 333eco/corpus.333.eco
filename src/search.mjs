@@ -259,6 +259,9 @@ export const searchCorpus = ({ documents, envelope }, args) => {
         query: q,
         matches: hits.length,
         returned: results.length,
+        // ⛔ 2.4.2: the reading line was in `content` only, and a Claude client shows its model only
+        // structuredContent — so the 2.4.1 nudge reached no Claude reader. It rides here too.
+        ...(results.length ? { reading: readingLine(results, hits.length) } : {}),
         ...(absent.length ? { absent_terms: absent } : {}),
         results: results
     });

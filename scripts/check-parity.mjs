@@ -242,25 +242,31 @@ const SAME = [
 {
     const call = await workerOver(corpusText);
     const END = /\[END OF DOCUMENT — ([^\s·.]+)[^\]]*\]$/;
+    // ⛔ Parsed from CONTENT, the way a Claude client's model receives it (2.4.2): the document tools
+    // carry no structuredContent, because a Claude client shows its model only that part when present.
+    const PAGE = /^\[PAGE — documents (\d+)–(\d+) of (\d+)\..*\]$/;
     const readAll = async (args) => {
         const slugs = [];
         let cursor;
         for (let pages = 0; pages < 500; pages++) {
             const r = (await call("tools/call", { name: "read_documents", arguments: { ...args, ...(cursor ? { cursor } : {}) } })).result;
-            const sc = r.structuredContent;
+            if (r.structuredContent) fail("read_documents carries structuredContent — a Claude client would show its model that and not the documents");
             const blocks = r.content.slice(0, -1);
-            if (blocks.length !== sc.returned) fail("read_documents returned a content block count that is not one per document");
-            if (!/^\[PAGE — /.test(r.content.at(-1)?.text ?? "")) fail("read_documents' last block is not the [PAGE …] line");
-            blocks.forEach((b, i) => {
+            const pageText = r.content.at(-1)?.text ?? "";
+            const page = pageText.match(PAGE);
+            if (!page) { fail(`read_documents' last block is not a [PAGE …] line: ${pageText.slice(0, 120)}`); return slugs; }
+            if (blocks.length !== Number(page[2]) - Number(page[1]) + 1) fail("read_documents returned a block count that does not match its [PAGE] line");
+            const bytes = blocks.reduce((n, b) => n + Buffer.byteLength(b.text, "utf8"), 0);
+            const max = args.max_bytes ?? 90000;
+            if (bytes > max && !(blocks.length === 1 && /larger than max_bytes/.test(pageText))) fail(`a read_documents page is ${bytes} bytes against max_bytes ${max}`);
+            for (const b of blocks) {
                 const m = b.text.match(END);
-                if (!b.text.startsWith("[PROVENANCE") || !m || m[1] !== sc.documents[i].slug) {
-                    fail(`read_documents block for ${sc.documents[i]?.slug} does not run from its provenance header to its own [END OF DOCUMENT] line`);
-                }
-            });
-            if (sc.page_bytes > sc.max_bytes && !(sc.returned === 1 && sc.over_budget)) fail(`a read_documents page is ${sc.page_bytes} bytes against max_bytes ${sc.max_bytes}`);
-            slugs.push(...sc.documents.map((d) => d.slug));
-            if (!sc.next_cursor) return slugs;
-            cursor = sc.next_cursor;
+                if (!b.text.startsWith("[PROVENANCE") || !m) fail("a read_documents block does not run from its provenance header to its [END OF DOCUMENT] line");
+                else slugs.push(m[1]);
+            }
+            const next = pageText.match(/cursor "([^"]+)"/);
+            if (!next) return slugs;
+            cursor = next[1];
         }
         fail("read_documents never stopped paging");
         return slugs;
@@ -283,7 +289,9 @@ const SAME = [
     if (!(await call("tools/call", { name: "read_documents", arguments: { cursor: stale } })).result?.isError) {
         fail("a cursor from another corpus version was accepted", "Page 2 of a different corpus must be refused, not served.");
     }
-    const gd = (await call("tools/call", { name: "get_document", arguments: { slug: letter } })).result.content[0].text;
+    const gdr = (await call("tools/call", { name: "get_document", arguments: { slug: letter } })).result;
+    if (gdr.structuredContent) fail("get_document carries structuredContent — a Claude client would show its model that and not the document (§the-text-never-arrived)");
+    const gd = gdr.content[0].text;
     const rr = (await call("resources/read", { uri: `corpus://${letter}` })).result.contents[0].text;
     if (gd !== rr || !END.test(gd)) fail("get_document and resources/read do not return the same text ending at its [END OF DOCUMENT] line");
 }
@@ -310,6 +318,9 @@ const SAME = [
 
     const broad = await search("Miss Aquarius", 3);
     const line = broad.content[0].text.split("\n").at(-1);
+    if (broad.structuredContent.reading !== line) {
+        fail("search_corpus's reading line is not in structuredContent too", "A Claude client shows its model only structuredContent, so a line in content alone reaches no Claude reader.");
+    }
     const m = line.match(/^\[Showing (\d+) of (\d+) matching documents?, as excerpts\. To answer from the full texts, call read_documents with slugs (\[.*?\])/);
     if (!m || Number(m[1]) !== broad.structuredContent.returned || Number(m[2]) !== broad.structuredContent.matches ||
         m[3] !== JSON.stringify(broad.structuredContent.results.map((r) => r.slug))) {

@@ -43,7 +43,7 @@ export const READ_TOOLS = [
         // facets are described once, on list_documents.
         description:
             "Whole documents, never summarised: those matching the list_documents filters, or the given slugs. " +
-            "One content block each. Paged: follow next_cursor.",
+            "One content block each; the last block names the cursor for the next page.",
         inputSchema: {
             type: "object",
             properties: {
@@ -110,9 +110,9 @@ const decodeCursor = (cursor, version) => {
 
 /**
  * read_documents. `ctx` is what differs between the surfaces:
- * { documents, bySlug, envelope, version }.
+ * { documents, bySlug, version }.
  */
-export const readDocuments = ({ documents, bySlug, envelope, version }, args) => {
+export const readDocuments = ({ documents, bySlug, version }, args) => {
     const hasFilter = ["genre", "category", "voice", "licence"].some((k) => args?.[k]);
     let matched;
     if (args?.slugs !== undefined) {
@@ -149,43 +149,34 @@ export const readDocuments = ({ documents, bySlug, envelope, version }, args) =>
     const next = nextOffset < matched.length ? encodeCursor(version, nextOffset) : undefined;
 
     if (!matched.length) {
-        return {
-            content: [{ type: "text", text: "no documents match these filters. Call list_documents to see the facets and their counts." }],
-            structuredContent: { matched: 0, returned: 0, offset: 0, page_bytes: 0, max_bytes: budget, documents: [] }
-        };
+        return { content: [{ type: "text", text: "no documents match these filters. Call list_documents to see the facets and their counts." }] };
     }
 
+    // ⛔⛔ TEXT ONLY — NO structuredContent (2.4.2, founder-ruled 2026-09-13). A Claude client shown a
+    // result that carries structuredContent hands its model ONLY that part; the envelope-without-body
+    // shape this tool shipped with in 2.4.0 therefore delivered no document to any Claude-based reader
+    // (§the-text-never-arrived). The document IS the payload, and the provenance already rides in each
+    // document's header, so the structured copy bought validation for programs at the price of the
+    // text for models. Everything a reader needs to keep going is in the [PAGE] line.
     const content = page.map((p) => ({ type: "text", text: p.text }));
-    // The one block that is not a document: what a reader of `content` alone needs in
-    // order to keep going, or to know it has everything.
+    const over = page.length === 1 && used > budget ? " This document is larger than max_bytes and was returned whole rather than split." : "";
     content.push({
         type: "text",
         text: next
-            ? `[PAGE — documents ${start + 1}–${nextOffset} of ${matched.length}. ${matched.length - nextOffset} more: call read_documents again with the same arguments and cursor "${next}".]`
-            : `[PAGE — documents ${start + 1}–${nextOffset} of ${matched.length}. That is every matching document.]`
+            ? `[PAGE — documents ${start + 1}–${nextOffset} of ${matched.length}.${over} ${matched.length - nextOffset} more: call read_documents again with the same arguments and cursor "${next}".]`
+            : `[PAGE — documents ${start + 1}–${nextOffset} of ${matched.length}.${over} That is every matching document.]`
     });
+    return { content };
+};
 
-    return {
-        content,
-        structuredContent: {
-            matched: matched.length,
-            returned: page.length,
-            offset: start,
-            page_bytes: used,
-            max_bytes: budget,
-            ...(page.length === 1 && used > budget ? { over_budget: "one document larger than max_bytes, returned whole rather than split" } : {}),
-            ...(next ? { next_cursor: next } : {}),
-            documents: page.map((p) => ({
-                ...envelope(p.d),
-                genre: p.d.genre,
-                category: p.d.category,
-                voice: p.d.voice,
-                bytes: p.d.bytes,
-                words: p.d.words,
-                text_in: "content, one block per document in this order, each prefixed by its provenance header"
-            }))
-        }
-    };
+/**
+ * get_document — shared by both surfaces since 2.4.2, TEXT ONLY for the same reason as read_documents:
+ * the envelope-without-body in structuredContent was the only part a Claude client showed its model.
+ */
+export const getDocument = ({ bySlug }, args) => {
+    const d = bySlug.get(String(args?.slug ?? ""));
+    if (!d) throw new Error(`no document with slug "${args?.slug}". Call list_documents to see what is available.`);
+    return { content: [{ type: "text", text: documentText(d) }] };
 };
 
 /**

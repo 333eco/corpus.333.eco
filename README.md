@@ -113,8 +113,8 @@ corpus already fits one — but a way to read the shelf.
 - **Paged by size.** `max_bytes` defaults to 90,000 (under the 25,000-token point at which
   Claude Code moves a tool result into a file) and may go to 400,000. **A document is never
   split** — half a document verifies nothing — so one larger than the page arrives alone and
-  says `over_budget`. Follow `next_cursor`; a cursor from a different corpus version is refused
-  rather than serving page 2 of another corpus.
+  says so in its `[PAGE]` line. That last block names the cursor for the next page; a cursor from a
+  different corpus version is refused rather than serving page 2 of another corpus.
 - **`list_documents` says how to read what it listed:** `read_with` carries the same filters as
   `read_documents` arguments.
 
@@ -195,15 +195,23 @@ hands every consumer an obligation nobody can discharge, so **the build fails**
 rather than serving it — the same reasoning as the licence gate: a property, not a
 rule someone has to remember.
 
-**Results are structured.** Every tool returns `structuredContent` — the typed
-object — and uses `content` for the human form: the document text with its
-provenance header for `get_document`, readable excerpts for `search_corpus`, a
-compact serialisation for the rest. ⛔ **Nothing is sent twice.** The spec's
-back-compat advice is to serialise the JSON into `content` as well; measured, that
-doubles every response (1.76×–2.00×), so this server splits by role instead —
-`content` is read, `structuredContent` is validated, and the two carry different
-things. `outputSchema` is deliberately not declared yet: a schema binds the server
-on every future change, and the envelope is still moving.
+**Documents come as text; everything else is structured.** `get_document` and
+`read_documents` return **`content` only** — each document behind its provenance header
+and ending at its `[END OF DOCUMENT]` line. The other tools return `structuredContent`
+(the typed object) plus a readable or compact `content`, and anything a reader needs —
+search's `reading` line included — is in the structured part.
+
+⛔⛔ **Why the document tools carry no `structuredContent` (2.4.2).** From 2.0.0 to 2.4.1
+they split by role: text in `content`, the envelope *without the body* in
+`structuredContent`. A Claude client shown a result that carries `structuredContent` hands its
+model **only that part** — so for eleven days **no document text reached any Claude-based
+reader**, while every check here passed, because every check read the server's output
+directly rather than through a client. The MCP spec assumes the two parts carry the same
+information; a server that splits them is at the mercy of whichever part a client picks. The
+document is the payload and its provenance already rides in the header, so the document tools
+now send the text and nothing else — and `check-parity` fails if either ever carries
+`structuredContent` again. `outputSchema` is deliberately not declared: a schema binds the server
+on every future change.
 
 **Text is returned verbatim and is never summarised.** Not a stylistic
 preference — a summary cannot be hash-verified, so summarising at the server

@@ -35,12 +35,11 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline";
 import { RESOURCE_TEMPLATES, listResources, readResource, completeArgument } from "./resources.mjs";
-import { structured, structuredWithText } from "./results.mjs";
-import { documentText } from "./resources.mjs";
+import { structured } from "./results.mjs";
 import { envelope } from "./envelope.mjs";
 import { PROMPTS, getPrompt } from "./prompts.mjs";
 import { BASE_TOOLS, withFacets } from "./base-tools.mjs";
-import { READ_TOOLS, READ_TOOL_NAMES, READ_INSTRUCTIONS, filterDocuments, readDocuments, readWith, completenessOf, manifestProblems } from "./read-tools.mjs";
+import { READ_TOOLS, READ_TOOL_NAMES, READ_INSTRUCTIONS, filterDocuments, readDocuments, getDocument, readWith, completenessOf, manifestProblems } from "./read-tools.mjs";
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "./program-tools.mjs";
 import { searchCorpus } from "./search.mjs";
 
@@ -127,45 +126,11 @@ const callTool = (name, args) => {
     }
 
     if (name === "get_document") {
-        const d = bySlug.get(String(args?.slug ?? ""));
-        if (!d) throw new Error(`no document with slug "${args?.slug}". Call list_documents to see what is available.`);
-        // ⭐ The document goes to `content` WITH ITS PROVENANCE HEADER — the same
-        // bytes resources/read returns, so the two doors into a document agree —
-        // and the envelope goes to `structuredContent` WITHOUT the body. Split by
-        // role; nothing is sent twice.
-        return structuredWithText(documentText(d), {
-            ...envelope(d),
-            genre: d.genre,
-            bytes: d.bytes,
-            words: d.words,
-            // ⚠️ category and voice were in list_documents and NOT here, so a
-            // caller who fetched ONE document could not see the facets it had
-            // just filtered on — the discovery call and the read call disagreed
-            // about what a document is. Both are cheap strings; the reason the
-            // body is excluded (it is in `content`, never sent twice) does not
-            // apply to them.
-            category: d.category,
-            voice: d.voice,
-            repo: d.repo,
-            path: d.path,
-            metadata_convention: d.metadata_convention,
-            // ⚠️ PRESENT ONLY WHERE THEY MEAN SOMETHING, and dropping them was a
-            // real bug: `editorial` is what tells a consumer that the inline
-            // [VERBATIM]/[SCAFFOLD] markers in `text` are a convention rather
-            // than noise, and `segments` is the same split structurally. The
-            // markers alone are the load-bearing half — they survive quotation —
-            // but shipping them with nothing that explains them made the
-            // convention look like an artefact of bad extraction.
-            ...(d.editorial ? { editorial: d.editorial } : {}),
-            ...(d.segments ? { segments: d.segments } : {}),
-            // ⚠️ Deliberately absent: the body is in `content`. Carrying it here
-            // too is the duplication this shape exists to avoid.
-            text_in: "content[0].text, prefixed by the provenance header and ending at its [END OF DOCUMENT] line"
-        });
+        // Shared (read-tools.mjs), and TEXT ONLY since 2.4.2 — see §the-text-never-arrived there.
+        return getDocument({ bySlug: bySlug }, args);
     }
-
     if (name === "read_documents") {
-        return readDocuments({ documents: corpus.documents, bySlug, envelope, version: String(corpus.package_version ?? "") }, args);
+        return readDocuments({ documents: corpus.documents, bySlug, version: String(corpus.package_version ?? "") }, args);
     }
 
     if (name === "list_documents") {

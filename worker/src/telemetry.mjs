@@ -158,7 +158,8 @@ export const beacon = (env, ctx, { event, client, country, data }) => {
 // filtered to nothing are the rows worth looking at.
 export const resultsOf = (result) => {
     const sc = result?.structuredContent;
-    if (!sc) return 0;
+    // get_document and read_documents return text only (2.4.2): count the documents delivered.
+    if (!sc) return Array.isArray(result?.content) ? result.content.filter((c) => /\[END OF DOCUMENT — /.test(c?.text ?? "")).length : 0;
     if (typeof sc.matches === "number") return sc.matches;
     if (typeof sc.count === "number") return sc.count;
     // read_documents: the documents on THIS page, not the whole matched set.
