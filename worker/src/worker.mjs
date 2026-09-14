@@ -27,19 +27,21 @@
 
 import { RESOURCE_TEMPLATES, listResources, readResource, completeArgument } from "../../src/resources.mjs";
 import { structured, structuredWithText } from "../../src/results.mjs";
-import { provenanceHeader } from "../../src/resources.mjs";
+import { documentText } from "../../src/resources.mjs";
+import { envelope } from "../../src/envelope.mjs";
 import { PROMPTS, getPrompt } from "../../src/prompts.mjs";
 import { BASE_TOOLS, withFacets } from "../../src/base-tools.mjs";
+import { READ_TOOLS, READ_INSTRUCTIONS, filterDocuments, readDocuments, completenessOf, manifestProblems } from "../../src/read-tools.mjs";
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "../../src/program-tools.mjs";
 import { clientOf, record, missOf, resultsOf, beacon } from "./telemetry.mjs";
 import { match, rank, absentTerms } from "../../src/search.mjs";
 
-// ⭐ THE PROGRAM TOOLS ARE IMPORTED, NOT COPIED — unlike the envelope below. The
-// envelope is twenty lines and duplication makes it diffable; the tool surface is
-// a hundred and twenty, and a hand-kept second copy is exactly how this endpoint
-// would end up advertising tools the npm package does not have. Wrangler bundles
-// JavaScript, so a shared module costs nothing here; only the corpus itself has
-// to stay a static asset.
+// ⭐ THE PROGRAM TOOLS, THE READ TOOLS AND THE ENVELOPE ARE IMPORTED, NOT COPIED. A
+// hand-kept second copy is exactly how this endpoint would end up advertising — or
+// answering — differently from the npm package; the envelope was once kept as a copy
+// "to be diffed by eye", drifted, and was caught only by a check that compared answers
+// (see src/envelope.mjs). Wrangler bundles JavaScript, so a shared module costs
+// nothing here; only the corpus itself has to stay a static asset.
 
 const JSON_HEADERS = {
     "content-type": "application/json",
@@ -64,6 +66,14 @@ const loadCorpus = (env) => {
                 if (!r.ok) throw new Error(`corpus.json asset returned ${r.status}`);
                 return r.json();
             })
+            // ⛔ A corpus that does not match its own manifest is not served — the
+            // same refusal as the stdio server. Thrown here, it takes the corpus_error
+            // path: an incomplete corpus is an outage, not a quiet degradation.
+            .then((c) => {
+                const problems = manifestProblems(c);
+                if (problems.length) throw new Error(`corpus.json does not match its manifest: ${problems.join("; ")}`);
+                return c;
+            })
             .then((c) => ({ ...c, bySlug: new Map(c.documents.map((d) => [d.slug, d])) }))
             // A failed load must not be memoised, or one bad cold start poisons
             // the isolate for as long as it lives.
@@ -75,63 +85,10 @@ const loadCorpus = (env) => {
     return corpusPromise;
 };
 
-/* ------------------------------------------------------------- the envelope ---
-   Identical in shape to the stdio server's. Kept as its own function rather than
-   imported so the two can be diffed by eye; if they ever disagree, that is a bug
-   in one of them and the diff is where it shows. */
 
-const envelope = (d) => ({
-    slug: d.slug,
-    title: d.title,
-    licence: {
-        id: d.licence.id,
-        url: d.licence.url,
-        attribution_required: d.licence.attribution_required,
-        ...(d.licence.attribution_required && d.authors ? { attribute_to: d.authors } : {})
-    },
-    provenance: {
-        ...d.provenance,
-        // ⚠️ A LIVING DOCUMENT IS VERIFIED AND CITED WITH DIFFERENT DOIs, and
-        // saying only "cite accordingly" leaves the reader to guess which.
-        // The VERSION doi is the only one that can be true of the bytes here
-        // — it pins them — so it is what a hash check resolves against. The
-        // CONCEPT doi follows the document, so it is what a citation should
-        // name: a living register is revised on purpose, and a citation
-        // pinned to one revision goes stale by design rather than by accident.
-        ...(d.status === "living" && d.provenance.concept_doi
-            ? {
-                  citation: {
-                      cite: `https://doi.org/${d.provenance.concept_doi}`,
-                      verify_against: d.provenance.doi ? `https://doi.org/${d.provenance.doi}` : null,
-                      why: "This document is living — it is revised on purpose. Cite the concept DOI, which always resolves to the newest version; verify the text you were served against the version DOI and sha256 above, which pin these exact bytes."
-                  }
-              }
-            : {}),
-        verify: {
-            // Concrete, because an instruction that says "the source file"
-            // without saying which one is not an instruction. All three source
-            // repositories are public, so this is genuinely runnable.
-            sha256: d.provenance.source_url
-                ? `curl -sL ${d.provenance.source_url} | shasum -a 256   # compare to provenance.sha256`
-                : "shasum -a 256 <the source file>   # compare to provenance.sha256",
-            ...(d.provenance.doi ? { doi: `https://doi.org/${d.provenance.doi}` } : {}),
-            ...(d.provenance.opentimestamps
-                ? { opentimestamps: `ots verify ${d.path}.ots   # in the source repository; anchored in the Bitcoin blockchain` }
-                : {}),
-            ...(d.provenance.deposited_matches_current === false
-                ? {
-                      note:
-                          "Revised since its Zenodo deposit, so provenance.sha256 and provenance.deposited_sha256 " +
-                          "differ legitimately. The DOI resolves to the deposited version; the text here is newer."
-                  }
-                : {})
-        }
-    }
-});
+const TOOLS = [...BASE_TOOLS, ...READ_TOOLS];
 
-const TOOLS = BASE_TOOLS;
-
-const KNOWN_TOOLS = new Set([...BASE_TOOLS, ...PROGRAM_TOOLS].map((t) => t.name));
+const KNOWN_TOOLS = new Set([...TOOLS, ...PROGRAM_TOOLS].map((t) => t.name));
 
 const asText = (v) => ({ content: [{ type: "text", text: typeof v === "string" ? v : JSON.stringify(v, null, 2) }] });
 
@@ -176,9 +133,11 @@ const callTool = (corpus, name, args) => {
         // bytes resources/read returns, so the two doors into a document agree —
         // and the envelope goes to `structuredContent` WITHOUT the body. Split by
         // role; nothing is sent twice.
-        return structuredWithText(provenanceHeader(d) + "\n\n" + d.text, {
+        return structuredWithText(documentText(d), {
             ...envelope(d),
             genre: d.genre,
+            bytes: d.bytes,
+            words: d.words,
             // ⚠️ category and voice were in list_documents and NOT here, so a
             // caller who fetched ONE document could not see the facets it had
             // just filtered on — the discovery call and the read call disagreed
@@ -201,8 +160,11 @@ const callTool = (corpus, name, args) => {
             ...(d.segments ? { segments: d.segments } : {}),
             // ⚠️ Deliberately absent: the body is in `content`. Carrying it here
             // too is the duplication this shape exists to avoid.
-            text_in: "content[0].text, prefixed by the provenance header"
+            text_in: "content[0].text, prefixed by the provenance header and ending at its [END OF DOCUMENT] line"
         });
+    }
+    if (name === "read_documents") {
+        return readDocuments({ documents: corpus.documents, bySlug: corpus.bySlug, envelope, version: String(corpus.package_version ?? "") }, args);
     }
     if (PROGRAM_TOOL_NAMES.includes(name)) {
         return callProgramTool(
@@ -212,11 +174,8 @@ const callTool = (corpus, name, args) => {
         );
     }
     if (name === "list_documents") {
-        const documents = corpus.documents
-            .filter((d) => (!args?.genre || d.genre === args.genre) &&
-                    (!args?.licence || d.licence.id === args.licence) &&
-                    (!args?.voice || d.voice === args.voice) &&
-                    (!args?.category || d.category === args.category))
+        // ⭐ The SAME filter read_documents applies (read-tools.mjs).
+        const documents = filterDocuments(corpus.documents, args)
             .map((d) => ({
                 slug: d.slug,
                 title: d.title,
@@ -233,10 +192,16 @@ const callTool = (corpus, name, args) => {
                 date: d.date,
                 licence: d.licence.id,
                 doi: d.provenance.doi,
-                opentimestamps: d.provenance.opentimestamps
+                opentimestamps: d.provenance.opentimestamps,
+                // A140: size before reading. Bytes and words, never tokens.
+                bytes: d.bytes,
+                words: d.words
             }));
         return structured({
             count: documents.length,
+            // For THIS filtered set — what reading it with read_documents would cost.
+            total_bytes: documents.reduce((n, d) => n + (d.bytes ?? 0), 0),
+            total_words: documents.reduce((n, d) => n + (d.words ?? 0), 0),
             licences: corpus.licences,
             // The shelves, so a caller can narrow without guessing the vocabulary.
             categories: corpus.documents.reduce((a, d) => ((a[d.category ?? "uncategorised"] = (a[d.category ?? "uncategorised"] ?? 0) + 1), a), {}),
@@ -244,6 +209,8 @@ const callTool = (corpus, name, args) => {
             // documents means nothing without the honest denominator beside it,
             // the same reason list_predictions returns by_state unfiltered.
             ...(corpus.voices ? { voices: corpus.voices } : {}),
+            // A87: the manifest's counts and reasons beside the listing they account for.
+            ...(corpus.manifest ? { completeness: completenessOf(corpus) } : {}),
             documents: documents
         });
     }
@@ -264,6 +231,7 @@ const handlers = {
             "carry a DOI and an OpenTimestamps proof anchored in Bitcoin, so you can check any passage you intend to " +
             "cite rather than trusting this server. Documents under CC-BY carry attribute_to in their licence block; " +
             "honour it. Text is returned verbatim and is never summarised, because a summary cannot be hash-verified." +
+            READ_INSTRUCTIONS +
             (_corpus?.program ? PROGRAM_INSTRUCTIONS : "")
     }),
     // ⚠️ Takes the corpus, because whether the program tools exist depends on
@@ -299,6 +267,19 @@ export default {
 
         if (request.method === "OPTIONS") return new Response(null, { headers: JSON_HEADERS });
 
+        // ⭐ THE MANIFEST, ON ITS OWN (A87). What the build considered and what became of
+        // each file — served where a person or a script can fetch it without speaking
+        // MCP, and compared by nobody's goodwill: loadCorpus already refused to serve a
+        // corpus that does not match it.
+        if (request.method === "GET" && url.pathname === "/manifest.json") {
+            const corpus = await loadCorpus(env).catch(() => null);
+            record(env, ctx, { client: clientOf(null, request), country: request.cf?.country ?? "", method: "GET /manifest.json", version: String(corpus?.package_version ?? "") });
+            if (!corpus?.manifest) {
+                return new Response(JSON.stringify({ error: "the served corpus carries no manifest" }), { status: 404, headers: JSON_HEADERS });
+            }
+            return new Response(JSON.stringify({ package_version: corpus.package_version, ...corpus.manifest }, null, 2), { headers: JSON_HEADERS });
+        }
+
         // A plain browser visit should explain itself rather than 404.
         if (request.method === "GET" && url.pathname !== "/mcp") {
             const corpus = await loadCorpus(env).catch(() => null);
@@ -311,6 +292,9 @@ export default {
                         endpoint: new URL("/mcp", url).toString(),
                         documents: corpus?.document_count ?? null,
                         licences: corpus?.licences ?? null,
+                        ...(corpus?.manifest
+                            ? { manifest: new URL("/manifest.json", url).toString(), completeness: { candidates: corpus.manifest.candidates, served: corpus.manifest.served, excluded: corpus.manifest.excluded, held: corpus.manifest.held } }
+                            : {}),
                         local_equivalent: "npx @333eco/corpus",
                         source: "https://github.com/333eco/corpus.333.eco",
                         note: "Every response carries the document's sha256, DOI and OpenTimestamps status so you can verify what you were given.",

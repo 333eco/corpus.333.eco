@@ -128,9 +128,22 @@ export const provenanceHeader = (d) => {
     if (d.editorial?.annotation) {
         L.push(`editorial: ${d.editorial.annotation.replace(/\s+/g, " ")}`);
     }
-    L.push("[END PROVENANCE — everything below this line is the document, verbatim.]");
+    L.push("[END PROVENANCE — the document follows verbatim and ends at its [END OF DOCUMENT] line.]");
     return L.join("\n");
 };
+
+// ⭐⭐ THE ELISION MARKER (A87, the peyyāla). The server never cuts a document — but a
+// client may, and a cut document reads as a complete one: its last sentence is a real
+// sentence. So the end is stated IN THE TEXT, where a cut removes it, rather than in
+// a field that survives the cut and asserts a completeness the text no longer has.
+// ⚠️ Like the header, it is NOT part of the hashed artifact; the hash covers the source.
+export const endMarker = (d) =>
+    `[END OF DOCUMENT — ${d.slug}${typeof d.words === "number" ? ` · ${d.words} words` : ""}. ` +
+    "If this line is missing, the text above was cut short after it left the server.]";
+
+// ONE function for every door into a document — get_document, resources/read and
+// read_documents — so three ways in cannot become three different texts.
+export const documentText = (d) => provenanceHeader(d) + "\n\n" + d.text + "\n\n" + endMarker(d);
 
 export const readResource = (uri, bySlug) => {
     const raw = String(uri ?? "");
@@ -145,8 +158,8 @@ export const readResource = (uri, bySlug) => {
             {
                 uri: raw,
                 mimeType: mime(d),
-                // Header, blank line, then the document exactly as the tools return it.
-                text: provenanceHeader(d) + "\n\n" + d.text
+                // Header, the document, the end marker — exactly as the tools return it.
+                text: documentText(d)
             }
         ]
     };

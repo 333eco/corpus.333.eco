@@ -5,8 +5,8 @@
 // closes over it) and those functions are genuinely different code. What must
 // never differ is what the two servers ADVERTISE — a client picks a tool by name
 // and schema, so a drifted definition is a client calling something that isn't
-// there. The envelope stays duplicated on purpose; that one is twenty lines and
-// diffable by eye.
+// there. ⚠️ The envelope was once duplicated on purpose, "diffable by eye"; it drifted
+// unseen, and now lives in envelope.mjs, imported by both.
 
 // ⭐⭐ EVERY TOOL HERE IS READ-ONLY, AND SAYING SO IS NOT DECORATION. A client that
 // knows a call cannot mutate anything can stop putting a confirmation dialog in
@@ -51,7 +51,11 @@ export const BASE_TOOLS = [
             type: "object",
             properties: { slug: { type: "string", description: "Document slug, as returned by search_corpus or list_documents." } },
             required: ["slug"]
-        }
+        },
+        // ⚠️ The largest document is ~140 KB — over the 25,000-token default at which
+        // Claude Code moves a tool result into a file. A document is the unit that
+        // verifies, so it is kept whole in the conversation.
+        _meta: { "anthropic/maxResultSizeChars": 250_000 }
     },
     {
         name: "list_documents",

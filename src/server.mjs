@@ -36,9 +36,11 @@ import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline";
 import { RESOURCE_TEMPLATES, listResources, readResource, completeArgument } from "./resources.mjs";
 import { structured, structuredWithText } from "./results.mjs";
-import { provenanceHeader } from "./resources.mjs";
+import { documentText } from "./resources.mjs";
+import { envelope } from "./envelope.mjs";
 import { PROMPTS, getPrompt } from "./prompts.mjs";
 import { BASE_TOOLS, withFacets } from "./base-tools.mjs";
+import { READ_TOOLS, READ_TOOL_NAMES, READ_INSTRUCTIONS, filterDocuments, readDocuments, completenessOf, manifestProblems } from "./read-tools.mjs";
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "./program-tools.mjs";
 import { match, rank, absentTerms } from "./search.mjs";
 
@@ -84,6 +86,15 @@ const bySlug = new Map(corpus.documents.map((d) => [d.slug, d]));
 // not advertised at all. ⭐ An unadvertised tool is better than a tool that
 // exists and always errors — a client can reason about the first.
 const program = corpus.program ?? null;
+// ⛔ A CORPUS THAT DOES NOT MATCH ITS OWN MANIFEST IS NOT SERVED. Every envelope would
+// still verify, which is exactly why a missing document could otherwise go unseen.
+{
+    const problems = manifestProblems(corpus);
+    if (problems.length) {
+        log("dist/corpus.json does not match its manifest — refusing to serve:\n  " + problems.join("\n  "));
+        process.exit(1);
+    }
+}
 log(`${corpus.document_count} documents loaded —`, JSON.stringify(corpus.licences));
 if (program) log(`research program: ${program.prediction_count} predictions, ${program.reconciliation.reconciles ? "register arithmetic reconciles" : "⚠️ REGISTER ARITHMETIC DOES NOT RECONCILE"}`);
 
@@ -98,68 +109,12 @@ const send = (msg) => process.stdout.write(JSON.stringify(msg) + "\n");
 const result = (id, value) => send({ jsonrpc: "2.0", id, result: value });
 const failure = (id, code, message) => send({ jsonrpc: "2.0", id, error: { code, message } });
 
-/* ------------------------------------------------------------- the envelope ---
-   Attached to every document a tool returns. `verify` is the instruction rather
-   than a promise: it tells the agent exactly what to run, so the claim is
-   checkable without trusting this sentence either. */
-
-const envelope = (d) => ({
-    slug: d.slug,
-    title: d.title,
-    licence: {
-        id: d.licence.id,
-        url: d.licence.url,
-        attribution_required: d.licence.attribution_required,
-        // Only present where it is actually owed, so an agent can act on the
-        // field's presence rather than parsing the licence id.
-        ...(d.licence.attribution_required && d.authors ? { attribute_to: d.authors } : {})
-    },
-    provenance: {
-        ...d.provenance,
-        // ⚠️ A LIVING DOCUMENT IS VERIFIED AND CITED WITH DIFFERENT DOIs, and
-        // saying only "cite accordingly" leaves the reader to guess which.
-        // The VERSION doi is the only one that can be true of the bytes here
-        // — it pins them — so it is what a hash check resolves against. The
-        // CONCEPT doi follows the document, so it is what a citation should
-        // name: a living register is revised on purpose, and a citation
-        // pinned to one revision goes stale by design rather than by accident.
-        ...(d.status === "living" && d.provenance.concept_doi
-            ? {
-                  citation: {
-                      cite: `https://doi.org/${d.provenance.concept_doi}`,
-                      verify_against: d.provenance.doi ? `https://doi.org/${d.provenance.doi}` : null,
-                      why: "This document is living — it is revised on purpose. Cite the concept DOI, which always resolves to the newest version; verify the text you were served against the version DOI and sha256 above, which pin these exact bytes."
-                  }
-              }
-            : {}),
-        verify: {
-            // Concrete, because an instruction that says "the source file"
-            // without saying which one is not an instruction. All three source
-            // repositories are public, so this is genuinely runnable.
-            sha256: d.provenance.source_url
-                ? `curl -sL ${d.provenance.source_url} | shasum -a 256   # compare to provenance.sha256`
-                : "shasum -a 256 <the source file>   # compare to provenance.sha256",
-            ...(d.provenance.doi ? { doi: `https://doi.org/${d.provenance.doi}` } : {}),
-            ...(d.provenance.opentimestamps
-                ? { opentimestamps: `ots verify ${d.path}.ots  # in the source repository; the proof is anchored in the Bitcoin blockchain` }
-                : {}),
-            ...(d.provenance.deposited_matches_current === false
-                ? {
-                      note:
-                          "This document has been REVISED since its Zenodo deposit, so provenance.sha256 " +
-                          "and provenance.deposited_sha256 differ legitimately. The DOI resolves to the " +
-                          "deposited version; the text served here is newer. Cite accordingly."
-                  }
-                : {})
-        }
-    }
-});
 
 /* -------------------------------------------------------------------- tools --- */
 
-const TOOLS = BASE_TOOLS;
+const TOOLS = [...BASE_TOOLS, ...READ_TOOLS];
 
-const KNOWN_TOOLS = new Set([...BASE_TOOLS, ...PROGRAM_TOOLS].map((t) => t.name));
+const KNOWN_TOOLS = new Set([...TOOLS, ...PROGRAM_TOOLS].map((t) => t.name));
 
 const text = (value) => ({ content: [{ type: "text", text: typeof value === "string" ? value : JSON.stringify(value, null, 2) }] });
 
@@ -204,9 +159,11 @@ const callTool = (name, args) => {
         // bytes resources/read returns, so the two doors into a document agree —
         // and the envelope goes to `structuredContent` WITHOUT the body. Split by
         // role; nothing is sent twice.
-        return structuredWithText(provenanceHeader(d) + "\n\n" + d.text, {
+        return structuredWithText(documentText(d), {
             ...envelope(d),
             genre: d.genre,
+            bytes: d.bytes,
+            words: d.words,
             // ⚠️ category and voice were in list_documents and NOT here, so a
             // caller who fetched ONE document could not see the facets it had
             // just filtered on — the discovery call and the read call disagreed
@@ -229,16 +186,18 @@ const callTool = (name, args) => {
             ...(d.segments ? { segments: d.segments } : {}),
             // ⚠️ Deliberately absent: the body is in `content`. Carrying it here
             // too is the duplication this shape exists to avoid.
-            text_in: "content[0].text, prefixed by the provenance header"
+            text_in: "content[0].text, prefixed by the provenance header and ending at its [END OF DOCUMENT] line"
         });
     }
 
+    if (name === "read_documents") {
+        return readDocuments({ documents: corpus.documents, bySlug, envelope, version: String(corpus.package_version ?? "") }, args);
+    }
+
     if (name === "list_documents") {
-        const list = corpus.documents
-            .filter((d) => (!args?.genre || d.genre === args.genre) &&
-                    (!args?.licence || d.licence.id === args.licence) &&
-                    (!args?.voice || d.voice === args.voice) &&
-                    (!args?.category || d.category === args.category))
+        // ⭐ The SAME filter read_documents applies (read-tools.mjs), so "read what I
+        // just listed" cannot return a different set.
+        const list = filterDocuments(corpus.documents, args)
             .map((d) => ({
                 slug: d.slug,
                 title: d.title,
@@ -255,10 +214,16 @@ const callTool = (name, args) => {
                 date: d.date,
                 licence: d.licence.id,
                 doi: d.provenance.doi,
-                opentimestamps: d.provenance.opentimestamps
+                opentimestamps: d.provenance.opentimestamps,
+                // A140: size before reading. Bytes and words, never tokens.
+                bytes: d.bytes,
+                words: d.words
             }));
         return structured({
             count: list.length,
+            // For THIS filtered set — what reading it with read_documents would cost.
+            total_bytes: list.reduce((n, d) => n + (d.bytes ?? 0), 0),
+            total_words: list.reduce((n, d) => n + (d.words ?? 0), 0),
             licences: corpus.licences,
             // The shelves, so a caller can narrow without guessing the vocabulary.
             categories: corpus.documents.reduce((a, d) => ((a[d.category ?? "uncategorised"] = (a[d.category ?? "uncategorised"] ?? 0) + 1), a), {}),
@@ -266,6 +231,8 @@ const callTool = (name, args) => {
             // documents means nothing without the honest denominator beside it,
             // the same reason list_predictions returns by_state unfiltered.
             ...(corpus.voices ? { voices: corpus.voices } : {}),
+            // A87: the manifest's counts and reasons beside the listing they account for.
+            ...(corpus.manifest ? { completeness: completenessOf(corpus) } : {}),
             documents: list
         });
     }
@@ -292,6 +259,7 @@ const handlers = {
             "carry a DOI and an OpenTimestamps proof anchored in Bitcoin, so you can check any passage you intend to " +
             "cite rather than trusting this server. Documents under CC-BY carry attribute_to in their licence block; " +
             "honour it. Text is returned verbatim and is never summarised, because a summary cannot be hash-verified." +
+            READ_INSTRUCTIONS +
             (program ? PROGRAM_INSTRUCTIONS : "")
     }),
     // ⭐ withFacets fills list_documents' facet enumerations FROM THE CORPUS.

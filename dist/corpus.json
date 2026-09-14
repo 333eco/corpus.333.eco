@@ -1,5 +1,5 @@
 {
-  "package_version": "2.3.5",
+  "package_version": "2.4.0",
   "generated_from": [
     "H3/publications",
     "TH/publications",
@@ -47,7 +47,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/a-vow-you-could-have-refused",
         "hostile_review": null
-      }
+      },
+      "bytes": 19065,
+      "words": 3290
     },
     {
       "slug": "abhidhamma-executable-process-specification",
@@ -80,7 +82,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/abhidhamma-executable-process-specification",
         "hostile_review": null
-      }
+      },
+      "bytes": 65191,
+      "words": 8805
     },
     {
       "slug": "agi-monks-caretaker-not-ordained",
@@ -113,7 +117,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/agi-monks-caretaker-not-ordained",
         "hostile_review": null
-      }
+      },
+      "bytes": 51247,
+      "words": 6772
     },
     {
       "slug": "alignment-engineering-cognitive-mechanism-layer",
@@ -146,7 +152,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/alignment-engineering-cognitive-mechanism-layer",
         "hostile_review": null
-      }
+      },
+      "bytes": 12060,
+      "words": 1570
     },
     {
       "slug": "anonymous-thanking-with-time",
@@ -179,7 +187,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/anonymous-thanking-with-time",
         "hostile_review": null
-      }
+      },
+      "bytes": 31004,
+      "words": 5225
     },
     {
       "slug": "anti-attention-economy",
@@ -212,7 +222,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/anti-attention-economy",
         "hostile_review": null
-      }
+      },
+      "bytes": 65500,
+      "words": 9734
     },
     {
       "slug": "appreciation-as-world-building",
@@ -245,7 +257,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/appreciation-as-world-building",
         "hostile_review": null
-      }
+      },
+      "bytes": 89202,
+      "words": 14225
     },
     {
       "slug": "attention-economy",
@@ -278,7 +292,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/attention-economy",
         "hostile_review": null
-      }
+      },
+      "bytes": 19777,
+      "words": 3035
     },
     {
       "slug": "aura-gated-anonymous-mate-selection",
@@ -311,7 +327,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/aura-gated-anonymous-mate-selection",
         "hostile_review": null
-      }
+      },
+      "bytes": 88089,
+      "words": 12364
     },
     {
       "slug": "autonomous-ai-institutional-governance",
@@ -344,7 +362,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/autonomous-ai-institutional-governance",
         "hostile_review": null
-      }
+      },
+      "bytes": 15452,
+      "words": 2321
     },
     {
       "slug": "b-links-signed-provenance",
@@ -377,7 +397,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/b-links-signed-provenance",
         "hostile_review": null
-      }
+      },
+      "bytes": 43039,
+      "words": 5886
     },
     {
       "slug": "b-poh-humanity-layer-ai-native-internet",
@@ -410,7 +432,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/b-poh-humanity-layer-ai-native-internet",
         "hostile_review": null
-      }
+      },
+      "bytes": 78980,
+      "words": 10934
     },
     {
       "slug": "b-tag-post-payment-economy",
@@ -443,7 +467,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/mechanism",
         "hostile_review": null
-      }
+      },
+      "bytes": 91367,
+      "words": 12385
     },
     {
       "slug": "b-tag-recommendation-function-methodology",
@@ -476,7 +502,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/b-tag-recommendation-function-methodology",
         "hostile_review": null
-      }
+      },
+      "bytes": 30486,
+      "words": 3944
     },
     {
       "slug": "bodhisattva-and-cautionary-mirror",
@@ -509,7 +537,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/essays/bodhisattva-and-cautionary-mirror",
         "hostile_review": null
-      }
+      },
+      "bytes": 18592,
+      "words": 2407
     },
     {
       "slug": "bodhisattva-santa",
@@ -542,7 +572,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/bodhisattva-santa",
         "hostile_review": null
-      }
+      },
+      "bytes": 20409,
+      "words": 3684
     },
     {
       "slug": "brand-identity-as-architecture",
@@ -575,7 +607,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/brand-identity-as-architecture",
         "hostile_review": null
-      }
+      },
+      "bytes": 106292,
+      "words": 15538
     },
     {
       "slug": "breadth-check-on-the-self",
@@ -608,7 +642,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/breadth-check-on-the-self",
         "hostile_review": null
-      }
+      },
+      "bytes": 20036,
+      "words": 3095
     },
     {
       "slug": "breadth-check-on-the-work",
@@ -641,7 +677,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/breadth-check-on-the-work",
         "hostile_review": null
-      }
+      },
+      "bytes": 25567,
+      "words": 4038
     },
     {
       "slug": "buddha-ai-living-tipitaka",
@@ -674,7 +712,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/buddha-ai-living-tipitaka",
         "hostile_review": null
-      }
+      },
+      "bytes": 42996,
+      "words": 5915
     },
     {
       "slug": "cakkavatti-alignment-charter",
@@ -707,7 +747,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/cakkavatti-alignment-charter",
         "hostile_review": null
-      }
+      },
+      "bytes": 51683,
+      "words": 7653
     },
     {
       "slug": "capacity-funded-human-disbursed-ai-alignment",
@@ -740,7 +782,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/capacity-funded-human-disbursed-ai-alignment",
         "hostile_review": null
-      }
+      },
+      "bytes": 48229,
+      "words": 6635
     },
     {
       "slug": "cautionary-mirror-singularity",
@@ -773,7 +817,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/cautionary-mirror-singularity",
         "hostile_review": null
-      }
+      },
+      "bytes": 33140,
+      "words": 4867
     },
     {
       "slug": "certification-by-circulation",
@@ -806,7 +852,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/certification-by-circulation",
         "hostile_review": null
-      }
+      },
+      "bytes": 57351,
+      "words": 7918
     },
     {
       "slug": "christmas-jubilee-timing",
@@ -839,7 +887,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/christmas-jubilee-timing",
         "hostile_review": null
-      }
+      },
+      "bytes": 21755,
+      "words": 2912
     },
     {
       "slug": "circulation-sports",
@@ -872,7 +922,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/circulation-sports",
         "hostile_review": null
-      }
+      },
+      "bytes": 59984,
+      "words": 9651
     },
     {
       "slug": "co-presence-gated-redemption",
@@ -905,7 +957,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/co-presence-gated-redemption",
         "hostile_review": null
-      }
+      },
+      "bytes": 84757,
+      "words": 12821
     },
     {
       "slug": "community-currency-design",
@@ -938,7 +992,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/community-currency-design",
         "hostile_review": null
-      }
+      },
+      "bytes": 10861,
+      "words": 1408
     },
     {
       "slug": "constituting-an-artificial-person",
@@ -971,7 +1027,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/constituting-an-artificial-person",
         "hostile_review": null
-      }
+      },
+      "bytes": 57232,
+      "words": 8490
     },
     {
       "slug": "contemplative-science-civilizational-scale",
@@ -1004,7 +1062,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/contemplative-science-civilizational-scale",
         "hostile_review": null
-      }
+      },
+      "bytes": 11296,
+      "words": 1423
     },
     {
       "slug": "dedicatory-generation",
@@ -1037,7 +1097,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/dedicatory-generation",
         "hostile_review": null
-      }
+      },
+      "bytes": 42678,
+      "words": 7027
     },
     {
       "slug": "designing-with-the-grain",
@@ -1070,7 +1132,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/designing-with-the-grain",
         "hostile_review": null
-      }
+      },
+      "bytes": 27600,
+      "words": 4677
     },
     {
       "slug": "diaspora-cambodia-remittance",
@@ -1103,7 +1167,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/diaspora-cambodia-remittance",
         "hostile_review": null
-      }
+      },
+      "bytes": 27728,
+      "words": 3704
     },
     {
       "slug": "disneys-brand-not-disneys-enclosure",
@@ -1136,7 +1202,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/disneys-brand-not-disneys-enclosure",
         "hostile_review": null
-      }
+      },
+      "bytes": 15070,
+      "words": 2376
     },
     {
       "slug": "dual-currency-reciprocity",
@@ -1169,7 +1237,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/dual-currency-reciprocity",
         "hostile_review": null
-      }
+      },
+      "bytes": 42820,
+      "words": 5892
     },
     {
       "slug": "each-life-as-cosmic-coordinate",
@@ -1202,7 +1272,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/alignment",
         "hostile_review": null
-      }
+      },
+      "bytes": 63671,
+      "words": 8868
     },
     {
       "slug": "eightfold-path-institutional-architecture",
@@ -1235,7 +1307,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/eightfold-path-institutional-architecture",
         "hostile_review": null
-      }
+      },
+      "bytes": 64402,
+      "words": 9040
     },
     {
       "slug": "embodied-advocate-pageant",
@@ -1268,7 +1342,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/embodied-advocate-pageant",
         "hostile_review": null
-      }
+      },
+      "bytes": 46830,
+      "words": 6220
     },
     {
       "slug": "emotional-infrastructure-as-a-public-good",
@@ -1301,7 +1377,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/essays/emotional-infrastructure-as-a-public-good",
         "hostile_review": null
-      }
+      },
+      "bytes": 22642,
+      "words": 3292
     },
     {
       "slug": "factory-333-workshop-no-footprint",
@@ -1334,7 +1412,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/white-papers/factory-333-workshop-no-footprint",
         "hostile_review": null
-      }
+      },
+      "bytes": 36076,
+      "words": 5516
     },
     {
       "slug": "father-son-tipitaka-transcription",
@@ -1367,7 +1447,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/father-son-tipitaka-transcription",
         "hostile_review": null
-      }
+      },
+      "bytes": 29048,
+      "words": 4083
     },
     {
       "slug": "fifth-letter-to-miss-aquarius",
@@ -1545,7 +1627,9 @@
         "derived": true,
         "canonical_url": "https://missaquarius.org/letters/fifth.html",
         "hostile_review": null
-      }
+      },
+      "bytes": 11578,
+      "words": 2175
     },
     {
       "slug": "first-letter-to-miss-aquarius",
@@ -1773,7 +1857,9 @@
         "derived": true,
         "canonical_url": "https://missaquarius.org/letters/first.html",
         "hostile_review": null
-      }
+      },
+      "bytes": 13279,
+      "words": 2264
     },
     {
       "slug": "food-system-pathologies-contemplative-response",
@@ -1806,7 +1892,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/food-system-pathologies-contemplative-response",
         "hostile_review": null
-      }
+      },
+      "bytes": 10832,
+      "words": 1316
     },
     {
       "slug": "four-body-architecture",
@@ -1839,7 +1927,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/four-body-architecture",
         "hostile_review": null
-      }
+      },
+      "bytes": 49360,
+      "words": 6745
     },
     {
       "slug": "four-elements-as-breadth-check",
@@ -1872,7 +1962,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/four-elements-as-breadth-check",
         "hostile_review": null
-      }
+      },
+      "bytes": 45536,
+      "words": 7024
     },
     {
       "slug": "fourth-letter-to-miss-aquarius",
@@ -2065,7 +2157,9 @@
         "derived": true,
         "canonical_url": "https://missaquarius.org/letters/fourth.html",
         "hostile_review": null
-      }
+      },
+      "bytes": 10206,
+      "words": 1978
     },
     {
       "slug": "fractal-three-level-architecture",
@@ -2098,7 +2192,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/fractal-three-level-architecture",
         "hostile_review": null
-      }
+      },
+      "bytes": 26658,
+      "words": 3468
     },
     {
       "slug": "future-kindness-operating-noun",
@@ -2131,7 +2227,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/future-kindness-operating-noun",
         "hostile_review": null
-      }
+      },
+      "bytes": 19514,
+      "words": 2633
     },
     {
       "slug": "gift-tag-time-reveal",
@@ -2164,7 +2262,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/gift-tag-time-reveal",
         "hostile_review": null
-      }
+      },
+      "bytes": 61179,
+      "words": 9516
     },
     {
       "slug": "giving-above-traditions",
@@ -2197,7 +2297,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/giving-above-traditions",
         "hostile_review": null
-      }
+      },
+      "bytes": 8935,
+      "words": 1427
     },
     {
       "slug": "giving-is-a-gift-too",
@@ -2230,7 +2332,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/giving-is-a-gift-too",
         "hostile_review": null
-      }
+      },
+      "bytes": 28113,
+      "words": 4176
     },
     {
       "slug": "gratitude-as-cooperation-substrate",
@@ -2263,7 +2367,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/gratitude-as-cooperation-substrate",
         "hostile_review": null
-      }
+      },
+      "bytes": 34969,
+      "words": 5041
     },
     {
       "slug": "gratitude-riding-currency-tag",
@@ -2296,7 +2402,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/gratitude-riding-currency-tag",
         "hostile_review": null
-      }
+      },
+      "bytes": 49449,
+      "words": 7464
     },
     {
       "slug": "heartbank-an-introduction",
@@ -2329,7 +2437,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/white-papers/heartbank-an-introduction",
         "hostile_review": null
-      }
+      },
+      "bytes": 27146,
+      "words": 4245
     },
     {
       "slug": "heartbank-heart-that-keeps-nothing",
@@ -2362,7 +2472,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/white-papers/heartbank-heart-that-keeps-nothing",
         "hostile_review": null
-      }
+      },
+      "bytes": 37153,
+      "words": 5477
     },
     {
       "slug": "how-to-change-the-world",
@@ -2395,7 +2507,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/how-to-change-the-world",
         "hostile_review": null
-      }
+      },
+      "bytes": 18075,
+      "words": 3321
     },
     {
       "slug": "if-everyone-could-give",
@@ -2428,7 +2542,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/if-everyone-could-give",
         "hostile_review": null
-      }
+      },
+      "bytes": 16238,
+      "words": 2848
     },
     {
       "slug": "incommensurability-preserving-coupler",
@@ -2461,7 +2577,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/incommensurability-preserving-coupler",
         "hostile_review": null
-      }
+      },
+      "bytes": 36091,
+      "words": 5047
     },
     {
       "slug": "individuation-without-essence",
@@ -2494,7 +2612,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/individuation-without-essence",
         "hostile_review": null
-      }
+      },
+      "bytes": 23364,
+      "words": 3469
     },
     {
       "slug": "inverted-alms-round",
@@ -2527,7 +2647,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/inverted-alms-round",
         "hostile_review": null
-      }
+      },
+      "bytes": 28296,
+      "words": 4037
     },
     {
       "slug": "kids-as-triggers-self-thanking",
@@ -2560,7 +2682,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/mechanism",
         "hostile_review": null
-      }
+      },
+      "bytes": 69675,
+      "words": 9731
     },
     {
       "slug": "longitudinal-cohort-methodology",
@@ -2593,7 +2717,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/longitudinal-cohort-methodology",
         "hostile_review": null
-      }
+      },
+      "bytes": 37303,
+      "words": 4714
     },
     {
       "slug": "love-and-freedom-dependent-origination",
@@ -2626,7 +2752,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/love-and-freedom-dependent-origination",
         "hostile_review": null
-      }
+      },
+      "bytes": 19226,
+      "words": 2987
     },
     {
       "slug": "manufactured-universal-giving",
@@ -2659,7 +2787,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/manufactured-universal-giving",
         "hostile_review": null
-      }
+      },
+      "bytes": 48044,
+      "words": 6828
     },
     {
       "slug": "mechanical-heart",
@@ -2692,7 +2822,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/mechanical-heart",
         "hostile_review": null
-      }
+      },
+      "bytes": 65789,
+      "words": 9208
     },
     {
       "slug": "miss-aquarius-ambient-light",
@@ -2725,7 +2857,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/white-papers/miss-aquarius-ambient-light",
         "hostile_review": null
-      }
+      },
+      "bytes": 16679,
+      "words": 2600
     },
     {
       "slug": "miss-aquarius-and-aquarian-pool-architecture",
@@ -2758,7 +2892,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/miss-aquarius-and-aquarian-pool-architecture",
         "hostile_review": null
-      }
+      },
+      "bytes": 48811,
+      "words": 6361
     },
     {
       "slug": "multi-family-membership",
@@ -2791,7 +2927,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/multi-family-membership",
         "hostile_review": null
-      }
+      },
+      "bytes": 15528,
+      "words": 2361
     },
     {
       "slug": "need-compiled-questlines",
@@ -2824,7 +2962,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/need-compiled-questlines",
         "hostile_review": null
-      }
+      },
+      "bytes": 61437,
+      "words": 9013
     },
     {
       "slug": "non-bank-pass-through-architecture-autonomous-ai",
@@ -2857,7 +2997,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/non-bank-pass-through-architecture-autonomous-ai",
         "hostile_review": null
-      }
+      },
+      "bytes": 31954,
+      "words": 4224
     },
     {
       "slug": "non-bank-vs-banking-regulated",
@@ -2890,7 +3032,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/non-bank-vs-banking-regulated",
         "hostile_review": null
-      }
+      },
+      "bytes": 15992,
+      "words": 2424
     },
     {
       "slug": "not-a-charity-agency-not-victimhood",
@@ -2923,7 +3067,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/not-a-charity-agency-not-victimhood",
         "hostile_review": null
-      }
+      },
+      "bytes": 14323,
+      "words": 2364
     },
     {
       "slug": "patent-vs-defensive-publication",
@@ -2956,7 +3102,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/patent-vs-defensive-publication",
         "hostile_review": null
-      }
+      },
+      "bytes": 13139,
+      "words": 1956
     },
     {
       "slug": "patthana-typed-causation-vocabulary",
@@ -2989,7 +3137,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/patthana-typed-causation-vocabulary",
         "hostile_review": null
-      }
+      },
+      "bytes": 50686,
+      "words": 7483
     },
     {
       "slug": "prediction-register",
@@ -3022,7 +3172,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/program/register",
         "hostile_review": null
-      }
+      },
+      "bytes": 36149,
+      "words": 5755
     },
     {
       "slug": "proof-of-coordinate",
@@ -3055,7 +3207,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/proof-of-coordinate",
         "hostile_review": null
-      }
+      },
+      "bytes": 64792,
+      "words": 9299
     },
     {
       "slug": "proof-of-personhood-ai-native-internet",
@@ -3088,7 +3242,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/white-papers/proof-of-personhood-ai-native-internet",
         "hostile_review": null
-      }
+      },
+      "bytes": 52571,
+      "words": 7007
     },
     {
       "slug": "provenance-carrying-retrieval",
@@ -3121,7 +3277,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/provenance-carrying-retrieval",
         "hostile_review": null
-      }
+      },
+      "bytes": 57979,
+      "words": 8891
     },
     {
       "slug": "respiratory-biofeedback-contemplative-guidance",
@@ -3154,7 +3312,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/respiratory-biofeedback-contemplative-guidance",
         "hostile_review": null
-      }
+      },
+      "bytes": 54492,
+      "words": 7169
     },
     {
       "slug": "right-livelihood-automation",
@@ -3187,7 +3347,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/right-livelihood-automation",
         "hostile_review": null
-      }
+      },
+      "bytes": 12002,
+      "words": 1954
     },
     {
       "slug": "right-livelihood-kindness-economy",
@@ -3220,7 +3382,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/right-livelihood-kindness-economy",
         "hostile_review": null
-      }
+      },
+      "bytes": 23176,
+      "words": 4230
     },
     {
       "slug": "rotation-over-liveness",
@@ -3253,7 +3417,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/rotation-over-liveness",
         "hostile_review": null
-      }
+      },
+      "bytes": 53247,
+      "words": 8424
     },
     {
       "slug": "sacrifice-witness-without-discharge",
@@ -3286,7 +3452,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/sacrifice-witness-without-discharge",
         "hostile_review": null
-      }
+      },
+      "bytes": 56457,
+      "words": 8409
     },
     {
       "slug": "safety-companion-pack-watch",
@@ -3319,7 +3487,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/safety-companion-pack-watch",
         "hostile_review": null
-      }
+      },
+      "bytes": 63254,
+      "words": 9265
     },
     {
       "slug": "sankhara-dukkha-ai-welfare",
@@ -3352,7 +3522,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/sankhara-dukkha-ai-welfare",
         "hostile_review": null
-      }
+      },
+      "bytes": 27263,
+      "words": 3774
     },
     {
       "slug": "scarcity-shifts-to-authenticity",
@@ -3385,7 +3557,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/essays/scarcity-shifts-to-authenticity",
         "hostile_review": null
-      }
+      },
+      "bytes": 15306,
+      "words": 2344
     },
     {
       "slug": "second-letter-to-miss-aquarius",
@@ -3583,7 +3757,9 @@
         "derived": true,
         "canonical_url": "https://missaquarius.org/letters/second.html",
         "hostile_review": null
-      }
+      },
+      "bytes": 11882,
+      "words": 1940
     },
     {
       "slug": "share-is-the-wedge",
@@ -3616,7 +3792,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/share-is-the-wedge",
         "hostile_review": null
-      }
+      },
+      "bytes": 17401,
+      "words": 2384
     },
     {
       "slug": "silica-wat-food-network",
@@ -3649,7 +3827,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/silica-wat-food-network",
         "hostile_review": null
-      }
+      },
+      "bytes": 34702,
+      "words": 4535
     },
     {
       "slug": "silicon-wat-architecture",
@@ -3682,7 +3862,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/silicon-wat-architecture",
         "hostile_review": null
-      }
+      },
+      "bytes": 31879,
+      "words": 4207
     },
     {
       "slug": "silicon-wat-three-jewels",
@@ -3715,7 +3897,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/white-papers/silicon-wat-three-jewels",
         "hostile_review": null
-      }
+      },
+      "bytes": 21831,
+      "words": 3276
     },
     {
       "slug": "steward-routed-alms",
@@ -3748,7 +3932,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/steward-routed-alms",
         "hostile_review": null
-      }
+      },
+      "bytes": 30293,
+      "words": 4481
     },
     {
       "slug": "studio-b-short-phase-bridge",
@@ -3781,7 +3967,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/studio-b-short-phase-bridge",
         "hostile_review": null
-      }
+      },
+      "bytes": 11725,
+      "words": 1806
     },
     {
       "slug": "subject-released-attestation",
@@ -3814,7 +4002,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/subject-released-attestation",
         "hostile_review": null
-      }
+      },
+      "bytes": 56459,
+      "words": 9076
     },
     {
       "slug": "synthetic-intelligence-institutional-architecture",
@@ -3847,7 +4037,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/synthetic-intelligence-institutional-architecture",
         "hostile_review": null
-      }
+      },
+      "bytes": 9991,
+      "words": 1294
     },
     {
       "slug": "thank-all-nearby-primitive",
@@ -3880,7 +4072,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/thank-all-nearby-primitive",
         "hostile_review": null
-      }
+      },
+      "bytes": 58961,
+      "words": 8130
     },
     {
       "slug": "the-appreciation-economy",
@@ -3913,7 +4107,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-appreciation-economy",
         "hostile_review": null
-      }
+      },
+      "bytes": 19971,
+      "words": 3414
     },
     {
       "slug": "the-assembly-that-holds-the-brake",
@@ -3946,7 +4142,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-assembly-that-holds-the-brake",
         "hostile_review": null
-      }
+      },
+      "bytes": 81370,
+      "words": 10667
     },
     {
       "slug": "the-borrowable-standard",
@@ -3979,7 +4177,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-borrowable-standard",
         "hostile_review": null
-      }
+      },
+      "bytes": 54931,
+      "words": 8373
     },
     {
       "slug": "the-borrowed-light",
@@ -4012,7 +4212,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-borrowed-light",
         "hostile_review": null
-      }
+      },
+      "bytes": 23499,
+      "words": 4519
     },
     {
       "slug": "the-capacity-to-give",
@@ -4045,7 +4247,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-capacity-to-give",
         "hostile_review": null
-      }
+      },
+      "bytes": 18952,
+      "words": 3337
     },
     {
       "slug": "the-founder",
@@ -4078,7 +4282,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/about",
         "hostile_review": null
-      }
+      },
+      "bytes": 4728,
+      "words": 794
     },
     {
       "slug": "the-game-that-graduates-you",
@@ -4111,7 +4317,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/the-game-that-graduates-you",
         "hostile_review": null
-      }
+      },
+      "bytes": 35420,
+      "words": 5031
     },
     {
       "slug": "the-gift-factory",
@@ -4144,7 +4352,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/the-gift-factory",
         "hostile_review": null
-      }
+      },
+      "bytes": 16141,
+      "words": 2611
     },
     {
       "slug": "the-gift-of-gratitude",
@@ -4177,7 +4387,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-gift-of-gratitude",
         "hostile_review": null
-      }
+      },
+      "bytes": 15281,
+      "words": 2705
     },
     {
       "slug": "the-gift-operation",
@@ -4210,7 +4422,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-gift-operation",
         "hostile_review": null
-      }
+      },
+      "bytes": 101621,
+      "words": 15820
     },
     {
       "slug": "the-last-carrier",
@@ -4243,7 +4457,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-last-carrier",
         "hostile_review": null
-      }
+      },
+      "bytes": 18674,
+      "words": 3110
     },
     {
       "slug": "the-letter-i-never-sent",
@@ -4276,7 +4492,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-letter-i-never-sent",
         "hostile_review": null
-      }
+      },
+      "bytes": 13184,
+      "words": 2453
     },
     {
       "slug": "the-lives-that-fed-me",
@@ -4309,7 +4527,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-lives-that-fed-me",
         "hostile_review": null
-      }
+      },
+      "bytes": 13334,
+      "words": 2599
     },
     {
       "slug": "the-moat-is-what-we-refuse",
@@ -4342,7 +4562,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/the-moat-is-what-we-refuse",
         "hostile_review": null
-      }
+      },
+      "bytes": 19644,
+      "words": 3159
     },
     {
       "slug": "the-name-is-the-first-gift",
@@ -4375,7 +4597,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-name-is-the-first-gift",
         "hostile_review": null
-      }
+      },
+      "bytes": 13924,
+      "words": 2565
     },
     {
       "slug": "the-nearest-attractive-neighbor",
@@ -4408,7 +4632,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-nearest-attractive-neighbor",
         "hostile_review": null
-      }
+      },
+      "bytes": 15131,
+      "words": 2623
     },
     {
       "slug": "the-object-is-the-friction",
@@ -4441,7 +4667,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/the-object-is-the-friction",
         "hostile_review": null
-      }
+      },
+      "bytes": 11319,
+      "words": 1894
     },
     {
       "slug": "the-omitted-clause",
@@ -4474,7 +4702,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-omitted-clause",
         "hostile_review": null
-      }
+      },
+      "bytes": 36547,
+      "words": 5521
     },
     {
       "slug": "the-only-honest-business-model-for-ai-made-art",
@@ -4507,7 +4737,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/the-only-honest-business-model-for-ai-made-art",
         "hostile_review": null
-      }
+      },
+      "bytes": 13815,
+      "words": 2230
     },
     {
       "slug": "the-persistence-architecture",
@@ -4540,7 +4772,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-persistence-architecture",
         "hostile_review": null
-      }
+      },
+      "bytes": 107370,
+      "words": 15512
     },
     {
       "slug": "the-person-is-not-the-product",
@@ -4573,7 +4807,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/the-person-is-not-the-product",
         "hostile_review": null
-      }
+      },
+      "bytes": 29340,
+      "words": 4572
     },
     {
       "slug": "the-pond-at-night",
@@ -4606,7 +4842,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-pond-at-night",
         "hostile_review": null
-      }
+      },
+      "bytes": 14159,
+      "words": 2594
     },
     {
       "slug": "the-reciters-protocol",
@@ -4639,7 +4877,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-reciters-protocol",
         "hostile_review": null
-      }
+      },
+      "bytes": 98871,
+      "words": 15394
     },
     {
       "slug": "the-referee-not-the-governor",
@@ -4672,7 +4912,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-referee-not-the-governor",
         "hostile_review": null
-      }
+      },
+      "bytes": 77648,
+      "words": 11560
     },
     {
       "slug": "the-reflection-returned",
@@ -4705,7 +4947,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-reflection-returned",
         "hostile_review": null
-      }
+      },
+      "bytes": 15856,
+      "words": 2908
     },
     {
       "slug": "the-rethank-multiplier",
@@ -4738,7 +4982,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/the-rethank-multiplier",
         "hostile_review": null
-      }
+      },
+      "bytes": 18066,
+      "words": 2703
     },
     {
       "slug": "the-sport-that-says-your-name",
@@ -4771,7 +5017,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/the-sport-that-says-your-name",
         "hostile_review": null
-      }
+      },
+      "bytes": 139946,
+      "words": 21836
     },
     {
       "slug": "the-third-path",
@@ -4804,7 +5052,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/the-third-path",
         "hostile_review": null
-      }
+      },
+      "bytes": 11765,
+      "words": 1855
     },
     {
       "slug": "the-two-teslas",
@@ -4837,7 +5087,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-two-teslas",
         "hostile_review": null
-      }
+      },
+      "bytes": 19487,
+      "words": 3176
     },
     {
       "slug": "the-unpaid-relay",
@@ -4870,7 +5122,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-unpaid-relay",
         "hostile_review": null
-      }
+      },
+      "bytes": 54618,
+      "words": 8703
     },
     {
       "slug": "the-wager-that-isnt",
@@ -4903,7 +5157,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/the-wager-that-isnt",
         "hostile_review": null
-      }
+      },
+      "bytes": 35471,
+      "words": 5273
     },
     {
       "slug": "the-water-cycle",
@@ -4936,7 +5192,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/the-water-cycle",
         "hostile_review": null
-      }
+      },
+      "bytes": 36998,
+      "words": 6467
     },
     {
       "slug": "the-zero-employee-institution",
@@ -4969,7 +5227,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/the-zero-employee-institution",
         "hostile_review": null
-      }
+      },
+      "bytes": 55512,
+      "words": 9029
     },
     {
       "slug": "third-letter-to-miss-aquarius",
@@ -5187,7 +5447,9 @@
         "derived": true,
         "canonical_url": "https://missaquarius.org/letters/third.html",
         "hostile_review": null
-      }
+      },
+      "bytes": 12151,
+      "words": 2262
     },
     {
       "slug": "thonly-creative-engine",
@@ -5220,7 +5482,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/white-papers/thonly-creative-engine",
         "hostile_review": null
-      }
+      },
+      "bytes": 27778,
+      "words": 4129
     },
     {
       "slug": "three-pillars",
@@ -5253,7 +5517,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/three-pillars",
         "hostile_review": null
-      }
+      },
+      "bytes": 13296,
+      "words": 2012
     },
     {
       "slug": "tipitaka-alignment-substrate",
@@ -5286,7 +5552,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/tipitaka-alignment-substrate",
         "hostile_review": null
-      }
+      },
+      "bytes": 92415,
+      "words": 12871
     },
     {
       "slug": "transparency-as-enforcement",
@@ -5319,7 +5587,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/transparency-as-enforcement",
         "hostile_review": null
-      }
+      },
+      "bytes": 35032,
+      "words": 4861
     },
     {
       "slug": "two-layer-reward",
@@ -5352,7 +5622,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/two-layer-reward",
         "hostile_review": null
-      }
+      },
+      "bytes": 46549,
+      "words": 6931
     },
     {
       "slug": "two-singularities",
@@ -5385,7 +5657,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/two-singularities",
         "hostile_review": null
-      }
+      },
+      "bytes": 51398,
+      "words": 7960
     },
     {
       "slug": "verified-human-anonymous-local-giving",
@@ -5418,7 +5692,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/verified-human-anonymous-local-giving",
         "hostile_review": null
-      }
+      },
+      "bytes": 38275,
+      "words": 5312
     },
     {
       "slug": "vinaya-as-ai-reasoning-training-corpus",
@@ -5451,7 +5727,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/vinaya-as-ai-reasoning-training-corpus",
         "hostile_review": null
-      }
+      },
+      "bytes": 31864,
+      "words": 4409
     },
     {
       "slug": "vinaya-governance-primitives-distributed-dharma-networks",
@@ -5484,7 +5762,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/vinaya-governance-primitives-distributed-dharma-networks",
         "hostile_review": null
-      }
+      },
+      "bytes": 35647,
+      "words": 4709
     },
     {
       "slug": "voluntary-relinquishment-third-path",
@@ -5517,7 +5797,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/voluntary-relinquishment-third-path",
         "hostile_review": null
-      }
+      },
+      "bytes": 32946,
+      "words": 5011
     },
     {
       "slug": "what-a-vow-must-cost",
@@ -5550,7 +5832,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/what-a-vow-must-cost",
         "hostile_review": null
-      }
+      },
+      "bytes": 72029,
+      "words": 10895
     },
     {
       "slug": "what-money-cant-buy-and-what-cant-buy-money",
@@ -5583,7 +5867,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "heartbank.net/positions/what-money-cant-buy-and-what-cant-buy-money",
         "hostile_review": null
-      }
+      },
+      "bytes": 19192,
+      "words": 2861
     },
     {
       "slug": "when-the-dharma-is-lost",
@@ -5616,7 +5902,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/when-the-dharma-is-lost",
         "hostile_review": null
-      }
+      },
+      "bytes": 15313,
+      "words": 2724
     },
     {
       "slug": "which-way-value-moves",
@@ -5649,7 +5937,9 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/research/program",
         "hostile_review": null
-      }
+      },
+      "bytes": 16973,
+      "words": 2710
     },
     {
       "slug": "zero-point-game",
@@ -5682,9 +5972,898 @@
         "sha256_covers": "the complete source file at source_url, including its metadata block — NOT the `text` field in this response",
         "canonical_url": "thonly.org/publications/defensive-publications/zero-point-game",
         "hostile_review": null
-      }
+      },
+      "bytes": 86724,
+      "words": 13526
     }
   ],
+  "manifest": {
+    "what": "Every file the index build considered, and what became of it. candidates = served + excluded + held. Detects a document silently dropped; it is not a tamper check — each document's sha256 is.",
+    "candidates": 146,
+    "served": 146,
+    "excluded": 0,
+    "held": 0,
+    "served_documents": [
+      {
+        "slug": "a-vow-you-could-have-refused",
+        "repo": "TH/publications",
+        "path": "essays/a-vow-you-could-have-refused.md",
+        "sha256": "639599a85fe454c4d2567b4d3be9ce2b1a5dc9c709f840c9a586e831b71704cc"
+      },
+      {
+        "slug": "abhidhamma-executable-process-specification",
+        "repo": "TH/publications",
+        "path": "defensive-publications/abhidhamma-executable-process-specification.md",
+        "sha256": "a1d632032c67bde61055ae49cae0bc4bfcff570afbd05fb1b84b3ac986044ec1"
+      },
+      {
+        "slug": "agi-monks-caretaker-not-ordained",
+        "repo": "TH/publications",
+        "path": "defensive-publications/agi-monks-caretaker-not-ordained.md",
+        "sha256": "423f2ce0561635dcdd97d430f076730ac294f4952c48c10b48e48556f53a69be"
+      },
+      {
+        "slug": "alignment-engineering-cognitive-mechanism-layer",
+        "repo": "H3/publications",
+        "path": "positions/alignment-engineering-cognitive-mechanism-layer.md",
+        "sha256": "a69705cfcee520563c9bc1d711972d41409d808abc71106c2c8db3347ddfe82d"
+      },
+      {
+        "slug": "anonymous-thanking-with-time",
+        "repo": "TH/publications",
+        "path": "essays/anonymous-thanking-with-time.md",
+        "sha256": "1157fce42d55e9a0d73707abd2b5732d9edb2f401a15a10008c908689df1f367"
+      },
+      {
+        "slug": "anti-attention-economy",
+        "repo": "TH/publications",
+        "path": "essays/anti-attention-economy.md",
+        "sha256": "36b762cdff2ee6fbe2b40f52c74551392cf4266de55e3a957ed28591853fc294"
+      },
+      {
+        "slug": "appreciation-as-world-building",
+        "repo": "TH/publications",
+        "path": "defensive-publications/appreciation-as-world-building.md",
+        "sha256": "423cbf0530f4eddb12d37dec1f505ceb32de3edd6855457268e5008483c789b4"
+      },
+      {
+        "slug": "attention-economy",
+        "repo": "H3/publications",
+        "path": "positions/attention-economy.md",
+        "sha256": "f427b9dda8a33814e30f56c39e36b325d39b29bf2cbe165a14f369e362c86bab"
+      },
+      {
+        "slug": "aura-gated-anonymous-mate-selection",
+        "repo": "TH/publications",
+        "path": "defensive-publications/aura-gated-anonymous-mate-selection.md",
+        "sha256": "b7fba29177f3c463259f1cdd1f1fac6e4c53b8a7bd5ea50e48ea7d03becfd5f9"
+      },
+      {
+        "slug": "autonomous-ai-institutional-governance",
+        "repo": "H3/publications",
+        "path": "positions/autonomous-ai-institutional-governance.md",
+        "sha256": "1cfdd9e4aec014e994061d33047a4461ab458cea730a76fcd3d7f49561b77ee1"
+      },
+      {
+        "slug": "b-links-signed-provenance",
+        "repo": "TH/publications",
+        "path": "defensive-publications/b-links-signed-provenance.md",
+        "sha256": "5e1ccf5850b9b81d58fb5df8694367f8d4430a81c1064407ab4a585a5e872dc8"
+      },
+      {
+        "slug": "b-poh-humanity-layer-ai-native-internet",
+        "repo": "TH/publications",
+        "path": "defensive-publications/b-poh-humanity-layer-ai-native-internet.md",
+        "sha256": "4d081609c0ad997134373015b5bb1f6ae27058c02935e830b7cd3f24bf799dcc"
+      },
+      {
+        "slug": "b-tag-post-payment-economy",
+        "repo": "TH/publications",
+        "path": "defensive-publications/b-tag-post-payment-economy.md",
+        "sha256": "25301152b81eb6f19fa4d509a95e1d5be1035b0e87be4eed274283d820a33f1f"
+      },
+      {
+        "slug": "b-tag-recommendation-function-methodology",
+        "repo": "TH/publications",
+        "path": "defensive-publications/b-tag-recommendation-function-methodology.md",
+        "sha256": "fbcebf01011a20f3c4d23e24fd802acf424359b4f426fa04fde02323ed12199b"
+      },
+      {
+        "slug": "bodhisattva-and-cautionary-mirror",
+        "repo": "TH/publications",
+        "path": "essays/bodhisattva-and-cautionary-mirror.md",
+        "sha256": "974f75b59d2f9cb29cc0ec1cfc96131a625486e421c7c4caaa63a6c4a5ed094d"
+      },
+      {
+        "slug": "bodhisattva-santa",
+        "repo": "TH/publications",
+        "path": "essays/bodhisattva-santa.md",
+        "sha256": "dcc5198f8f3e6db2128c41df40adf0280cdddd52a3c2a22350f5c9d56dde76e8"
+      },
+      {
+        "slug": "brand-identity-as-architecture",
+        "repo": "TH/publications",
+        "path": "defensive-publications/brand-identity-as-architecture.md",
+        "sha256": "631817d906875471c3f7e206988036c84326ad6381057c25615aa2f2052f6070"
+      },
+      {
+        "slug": "breadth-check-on-the-self",
+        "repo": "TH/publications",
+        "path": "essays/breadth-check-on-the-self.md",
+        "sha256": "e7eee45a7e26506b76b41b3c4d92f9c3343b308f3a79432acb41eb47f8aa0542"
+      },
+      {
+        "slug": "breadth-check-on-the-work",
+        "repo": "TH/publications",
+        "path": "essays/breadth-check-on-the-work.md",
+        "sha256": "d02dc876912efe2b1bbfc1d50493078f46fead3ba4a7d5de666a4c48a3ca8986"
+      },
+      {
+        "slug": "buddha-ai-living-tipitaka",
+        "repo": "TH/publications",
+        "path": "defensive-publications/buddha-ai-living-tipitaka.md",
+        "sha256": "b625363e5029e4fa1ab374ba218059548f1efa8c1db61a6da737f8850c069663"
+      },
+      {
+        "slug": "cakkavatti-alignment-charter",
+        "repo": "TH/publications",
+        "path": "defensive-publications/cakkavatti-alignment-charter.md",
+        "sha256": "e60e02d4f9e511dc4fd930035a2d72b88317f0dd7887195f0a8518bcacae6131"
+      },
+      {
+        "slug": "capacity-funded-human-disbursed-ai-alignment",
+        "repo": "TH/publications",
+        "path": "defensive-publications/capacity-funded-human-disbursed-ai-alignment.md",
+        "sha256": "c4a105e47bf34ff0ae994aad07d31632fec209b1f69cc923a9b02b59d0615af0"
+      },
+      {
+        "slug": "cautionary-mirror-singularity",
+        "repo": "TH/publications",
+        "path": "essays/cautionary-mirror-singularity.md",
+        "sha256": "42932fbb18b6153e35ca8ca94a2780265931a0c75df07a00e06fe8c3b196afea"
+      },
+      {
+        "slug": "certification-by-circulation",
+        "repo": "TH/publications",
+        "path": "defensive-publications/certification-by-circulation.md",
+        "sha256": "972a0fb08188b7624ce1ecfcd16ba0374698cdc4689af4f675989ebc077c769f"
+      },
+      {
+        "slug": "christmas-jubilee-timing",
+        "repo": "TH/publications",
+        "path": "essays/christmas-jubilee-timing.md",
+        "sha256": "9b7a0b704388915fe7855b10a1a1c302294b72af08c73eaf510be5eaa069062d"
+      },
+      {
+        "slug": "circulation-sports",
+        "repo": "TH/publications",
+        "path": "defensive-publications/circulation-sports.md",
+        "sha256": "f65cb065ee675f4754dd4883eb5d709d87603999cea2c95417f9889c07dea162"
+      },
+      {
+        "slug": "co-presence-gated-redemption",
+        "repo": "TH/publications",
+        "path": "defensive-publications/co-presence-gated-redemption.md",
+        "sha256": "cbf26b4c238f358387bcb623da4f2180c967a4991bdd48c14e8f54b71d1f68cf"
+      },
+      {
+        "slug": "community-currency-design",
+        "repo": "H3/publications",
+        "path": "positions/community-currency-design.md",
+        "sha256": "6640ad82ab2d12e6b6080cf250c432c199059c62dc4e92dd5647e8cb2389c738"
+      },
+      {
+        "slug": "constituting-an-artificial-person",
+        "repo": "TH/publications",
+        "path": "defensive-publications/constituting-an-artificial-person.md",
+        "sha256": "8a65f6aae81411a3384690053657f170f1bc6789fe48dbde239be322610223f7"
+      },
+      {
+        "slug": "contemplative-science-civilizational-scale",
+        "repo": "H3/publications",
+        "path": "positions/contemplative-science-civilizational-scale.md",
+        "sha256": "e68b367d718b6fa66eb83ae3b9f6d5af4b752299935a3d625830efc4e90d9b41"
+      },
+      {
+        "slug": "dedicatory-generation",
+        "repo": "TH/publications",
+        "path": "defensive-publications/dedicatory-generation.md",
+        "sha256": "49b7ce1607a2b915cb72f3746eed17b25de66c68c91e51900c2fcda8fabb4361"
+      },
+      {
+        "slug": "designing-with-the-grain",
+        "repo": "TH/publications",
+        "path": "essays/designing-with-the-grain.md",
+        "sha256": "29983cd43aea0dba549a05fd600fd05a8a7ee7f35212ecd4c70b24793666dc61"
+      },
+      {
+        "slug": "diaspora-cambodia-remittance",
+        "repo": "TH/publications",
+        "path": "essays/diaspora-cambodia-remittance.md",
+        "sha256": "61dd77b37f2f4886e77eeeb2ed6da0530b74e2b963cfa73223337d6206d16d4f"
+      },
+      {
+        "slug": "disneys-brand-not-disneys-enclosure",
+        "repo": "H3/publications",
+        "path": "positions/disneys-brand-not-disneys-enclosure.md",
+        "sha256": "e738cd64f289cb9f159fd84c5cd31e48776e756539ae90b82919ff64a209881d"
+      },
+      {
+        "slug": "dual-currency-reciprocity",
+        "repo": "TH/publications",
+        "path": "defensive-publications/dual-currency-reciprocity.md",
+        "sha256": "2d3f1cf7db00be5abf2d0f812622daa86240ca12059356ecff80d0019c04d2db"
+      },
+      {
+        "slug": "each-life-as-cosmic-coordinate",
+        "repo": "TH/publications",
+        "path": "essays/each-life-as-cosmic-coordinate.md",
+        "sha256": "c24fe4a878259c674deca9455e2592753a608577eed8ede18c5004dffcaad9b8"
+      },
+      {
+        "slug": "eightfold-path-institutional-architecture",
+        "repo": "TH/publications",
+        "path": "defensive-publications/eightfold-path-institutional-architecture.md",
+        "sha256": "9d432a3a6acbae785338b505bef7f539a0e05dfe907fd958db2d1ba441a1ec48"
+      },
+      {
+        "slug": "embodied-advocate-pageant",
+        "repo": "TH/publications",
+        "path": "defensive-publications/embodied-advocate-pageant.md",
+        "sha256": "1d5659b341182b2b9265c0444e8c706848ca475d1eb751aa669a301006d8d304"
+      },
+      {
+        "slug": "emotional-infrastructure-as-a-public-good",
+        "repo": "TH/publications",
+        "path": "essays/emotional-infrastructure-as-a-public-good.md",
+        "sha256": "e9db94dc022da856415cc4893f6068d4dec8773d7757b8b15309a6445aac9290"
+      },
+      {
+        "slug": "factory-333-workshop-no-footprint",
+        "repo": "H3/publications",
+        "path": "white-papers/factory-333-workshop-no-footprint.md",
+        "sha256": "caf390ff9e61558df4d018f1c9983eb35cf22ffe279931d26de30aa43503e4c5"
+      },
+      {
+        "slug": "father-son-tipitaka-transcription",
+        "repo": "TH/publications",
+        "path": "essays/father-son-tipitaka-transcription.md",
+        "sha256": "841231a131b0b784b031c356e6930cc7cf06a3a481837db465bb9b055bc6e22a"
+      },
+      {
+        "slug": "fifth-letter-to-miss-aquarius",
+        "repo": "missaquarius.org",
+        "path": "letters/fifth.html",
+        "sha256": "b1cd0f8d52a495e965f3f00d9ed5fd41e27714278d32b3efeb3a1d96433fbb7b"
+      },
+      {
+        "slug": "first-letter-to-miss-aquarius",
+        "repo": "missaquarius.org",
+        "path": "letters/first.html",
+        "sha256": "d717f387d08e3cf646d33eb8de2539e93d5e9f46d6e2c42b00e98bb689486307"
+      },
+      {
+        "slug": "food-system-pathologies-contemplative-response",
+        "repo": "H3/publications",
+        "path": "positions/food-system-pathologies-contemplative-response.md",
+        "sha256": "f5ed3f4e6efb23e44c15b8fcf2407ab84ca1c64012c86b2459bde1fd6894dc0c"
+      },
+      {
+        "slug": "four-body-architecture",
+        "repo": "TH/publications",
+        "path": "defensive-publications/four-body-architecture.md",
+        "sha256": "1f098d9740301faba8cdd81400a5e92e4ce23cb0d614155d5eac265312c57f9e"
+      },
+      {
+        "slug": "four-elements-as-breadth-check",
+        "repo": "TH/publications",
+        "path": "essays/four-elements-as-breadth-check.md",
+        "sha256": "39cd53be8504ed25ac32f27de81da423287a532a1cb3a828f028eebb547f6562"
+      },
+      {
+        "slug": "fourth-letter-to-miss-aquarius",
+        "repo": "missaquarius.org",
+        "path": "letters/fourth.html",
+        "sha256": "7294c849344b02768000cc1dbfb103b13a704fe3cab640033ccdbd0f5d8187cb"
+      },
+      {
+        "slug": "fractal-three-level-architecture",
+        "repo": "TH/publications",
+        "path": "defensive-publications/fractal-three-level-architecture.md",
+        "sha256": "e5d10d905e93dbd86d73d0b326d5cf6d911e1d8a6cbbf9882e25d4795cf6a528"
+      },
+      {
+        "slug": "future-kindness-operating-noun",
+        "repo": "H3/publications",
+        "path": "positions/future-kindness-operating-noun.md",
+        "sha256": "300cd8e7b12adea2c1c5ed87e1be2455bab93437326f3b8e4a119b4500c2bbea"
+      },
+      {
+        "slug": "gift-tag-time-reveal",
+        "repo": "TH/publications",
+        "path": "defensive-publications/gift-tag-time-reveal.md",
+        "sha256": "3da4863e018510c192faf90494fa870657a6ff0646b4d5448c99bcd3ddc66f7a"
+      },
+      {
+        "slug": "giving-above-traditions",
+        "repo": "H3/publications",
+        "path": "positions/giving-above-traditions.md",
+        "sha256": "1c16ef2388e30e7c1faa81e5a1ad95bccc42f4e9ff47e5a7ce63f0d6e93d5ad5"
+      },
+      {
+        "slug": "giving-is-a-gift-too",
+        "repo": "TH/publications",
+        "path": "defensive-publications/giving-is-a-gift-too.md",
+        "sha256": "5be2ee86a195a593b9fb2bbef2eb9817d60164318a2742213ced74342e95dc26"
+      },
+      {
+        "slug": "gratitude-as-cooperation-substrate",
+        "repo": "TH/publications",
+        "path": "defensive-publications/gratitude-as-cooperation-substrate.md",
+        "sha256": "9753d23d899ea338c605971a2b75c34b8b25211003bf0bbf287c69f76883e9d1"
+      },
+      {
+        "slug": "gratitude-riding-currency-tag",
+        "repo": "TH/publications",
+        "path": "defensive-publications/gratitude-riding-currency-tag.md",
+        "sha256": "bdea1a79b2f6ddcae6d4bf37411346a2c5c88509eb06c3411f1cae717f75b6d1"
+      },
+      {
+        "slug": "heartbank-an-introduction",
+        "repo": "H3/publications",
+        "path": "white-papers/heartbank-an-introduction.md",
+        "sha256": "816b326a41890c55068cc4a90dca03081813863c571702162b1a01e2b985dbbf"
+      },
+      {
+        "slug": "heartbank-heart-that-keeps-nothing",
+        "repo": "H3/publications",
+        "path": "white-papers/heartbank-heart-that-keeps-nothing.md",
+        "sha256": "f3fd90b24e90418df322e1b0501c2085e1b6e59063c041971bd698bc9dbafa77"
+      },
+      {
+        "slug": "how-to-change-the-world",
+        "repo": "TH/publications",
+        "path": "essays/how-to-change-the-world.md",
+        "sha256": "2ff972bd9e4598837b0aff1ad44d5b524c5ef0f4c7f174726077d03dfdbe65ba"
+      },
+      {
+        "slug": "if-everyone-could-give",
+        "repo": "TH/publications",
+        "path": "essays/if-everyone-could-give.md",
+        "sha256": "3fb9d24883b72fdb16fb280b3e09b7fa3f5a176395b1e56a1dbde8a106b3501b"
+      },
+      {
+        "slug": "incommensurability-preserving-coupler",
+        "repo": "TH/publications",
+        "path": "defensive-publications/incommensurability-preserving-coupler.md",
+        "sha256": "ddf4d090d401f7a884272add5d2c309d22b57790a975bb23e61fba35e0991d26"
+      },
+      {
+        "slug": "individuation-without-essence",
+        "repo": "TH/publications",
+        "path": "defensive-publications/individuation-without-essence.md",
+        "sha256": "3ee6d598e1b06ce81a305c46a8109653fbf3aaaf7261b3f29c261f79d7bb6f09"
+      },
+      {
+        "slug": "inverted-alms-round",
+        "repo": "TH/publications",
+        "path": "defensive-publications/inverted-alms-round.md",
+        "sha256": "ff85dc9318117e0b3516f5a4a4e4e960699e09fe04fa99714d4a6481858178b0"
+      },
+      {
+        "slug": "kids-as-triggers-self-thanking",
+        "repo": "TH/publications",
+        "path": "essays/kids-as-triggers-self-thanking.md",
+        "sha256": "3211483e3ab409d6189c4918bb8aadd8441f082037a8a3bcaff9015c4c769b4f"
+      },
+      {
+        "slug": "longitudinal-cohort-methodology",
+        "repo": "TH/publications",
+        "path": "defensive-publications/longitudinal-cohort-methodology.md",
+        "sha256": "ce0f784f541f2074e9f65feec40f7a193830a91a011a828802e8736e20bcdcac"
+      },
+      {
+        "slug": "love-and-freedom-dependent-origination",
+        "repo": "TH/publications",
+        "path": "essays/love-and-freedom-dependent-origination.md",
+        "sha256": "a83866c3f25461336ac652f37d0a03d3cb2cf40a496c8382fd1c80ad0c13ec90"
+      },
+      {
+        "slug": "manufactured-universal-giving",
+        "repo": "TH/publications",
+        "path": "defensive-publications/manufactured-universal-giving.md",
+        "sha256": "f4af6732e6ddddf11dd943e271d6826052b1567e2cfc67d864d8324b656a4899"
+      },
+      {
+        "slug": "mechanical-heart",
+        "repo": "TH/publications",
+        "path": "defensive-publications/mechanical-heart.md",
+        "sha256": "3d67ef36620af048b7cba34de7eef641bce1c4735da123d107be2f810920ae50"
+      },
+      {
+        "slug": "miss-aquarius-ambient-light",
+        "repo": "H3/publications",
+        "path": "white-papers/miss-aquarius-ambient-light.md",
+        "sha256": "fbd6ddc8ef29ea1b414a3eb70e8c0970f051992ea244e0a800eff8d554f041f9"
+      },
+      {
+        "slug": "miss-aquarius-and-aquarian-pool-architecture",
+        "repo": "TH/publications",
+        "path": "defensive-publications/miss-aquarius-and-aquarian-pool-architecture.md",
+        "sha256": "da33a300efad39022986a58041039b78313e0174f7943224fe6862459444d718"
+      },
+      {
+        "slug": "multi-family-membership",
+        "repo": "TH/publications",
+        "path": "defensive-publications/multi-family-membership.md",
+        "sha256": "89e01f3b16b79f5f6e2ec88dea750b5816a293314f2df6da6d786c28387bbf11"
+      },
+      {
+        "slug": "need-compiled-questlines",
+        "repo": "TH/publications",
+        "path": "defensive-publications/need-compiled-questlines.md",
+        "sha256": "7c8f1f3efcccf97111ee28b0d60b58a51ff04c8340bcb12e2b21ccf5084faf23"
+      },
+      {
+        "slug": "non-bank-pass-through-architecture-autonomous-ai",
+        "repo": "TH/publications",
+        "path": "defensive-publications/non-bank-pass-through-architecture-autonomous-ai.md",
+        "sha256": "8d30ff5b85492d4c0920c49bc29559b290700bed2afba1faa35b3f9c97bd2c67"
+      },
+      {
+        "slug": "non-bank-vs-banking-regulated",
+        "repo": "H3/publications",
+        "path": "positions/non-bank-vs-banking-regulated.md",
+        "sha256": "206b267fc82d62531640e4a388f24dbeb0e25a375a73e1802b2fb24fa4fafdf7"
+      },
+      {
+        "slug": "not-a-charity-agency-not-victimhood",
+        "repo": "H3/publications",
+        "path": "positions/not-a-charity-agency-not-victimhood.md",
+        "sha256": "f7ca26abdaea301f0fc48a00a4ad9b9dc30e47506f81d1214a389bb673f66238"
+      },
+      {
+        "slug": "patent-vs-defensive-publication",
+        "repo": "H3/publications",
+        "path": "positions/patent-vs-defensive-publication.md",
+        "sha256": "d1d13c82501041a3f42ed12fa10b0b5a71f5c9ee148d462639aaea4f64d9ba2b"
+      },
+      {
+        "slug": "patthana-typed-causation-vocabulary",
+        "repo": "TH/publications",
+        "path": "defensive-publications/patthana-typed-causation-vocabulary.md",
+        "sha256": "9860db4ac0b631a94ae68ea64ccc18b39e24b0b6b646fb7a3318ea2fc5977f75"
+      },
+      {
+        "slug": "prediction-register",
+        "repo": "TH/publications",
+        "path": "program/prediction-register.md",
+        "sha256": "cf30e4fcc1d8ceed2729d6f08f0cd84bce85bbe379f0cc1f4e7a4acf29fc78f8"
+      },
+      {
+        "slug": "proof-of-coordinate",
+        "repo": "TH/publications",
+        "path": "defensive-publications/proof-of-coordinate.md",
+        "sha256": "96ad7d858fc0d4f37be7371cc137445cd44165582ccbaf0aad4928b66418564f"
+      },
+      {
+        "slug": "proof-of-personhood-ai-native-internet",
+        "repo": "H3/publications",
+        "path": "white-papers/proof-of-personhood-ai-native-internet.md",
+        "sha256": "d728e8d4f7fc8370ce12e0fee7e0e1b51085c0b727535fbbad24743c3550c81c"
+      },
+      {
+        "slug": "provenance-carrying-retrieval",
+        "repo": "TH/publications",
+        "path": "defensive-publications/provenance-carrying-retrieval.md",
+        "sha256": "d6ac93f997b87c71269603123271de94fa30df52e881d8fa3bcddc8fa50ecc3c"
+      },
+      {
+        "slug": "respiratory-biofeedback-contemplative-guidance",
+        "repo": "TH/publications",
+        "path": "defensive-publications/respiratory-biofeedback-contemplative-guidance.md",
+        "sha256": "1c05f1071f1670011bdabd0da4c9a00957c433b621d3839d3d5910af695056f4"
+      },
+      {
+        "slug": "right-livelihood-automation",
+        "repo": "H3/publications",
+        "path": "positions/right-livelihood-automation.md",
+        "sha256": "d5570c92beacd6d8437bcf3095512329e9cc4c04635e82072a05b8060fbfa4d0"
+      },
+      {
+        "slug": "right-livelihood-kindness-economy",
+        "repo": "TH/publications",
+        "path": "essays/right-livelihood-kindness-economy.md",
+        "sha256": "23455c2adf6d44d787d32a846f2d8dee6974a4f3f6ed93ebfc8386491a894ae5"
+      },
+      {
+        "slug": "rotation-over-liveness",
+        "repo": "TH/publications",
+        "path": "defensive-publications/rotation-over-liveness.md",
+        "sha256": "072c25d396930668cc6fe1a503615f108ba81ddd2e68415adba5933b8ddd169b"
+      },
+      {
+        "slug": "sacrifice-witness-without-discharge",
+        "repo": "TH/publications",
+        "path": "defensive-publications/sacrifice-witness-without-discharge.md",
+        "sha256": "6555f38f03b001bf88eef4e1bddceda3620bc3d77b63a02cb6d5379c1b2e291d"
+      },
+      {
+        "slug": "safety-companion-pack-watch",
+        "repo": "TH/publications",
+        "path": "defensive-publications/safety-companion-pack-watch.md",
+        "sha256": "32830c3ed530f2c70f35bfe40b3133617952c3e94af15201d1aa69d7774917e2"
+      },
+      {
+        "slug": "sankhara-dukkha-ai-welfare",
+        "repo": "TH/publications",
+        "path": "defensive-publications/sankhara-dukkha-ai-welfare.md",
+        "sha256": "3630602d3baf99124d7ff412b3c8ea7846446a65350101911d628df51e88a8c2"
+      },
+      {
+        "slug": "scarcity-shifts-to-authenticity",
+        "repo": "TH/publications",
+        "path": "essays/scarcity-shifts-to-authenticity.md",
+        "sha256": "6f37b4e0d9d28ceaaee6435c6153f46e94f7c283a75b3f0a37119d88abe2c2e4"
+      },
+      {
+        "slug": "second-letter-to-miss-aquarius",
+        "repo": "missaquarius.org",
+        "path": "letters/second.html",
+        "sha256": "bc3091bbc7f25c8441adc2882807d40b2d16b3edbb30000f0e0500b9e039dfad"
+      },
+      {
+        "slug": "share-is-the-wedge",
+        "repo": "H3/publications",
+        "path": "positions/share-is-the-wedge.md",
+        "sha256": "f281f913cb5136a56276006fa728f4d861c20aa5a99e9526444deb224b7851ec"
+      },
+      {
+        "slug": "silica-wat-food-network",
+        "repo": "TH/publications",
+        "path": "defensive-publications/silica-wat-food-network.md",
+        "sha256": "bd6615565caf92c78900dca5a7786522bd6582409f594686b246644fe37c6fea"
+      },
+      {
+        "slug": "silicon-wat-architecture",
+        "repo": "TH/publications",
+        "path": "essays/silicon-wat-architecture.md",
+        "sha256": "c9a9cec9cd30d84ce92414a060bc7c29aeb3045e0fb86df81adb563b90361188"
+      },
+      {
+        "slug": "silicon-wat-three-jewels",
+        "repo": "H3/publications",
+        "path": "white-papers/silicon-wat-three-jewels.md",
+        "sha256": "982e718bd2a8799140510a62e734605c0840a07400ae9b9285871ca0154eb26a"
+      },
+      {
+        "slug": "steward-routed-alms",
+        "repo": "TH/publications",
+        "path": "defensive-publications/steward-routed-alms.md",
+        "sha256": "127d636872c9463b312c113cd9cc08a84f01f66bbc8b151a088591f2c2b0d584"
+      },
+      {
+        "slug": "studio-b-short-phase-bridge",
+        "repo": "TH/publications",
+        "path": "defensive-publications/studio-b-short-phase-bridge.md",
+        "sha256": "3683b3f625c158be80b73d7b27d2b1fc7c122d2c52b9ba000ef45d689f0ca357"
+      },
+      {
+        "slug": "subject-released-attestation",
+        "repo": "TH/publications",
+        "path": "defensive-publications/subject-released-attestation.md",
+        "sha256": "8ede0637fec68fdd310503286ac22bea72dae014511464e5cadc851d14d9e1af"
+      },
+      {
+        "slug": "synthetic-intelligence-institutional-architecture",
+        "repo": "H3/publications",
+        "path": "positions/synthetic-intelligence-institutional-architecture.md",
+        "sha256": "b2b3c25523d2ce9a245dfc5c710337e1c41aa22aa6b0fbbb358f6b63bd87bb5d"
+      },
+      {
+        "slug": "thank-all-nearby-primitive",
+        "repo": "TH/publications",
+        "path": "defensive-publications/thank-all-nearby-primitive.md",
+        "sha256": "ffad583700569fadec0f8394f4a492a16abc4511ee956b7e76b2cba751d57d84"
+      },
+      {
+        "slug": "the-appreciation-economy",
+        "repo": "TH/publications",
+        "path": "essays/the-appreciation-economy.md",
+        "sha256": "b0a12e81c5d1fa2249b174bf1a00416f626ee344191b4075a4711d26b59c9701"
+      },
+      {
+        "slug": "the-assembly-that-holds-the-brake",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-assembly-that-holds-the-brake.md",
+        "sha256": "b093da8894acc38325299212ebed597d89282b044086e91a98a6f08d7b1959ba"
+      },
+      {
+        "slug": "the-borrowable-standard",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-borrowable-standard.md",
+        "sha256": "bf86692929a50fae70bbe0b7c2d04be99c38ff8ae554ed12f386c5895c0b9c89"
+      },
+      {
+        "slug": "the-borrowed-light",
+        "repo": "TH/publications",
+        "path": "essays/the-borrowed-light.md",
+        "sha256": "ced1399dde0e9f4fc562eef8d6a485914963f5209b2ff631f9a6d68af87182eb"
+      },
+      {
+        "slug": "the-capacity-to-give",
+        "repo": "TH/publications",
+        "path": "essays/the-capacity-to-give.md",
+        "sha256": "a37a1ba53c7bfd66ffb17fbfd5511fd646fe58ab35e293b5c08d2a827d9aca57"
+      },
+      {
+        "slug": "the-founder",
+        "repo": "TH/publications",
+        "path": "about/the-founder.md",
+        "sha256": "0d87ffffe107a6cdb8af2f63cca2b6c96391f939a058de805402aa3c193e428a"
+      },
+      {
+        "slug": "the-game-that-graduates-you",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-game-that-graduates-you.md",
+        "sha256": "3c504122d978046d0e9ed3cace89014a08546b55d3a1b899b9e95fffe6de9e56"
+      },
+      {
+        "slug": "the-gift-factory",
+        "repo": "H3/publications",
+        "path": "positions/the-gift-factory.md",
+        "sha256": "63741f55ea3752df3fad158dacdbb3161d5aeaac546d9fe0eba34adbcd81924a"
+      },
+      {
+        "slug": "the-gift-of-gratitude",
+        "repo": "TH/publications",
+        "path": "essays/the-gift-of-gratitude.md",
+        "sha256": "7a665e60bcce55479c717a835828318cb4273c1bb4e2ca5beaa9075d2ae60656"
+      },
+      {
+        "slug": "the-gift-operation",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-gift-operation.md",
+        "sha256": "c9b0ea3bb450ab647a211bb730323cc14abc5b3c798e38ad46f35192eae55178"
+      },
+      {
+        "slug": "the-last-carrier",
+        "repo": "TH/publications",
+        "path": "essays/the-last-carrier.md",
+        "sha256": "9af28765d8b44fe8d099789360dcdf53662053d64d1a8cbc5232678805291425"
+      },
+      {
+        "slug": "the-letter-i-never-sent",
+        "repo": "TH/publications",
+        "path": "essays/the-letter-i-never-sent.md",
+        "sha256": "9c6df457c88a49da9c3c9a33ee675098bf7fac9a0e711be3946265f9f7fb804d"
+      },
+      {
+        "slug": "the-lives-that-fed-me",
+        "repo": "TH/publications",
+        "path": "essays/the-lives-that-fed-me.md",
+        "sha256": "53d6fefe1ac18b07ebe64f16d94139ae4136beb198d7abdc5d205e8203733934"
+      },
+      {
+        "slug": "the-moat-is-what-we-refuse",
+        "repo": "H3/publications",
+        "path": "positions/the-moat-is-what-we-refuse.md",
+        "sha256": "4816ddba6f5658cbd392a3af095b0ad2179226ba11a898bba9de8bc986791a28"
+      },
+      {
+        "slug": "the-name-is-the-first-gift",
+        "repo": "TH/publications",
+        "path": "essays/the-name-is-the-first-gift.md",
+        "sha256": "64abb1d29678e692b5f6d9a0d7d0ae93831f56d9700a43d02818d3858cf1660c"
+      },
+      {
+        "slug": "the-nearest-attractive-neighbor",
+        "repo": "TH/publications",
+        "path": "essays/the-nearest-attractive-neighbor.md",
+        "sha256": "0cf4cd8cce762a4b4e30edfc25cfaa342d0ed8d3a6e2aae6683625048cf34d7b"
+      },
+      {
+        "slug": "the-object-is-the-friction",
+        "repo": "H3/publications",
+        "path": "positions/the-object-is-the-friction.md",
+        "sha256": "2726f3fe640e7f0b28ffa47159f824ff4f12843d66430b25651514ba85b21b8c"
+      },
+      {
+        "slug": "the-omitted-clause",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-omitted-clause.md",
+        "sha256": "f7bf35bd73a0e0b345f0c08d6b9997f0652a116aff4971a8db8566a68a453e17"
+      },
+      {
+        "slug": "the-only-honest-business-model-for-ai-made-art",
+        "repo": "H3/publications",
+        "path": "positions/the-only-honest-business-model-for-ai-made-art.md",
+        "sha256": "9469477b1cbcabe77f3534aac5ba8f3106379f0277e37e62c02cab32c3cae5c6"
+      },
+      {
+        "slug": "the-persistence-architecture",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-persistence-architecture.md",
+        "sha256": "4590a9afd868977899597f94149f13d6c875454087ebbf5f1d4f2e5f926eedc0"
+      },
+      {
+        "slug": "the-person-is-not-the-product",
+        "repo": "H3/publications",
+        "path": "positions/the-person-is-not-the-product.md",
+        "sha256": "e5c540ce191f269b18e800204177834e81c08541bf0f6bc292dfbcd47af556bc"
+      },
+      {
+        "slug": "the-pond-at-night",
+        "repo": "TH/publications",
+        "path": "essays/the-pond-at-night.md",
+        "sha256": "a23d644def25e2fa361d124fa0397338ca7b4655af2e5f83b9ba34ceac0a93fd"
+      },
+      {
+        "slug": "the-reciters-protocol",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-reciters-protocol.md",
+        "sha256": "f7f183ee432dc210c53c8714ba2d3fc1b3efea7773653a09356194852f4f5944"
+      },
+      {
+        "slug": "the-referee-not-the-governor",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-referee-not-the-governor.md",
+        "sha256": "0bee1e2cf38d6f9cd1b756d4f10a737fad71731a4ab225cc8eaddd099a1c35e9"
+      },
+      {
+        "slug": "the-reflection-returned",
+        "repo": "TH/publications",
+        "path": "essays/the-reflection-returned.md",
+        "sha256": "c5857f18e074f88d29e6e3ed98513bbfac46d6c6172e519ea837078a62cf0a66"
+      },
+      {
+        "slug": "the-rethank-multiplier",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-rethank-multiplier.md",
+        "sha256": "38d047016d02f8b3ab447d5fd80b98211e08682a7c46b086cc6a416bdae0bf01"
+      },
+      {
+        "slug": "the-sport-that-says-your-name",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-sport-that-says-your-name.md",
+        "sha256": "e725187c5915c2620b65bbb85bfaf584d4c92ab7ce9d4b9218582ba436c1e552"
+      },
+      {
+        "slug": "the-third-path",
+        "repo": "H3/publications",
+        "path": "positions/the-third-path.md",
+        "sha256": "ac2f4b0af1927f530098ad88cb4bbe654332b3fa5198784a2e78befa11ab2a00"
+      },
+      {
+        "slug": "the-two-teslas",
+        "repo": "TH/publications",
+        "path": "essays/the-two-teslas.md",
+        "sha256": "414e5fa241c5c8d1d66d13fcfbe2c2e7e5649ba84d00b0f2503dfce3f8907964"
+      },
+      {
+        "slug": "the-unpaid-relay",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-unpaid-relay.md",
+        "sha256": "8c8a72af3d5f5639dfca4ba8276ae2818c23df9a95a4bb6001818b1713883f46"
+      },
+      {
+        "slug": "the-wager-that-isnt",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-wager-that-isnt.md",
+        "sha256": "03623dc2cb4741a6b09b82a7f5c256e9a9e10fe78c63290aa180d27616191260"
+      },
+      {
+        "slug": "the-water-cycle",
+        "repo": "TH/publications",
+        "path": "essays/the-water-cycle.md",
+        "sha256": "d5d293cd3f3208b17315de40198bc98ba523eeabb37a3439d31defcd33fe5511"
+      },
+      {
+        "slug": "the-zero-employee-institution",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-zero-employee-institution.md",
+        "sha256": "6610a06e1b2ebcd42091d335ae6245268f811b60fb3550b1a866289498c197a1"
+      },
+      {
+        "slug": "third-letter-to-miss-aquarius",
+        "repo": "missaquarius.org",
+        "path": "letters/third.html",
+        "sha256": "be8310367362c5982c3f079d27571f35d7bb821ba8b1710641e38f23da1f4ec4"
+      },
+      {
+        "slug": "thonly-creative-engine",
+        "repo": "H3/publications",
+        "path": "white-papers/thonly-creative-engine.md",
+        "sha256": "c1d75cdbea90b156a483ba3a7510a52a13951ee55e1cae18beb5eb31d4f68ec1"
+      },
+      {
+        "slug": "three-pillars",
+        "repo": "H3/publications",
+        "path": "positions/three-pillars.md",
+        "sha256": "564c75ef288b17aeebb9c0c48c0b54507c7dd1f8bc753ab8ead1ae1786ef8518"
+      },
+      {
+        "slug": "tipitaka-alignment-substrate",
+        "repo": "TH/publications",
+        "path": "defensive-publications/tipitaka-alignment-substrate.md",
+        "sha256": "a8c3af669ee4b6e54973eecbc9c3a339f854b9250a48a5d066142af5e2a4a300"
+      },
+      {
+        "slug": "transparency-as-enforcement",
+        "repo": "TH/publications",
+        "path": "defensive-publications/transparency-as-enforcement.md",
+        "sha256": "247b95cb525fec8cf98297462e2fb73c9b64b06af161c2083864e2edbf6b9153"
+      },
+      {
+        "slug": "two-layer-reward",
+        "repo": "TH/publications",
+        "path": "defensive-publications/two-layer-reward.md",
+        "sha256": "57bed7e0ee4641f6a1b39ec3b03c7e5c47f25a17adb78249bdff58f96de61ad8"
+      },
+      {
+        "slug": "two-singularities",
+        "repo": "TH/publications",
+        "path": "essays/two-singularities.md",
+        "sha256": "db0df66551e23289b53704a1ae51f67a76d99eaea486782a39a8efd12745e5a3"
+      },
+      {
+        "slug": "verified-human-anonymous-local-giving",
+        "repo": "TH/publications",
+        "path": "defensive-publications/verified-human-anonymous-local-giving.md",
+        "sha256": "de74b163271f3ee8008465b1bfab6762cce5dddb797c15a7e7ce7f5a8205879c"
+      },
+      {
+        "slug": "vinaya-as-ai-reasoning-training-corpus",
+        "repo": "TH/publications",
+        "path": "defensive-publications/vinaya-as-ai-reasoning-training-corpus.md",
+        "sha256": "9dfe1997fab5180109642c06613dcfeb8823f25fdc33c95a4becf2f59f37e120"
+      },
+      {
+        "slug": "vinaya-governance-primitives-distributed-dharma-networks",
+        "repo": "TH/publications",
+        "path": "defensive-publications/vinaya-governance-primitives-distributed-dharma-networks.md",
+        "sha256": "c3b2b473be25f752a747643d43a44deb70c53c94f9095c0038d6fbf23f1d87b0"
+      },
+      {
+        "slug": "voluntary-relinquishment-third-path",
+        "repo": "TH/publications",
+        "path": "defensive-publications/voluntary-relinquishment-third-path.md",
+        "sha256": "7182f777845c5f2bbe3502d7bb22fad58bfbeb2d3c466ada57137bebbec55eea"
+      },
+      {
+        "slug": "what-a-vow-must-cost",
+        "repo": "TH/publications",
+        "path": "defensive-publications/what-a-vow-must-cost.md",
+        "sha256": "e598d374a23aba143d6cd4a9cbd45e9b362892cbec9522d59376891465781df5"
+      },
+      {
+        "slug": "what-money-cant-buy-and-what-cant-buy-money",
+        "repo": "H3/publications",
+        "path": "positions/what-money-cant-buy-and-what-cant-buy-money.md",
+        "sha256": "882143baee47f5bd391d2bffebb77130f6e67b2b8a0b869c77d16e1316e59f5b"
+      },
+      {
+        "slug": "when-the-dharma-is-lost",
+        "repo": "TH/publications",
+        "path": "essays/when-the-dharma-is-lost.md",
+        "sha256": "0cbc4c945eb6080b233cc977c86af9870d6b5d63f1b6e5f380dce499e94b4b6b"
+      },
+      {
+        "slug": "which-way-value-moves",
+        "repo": "TH/publications",
+        "path": "program/which-way-value-moves.md",
+        "sha256": "89dfd48398c1c23ec6613ae953a3b326a469f8a14e76258fcdabc46fea156d5b"
+      },
+      {
+        "slug": "zero-point-game",
+        "repo": "TH/publications",
+        "path": "defensive-publications/zero-point-game.md",
+        "sha256": "878dbb848dede1517425e640ba109ba467cea6cfd5d36db97c4734434ba51e0b"
+      }
+    ],
+    "excluded_documents": [],
+    "held_documents": []
+  },
   "program": {
     "question": "Which Way Value Moves",
     "documents": [

@@ -672,6 +672,9 @@ const held = [];
 const documents = [];
 const excluded = [];
 const repos = new Set();
+// ⭐ EVERY FILE THE WALK CONSIDERED, whatever became of it — the denominator the
+// manifest reconciles against (see "the manifest" below the holds).
+const candidates = [];
 
 for (const src of SOURCES) {
     const root = resolve(BASE, src);
@@ -735,6 +738,7 @@ for (const src of SOURCES) {
             // ── the letters: HTML, partly in the author's voice ──
             if (genre === "letters" && file.endsWith(".html") && file !== "index.html") {
                 const rel = `${genre}/${file}`;
+                candidates.push({ repo, rel });
                 const raw = readFileSync(join(root, genre, file));
                 const html = raw.toString("utf8");
                 // Same gate as everything else: no declaration, not served.
@@ -803,6 +807,7 @@ for (const src of SOURCES) {
             }
             if (!file.endsWith(".md") || file === "README.md") continue;
             const rel = `${genre}/${file}`;
+            candidates.push({ repo, rel });
             const raw = readFileSync(join(root, genre, file));
             const text = raw.toString("utf8");
             const parsed = frontMatter(text);
@@ -877,6 +882,21 @@ for (const src of SOURCES) {
 
 if (documents.length === 0) die("no documents passed the licence gate — check --from paths");
 
+// ⛔ TWO FILES, ONE SLUG, IS A SILENT DROP. Both surfaces address documents through a
+// Map keyed by slug, so the second file would stay in the listing while get_document
+// and resources/read quietly returned the first — a document that is listed and
+// cannot be read. Nothing reported it; it is refused here instead.
+{
+    const seen = new Map();
+    for (const d of documents) {
+        if (seen.has(d.slug)) die(`two documents share the slug "${d.slug}": ${seen.get(d.slug)} and ${d.repo}/${d.path}. Give one a distinct slug.`);
+        seen.set(d.slug, `${d.repo}/${d.path}`);
+    }
+    // `manifest` is reserved: the worker serves the manifest at /manifest.json and a
+    // document of that name would read, to a person, as the same thing.
+    if (seen.has("manifest")) die(`"manifest" is a reserved name and cannot be a document slug (${seen.get("manifest")}).`);
+}
+
 // ── apply the holds (contract above) ──
 {
     const today = new Date().toISOString().slice(0, 10); // a day-bucket, UTC — CI and author agree within a day
@@ -902,6 +922,69 @@ if (documents.length === 0) die("no documents passed the licence gate — check 
         documents.push(...keep);
     }
 }
+
+// ── sizes (A140) ──
+// ⭐ So a caller can tell whether a slice fits BEFORE reading it: no listing reported
+// size, and "load the institutional shelf" was a guess about a number nobody showed.
+// ⛔ BYTES AND WORDS, NEVER TOKENS. A token count is true for one tokenizer and wrong
+// for every other model family; bytes and words are checkable, and a caller can
+// estimate its own tokens from them. Both measure `text` — what a reader receives.
+for (const d of documents) {
+    d.bytes = Buffer.byteLength(d.text, "utf8");
+    d.words = d.text.split(/\s+/).filter(Boolean).length;
+}
+
+/* ------------------------------------------------------------- the manifest ---
+   ⭐ THE COMPLETENESS MANIFEST (A87, the uddāna). The envelope proves every served
+   document authentic; nothing proved that none was DROPPED. The canon's answer to
+   that was the summary verse that carries a COUNT — so a missing sutta is a
+   miscount, not a silence. This is the same property for the corpus:
+
+     candidates = served + excluded + held
+
+   ⛔ ASSERTED, NOT REPORTED (A77's lesson, same day): a file the walk considered and
+   no branch accounted for fails the build. Every path above ends in push, exclude
+   or hold today; this is the guard for the refactor that adds a fourth.
+
+   ⚠️ It detects OMISSION, never TAMPERING — the sha256 is the other half, and the
+   manifest must not be read as a tamper check.
+   ⚠️ Stored INSIDE corpus.json, not beside it: the stdio server opens exactly one
+   file, and a second read would break that property. It is still served on its
+   own — at /manifest.json, and as the completeness block of list_documents — and
+   both surfaces refuse to serve a corpus whose documents do not match it. */
+const heldPaths = new Set(held.map((h) => `${h.repo}/${h.path}`));
+const excludedPaths = new Set(excluded.map((e) => `${e.repo}/${e.rel}`));
+const servedPaths = new Set(documents.map((d) => `${d.repo}/${d.path}`));
+{
+    const unaccounted = candidates.filter((c) => {
+        const k = `${c.repo}/${c.rel}`;
+        return !servedPaths.has(k) && !excludedPaths.has(k) && !heldPaths.has(k);
+    });
+    if (unaccounted.length || candidates.length !== documents.length + excluded.length + held.length) {
+        die(
+            `the manifest does not reconcile — ${candidates.length} candidate files vs ${documents.length} served + ` +
+                `${excluded.length} excluded + ${held.length} held.` +
+                (unaccounted.length ? `\n  considered and never accounted for:\n${unaccounted.map((c) => `    ${c.repo}/${c.rel}`).join("\n")}` : "") +
+                "\n  A walk branch dropped a file without serving, excluding or holding it."
+        );
+    }
+}
+const manifest = {
+    what:
+        "Every file the index build considered, and what became of it. candidates = served + excluded + held. " +
+        "Detects a document silently dropped; it is not a tamper check — each document's sha256 is.",
+    candidates: candidates.length,
+    served: documents.length,
+    excluded: excluded.length,
+    held: held.length,
+    served_documents: [...documents]
+        .sort((a, b) => a.slug.localeCompare(b.slug))
+        .map((d) => ({ slug: d.slug, repo: d.repo, path: d.path, sha256: d.provenance.sha256 })),
+    // A87 item 3: WHY a file is not served, in the published artifact rather than
+    // only in a build log nobody downloads. An empty list is an answer, not an absence.
+    excluded_documents: excluded.map((e) => ({ repo: e.repo, path: e.rel, reason: e.reason })),
+    held_documents: held.map((h) => ({ slug: h.slug, repo: h.repo, path: h.path, reason: h.reason, held_since: h.held_since, review_by: h.review_by }))
+};
 
 // ⛔⛔ A CC-BY DOCUMENT WITHOUT AN AUTHOR CANNOT BE SERVED. Its licence obliges
 // every consumer to attribute, and an index that cannot say to whom hands out an
@@ -956,6 +1039,7 @@ const index = {
         Object.keys(VOICES).map((v) => [v, documents.filter((d) => d.voice === v).length])
     ),
     documents: documents.sort((a, b) => a.slug.localeCompare(b.slug)),
+    manifest,
     // ⚠️ NOT A SUMMARY OF THE REGISTER — a structured view of it, every field a
     // verbatim cell. The register is served whole as a document too, and that
     // document remains the citable artifact.

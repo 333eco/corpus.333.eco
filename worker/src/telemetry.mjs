@@ -161,6 +161,8 @@ export const resultsOf = (result) => {
     if (!sc) return 0;
     if (typeof sc.matches === "number") return sc.matches;
     if (typeof sc.count === "number") return sc.count;
+    // read_documents: the documents on THIS page, not the whole matched set.
+    if (typeof sc.returned === "number") return sc.returned;
     if (Array.isArray(sc.resources)) return sc.resources.length;
     return 0;
 };

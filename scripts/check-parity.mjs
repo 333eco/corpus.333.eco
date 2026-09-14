@@ -40,7 +40,7 @@
 import { spawn } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const BASE = resolve(HERE, "..");
@@ -170,6 +170,132 @@ for (const [label, a, b, why] of checks) {
             console.error(`    worker: ${y?.slice(0, 400)}`);
             break;
         }
+    }
+}
+
+/* ------------------------------------------------------------- tool calls ---
+   ⭐ THE ADVERTISEMENTS AGREEING SAYS NOTHING ABOUT THE ANSWERS. Dispatch is written
+   twice — once per surface — so the same call is made on both and the RESULTS are
+   compared. Then read_documents is held to absolutes, because paging is the kind of
+   code that loses a document at a page boundary on both surfaces at once. */
+
+
+const corpusText = await readFile(join(BASE, "dist", "corpus.json"), "utf8");
+const corpusJson = JSON.parse(corpusText);
+const letter = corpusJson.documents.find((d) => d.category === "letters")?.slug;
+
+// A fresh module instance per corpus: the worker memoises its corpus per isolate,
+// and an import is cached, so a tampered corpus needs its own copy of the module.
+let instance = 0;
+async function workerOver(text) {
+    const mod = await import(pathToFileURL(join(BASE, "worker", "src", "worker.mjs")).href + `?i=${++instance}`);
+    const env = { ASSETS: { fetch: async () => new Response(text, { status: 200 }) } };
+    let id = 100;
+    return async (method, params) => {
+        const res = await mod.default.fetch(
+            new Request("https://corpus.333.eco/mcp", {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({ jsonrpc: "2.0", id: ++id, method, params })
+            }),
+            env,
+            { waitUntil() {} }
+        );
+        return res.json();
+    };
+}
+
+async function stdioAnswers(calls) {
+    const child = spawn("node", [join(BASE, "src", "server.mjs")], { stdio: ["pipe", "pipe", "ignore"] });
+    const out = [];
+    child.stdout.on("data", (b) => out.push(b));
+    calls.forEach((c, i) => child.stdin.write(JSON.stringify({ jsonrpc: "2.0", id: i + 1, method: c.method, params: c.params }) + "\n"));
+    child.stdin.end();
+    await new Promise((done) => child.on("exit", done));
+    const byId = {};
+    for (const line of Buffer.concat(out).toString().split("\n")) if (line.trim()) { const m = JSON.parse(line); byId[m.id] = m; }
+    return calls.map((_, i) => byId[i + 1]);
+}
+
+const tool = (name, args) => ({ method: "tools/call", params: { name, arguments: args } });
+const SAME = [
+    ["list_documents, filtered", tool("list_documents", { category: "letters" })],
+    ["read_documents, a small page", tool("read_documents", { category: "letters", max_bytes: 20000 })],
+    ["read_documents, unknown slug", tool("read_documents", { slugs: ["no-such-document"] })],
+    ["get_document", tool("get_document", { slug: letter })],
+    ["resources/read", { method: "resources/read", params: { uri: `corpus://${letter}` } }]
+];
+{
+    const worker = await workerOver(corpusText);
+    const left = await stdioAnswers(SAME.map(([, c]) => c));
+    for (let i = 0; i < SAME.length; i++) {
+        const right = await worker(SAME[i][1].method, SAME[i][1].params);
+        if (JSON.stringify(left[i]?.result ?? left[i]?.error) !== JSON.stringify(right?.result ?? right?.error)) {
+            fail(`the two surfaces answer ${SAME[i][0]} differently.`, "Same call, same pinned corpus: a different answer is a dispatch bug in one of them.");
+        }
+    }
+}
+
+// ── read_documents, absolutes ──
+{
+    const call = await workerOver(corpusText);
+    const END = /\[END OF DOCUMENT — ([^\s·.]+)[^\]]*\]$/;
+    const readAll = async (args) => {
+        const slugs = [];
+        let cursor;
+        for (let pages = 0; pages < 500; pages++) {
+            const r = (await call("tools/call", { name: "read_documents", arguments: { ...args, ...(cursor ? { cursor } : {}) } })).result;
+            const sc = r.structuredContent;
+            const blocks = r.content.slice(0, -1);
+            if (blocks.length !== sc.returned) fail("read_documents returned a content block count that is not one per document");
+            if (!/^\[PAGE — /.test(r.content.at(-1)?.text ?? "")) fail("read_documents' last block is not the [PAGE …] line");
+            blocks.forEach((b, i) => {
+                const m = b.text.match(END);
+                if (!b.text.startsWith("[PROVENANCE") || !m || m[1] !== sc.documents[i].slug) {
+                    fail(`read_documents block for ${sc.documents[i]?.slug} does not run from its provenance header to its own [END OF DOCUMENT] line`);
+                }
+            });
+            if (sc.page_bytes > sc.max_bytes && !(sc.returned === 1 && sc.over_budget)) fail(`a read_documents page is ${sc.page_bytes} bytes against max_bytes ${sc.max_bytes}`);
+            slugs.push(...sc.documents.map((d) => d.slug));
+            if (!sc.next_cursor) return slugs;
+            cursor = sc.next_cursor;
+        }
+        fail("read_documents never stopped paging");
+        return slugs;
+    };
+    const listed = async (args) => (await call("tools/call", { name: "list_documents", arguments: args })).result.structuredContent;
+
+    for (const args of [{}, { category: "institutional" }, { voice: "founder", max_bytes: 1000 }]) {
+        const want = (await listed(args)).documents.map((d) => d.slug);
+        const got = await readAll(args);
+        if (JSON.stringify(got) !== JSON.stringify(want)) {
+            fail(`paging read_documents(${JSON.stringify(args)}) did not return exactly what list_documents lists`,
+                 `${got.length} read vs ${want.length} listed, ${new Set(got).size} distinct — a document lost or repeated at a page boundary.`);
+        }
+    }
+    const all = await listed({});
+    if (all.count !== corpusJson.manifest.served || all.completeness?.served !== all.count) {
+        fail(`list_documents counts ${all.count} and its completeness block ${all.completeness?.served}; the manifest serves ${corpusJson.manifest.served}`);
+    }
+    const stale = btoa("0.0.0-another-corpus:3");
+    if (!(await call("tools/call", { name: "read_documents", arguments: { cursor: stale } })).result?.isError) {
+        fail("a cursor from another corpus version was accepted", "Page 2 of a different corpus must be refused, not served.");
+    }
+    const gd = (await call("tools/call", { name: "get_document", arguments: { slug: letter } })).result.content[0].text;
+    const rr = (await call("resources/read", { uri: `corpus://${letter}` })).result.contents[0].text;
+    if (gd !== rr || !END.test(gd)) fail("get_document and resources/read do not return the same text ending at its [END OF DOCUMENT] line");
+}
+
+// ── the manifest refusal ──
+// ⛔ Tested against the case whose answer is known: a corpus with one document removed
+// and its manifest intact must not be served.
+{
+    const tampered = JSON.parse(corpusText);
+    tampered.documents = tampered.documents.slice(1);
+    const call = await workerOver(JSON.stringify(tampered));
+    const r = await call("tools/call", { name: "list_documents", arguments: {} });
+    if (!r.error || !/does not match its manifest/.test(r.error.message)) {
+        fail("a corpus missing one of its manifest's documents was served", "The load-time manifest check did not fire.");
     }
 }
 

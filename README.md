@@ -60,6 +60,12 @@ manufactured on a schedule.
 | Tool | Returns |
 | --- | --- |
 | `search_corpus` | matching documents, provenance envelope, and an excerpt around each match |
+| `get_document` | one document in full — canonical text, never a summary |
+| `read_documents` | whole documents — a shelf (the `list_documents` filters) or a list of slugs — one content block each, paged by size |
+| `list_documents` | slugs, titles, genres, licences, provenance summaries, **sizes**, and the manifest's completeness counts |
+| `list_predictions` | the research program's pre-registered predictions, with falsifiers and status |
+| `get_prediction` | one prediction, plus the provenance envelope of the paper that registered it |
+| `get_program` | the program's hard core, chapters, stopping rule and count reconciliation, verbatim |
 
 ⭐ **`search_corpus` matches the phrase first, then all terms.** An exact substring hit
 always wins and ranks above everything else — which keeps `B-Heart` and `Re-Tip` precise,
@@ -76,11 +82,43 @@ verbatim. **A zero result was recording the matcher's limits while being read as
 
 ⭐ On a zero result the response now names **which terms appear in no document at all**
 (`absent_terms`), so a dead end says something instead of nothing.
-| `get_document` | one document in full — canonical text, never a summary |
-| `list_documents` | slugs, titles, genres, licences, provenance summaries |
-| `list_predictions` | the research program's pre-registered predictions, with falsifiers and status |
-| `get_prediction` | one prediction, plus the provenance envelope of the paper that registered it |
-| `get_program` | the program's hard core, chapters, stopping rule and count reconciliation, verbatim |
+
+### Reading a whole shelf
+
+⭐ **Search answers from excerpts, and a model answers from what it opened.** A frontier
+model connected to this server gave answers that were accurate but incomplete: it searched,
+opened a few documents and stopped. The fix is not a bigger context window — a shelf of this
+corpus already fits one — but a way to read the shelf.
+
+- **`list_documents` reports `bytes` and `words`** per document and `total_bytes` /
+  `total_words` for the filtered set, so a caller can see whether a slice fits before reading
+  it. ⛔ **Never tokens:** a token count is true for one tokenizer and wrong for every other
+  model family; bytes and words are checkable.
+- **`read_documents`** takes the same filters as `list_documents` — or `slugs` — and returns
+  every matching document in full, **one content block per document**, each behind its
+  provenance header, so each still verifies on its own. ⛔ Never a concatenation and never a
+  summary.
+- **Paged by size.** `max_bytes` defaults to 90,000 (under the 25,000-token point at which
+  Claude Code moves a tool result into a file) and may go to 400,000. **A document is never
+  split** — half a document verifies nothing — so one larger than the page arrives alone and
+  says `over_budget`. Follow `next_cursor`; a cursor from a different corpus version is refused
+  rather than serving page 2 of another corpus.
+
+⭐ **Every document ends with an `[END OF DOCUMENT — <slug> · <n> words]` line**, by every
+route. The server never cuts a document, but a client may, and a cut document reads as a
+complete one. The end is stated in the text, where a cut removes it — not in a field that would
+survive the cut and assert a completeness the text no longer has.
+
+### Nothing silently missing
+
+The envelope proves each served document authentic; nothing used to prove that none was
+**dropped**. The build now writes a **manifest** — every file it considered, and what became of
+it — and refuses to finish unless `candidates = served + excluded + held`. Both surfaces refuse
+to serve a corpus whose documents do not match its manifest, and two files claiming one slug
+fail the build rather than leaving one listed and unreadable. The counts, and the reason for
+every exclusion or hold, arrive in `list_documents` under `completeness`; the full manifest is at
+`https://corpus.333.eco/manifest.json`. ⚠️ **It detects omission, not tampering** — each
+document's sha256 is the other half.
 
 ⭐ **The three program tools return the STATING PAPER's envelope, not the register's.**
 That is the register's own instruction rather than a design flourish: *"verify the
@@ -92,7 +130,7 @@ and the build refuses to emit one that is not — a field must match a *complete
 cell of its source, because a fragment of a cell is still a substring of it.
 
 The program tools appear only when the index carries a program block. An index
-built over a corpus without one advertises three tools, not six.
+built over a corpus without one advertises four tools, not seven.
 
 ## Resources
 
@@ -106,7 +144,8 @@ resource is consumed differently: clients hand its contents straight to a model 
 context, and a `mimeType` field does not travel with a quotation. So every read
 returns a `[PROVENANCE — corpus.333.eco]` header — licence and whom to attribute,
 sha256 and **what it does not cover**, both DOIs, the OpenTimestamps command, and
-the one-line `curl … | shasum` check — followed by the document verbatim.
+the one-line `curl … | shasum` check — followed by the document verbatim and its
+`[END OF DOCUMENT]` line.
 
 This is the letters' rule applied a second time. Voice in the letters is marked
 inline rather than in metadata because *with a field an agent must LOOK to know;
@@ -132,12 +171,10 @@ actively strip.
 
 ## Attribution is a build-time property
 
-Seven documents are CC-BY and the rest CC0. A CC-BY document that names no author
+Most documents are CC0 and the rest CC-BY (counted in the licence table below). A CC-BY document that names no author
 hands every consumer an obligation nobody can discharge, so **the build fails**
 rather than serving it — the same reasoning as the licence gate: a property, not a
 rule someone has to remember.
-
-| `list_predictions` | the research program's pre-registered predictions, with falsifiers and status |
 
 **Results are structured.** Every tool returns `structuredContent` — the typed
 object — and uses `content` for the human form: the document text with its
@@ -170,11 +207,11 @@ only if its own source declares a licence this corpus publishes under. There is
 no glob and no directory allowlist, because the source repositories are **not**
 uniformly licensed and never were:
 
-- `TH/publications` — 96 CC0, **7 CC-BY author-voice essays**
+- `TH/publications` — CC0, plus the **CC-BY author-voice essays**
 - `TH/film` — rights-reserved, a separate repository *by licence*. Never served.
 - `333.eco` — the namespace policy is commercial and explicitly unpublished.
 
-A glob would have relicensed seven essays by publication. A file with **no**
+A glob would have relicensed the author-voice essays by publication. A file with **no**
 declaration is excluded and reported, never assumed CC0 — the default-open
 failure is the one nobody can undo after somebody builds on it.
 
@@ -277,6 +314,7 @@ per isolate and memoises it.
 Transport is **Streamable HTTP**, not the superseded HTTP+SSE pair. The server is
 stateless and read-only, so it never opens a stream: `POST /mcp` for JSON-RPC,
 `GET /mcp` returns 405 rather than holding open a stream that would carry nothing.
+`GET /manifest.json` returns the served corpus's manifest.
 
 ```sh
 cd worker
@@ -366,11 +404,11 @@ because there is no enforcer.
 
 ⛔ **Not one beacon per tool call.** An agent working through the corpus fires
 dozens of calls in seconds, and a notification channel that reports each of them
-is a channel nobody reads. The beacon fires on the *handshake*, and the receiving
-function pushes only the **first sighting of a client label**, counting every one
-after it in silence — so a notification means *a client we have never seen
-appeared*. `corpus_error` is exempt and always pushes: it is rare by construction,
-and silence is the wrong default for an outage.
+is a channel nobody reads. The beacon fires on the *handshake*, once per
+connection. What the receiving function does with it is its own setting: since
+2026-09-09 it pushes one notification per handshake, and a flag restores
+*first sighting of a client label only*. `corpus_error` always pushes: it is rare by
+construction, and silence is the wrong default for an outage.
 
 ⚠️ **A dead beacon must not look like a quiet one.** If the receiving allowlist
 changes, the POST 403s and the pushes simply stop — indistinguishable from *no new
