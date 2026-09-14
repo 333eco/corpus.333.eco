@@ -535,6 +535,20 @@ const parseProgram = (registerText, programText, bySlug) => {
             rows_without_an_identifier: predictions.filter((p) => !p.id).length
         }
     };
+    // ⛔ A77, RULED 2026-09-13 (founder): A REGISTER THAT DOES NOT RECONCILE FAILS
+    // THE BUILD. It used to be printed and never asserted, and on 2026-09-05 it read
+    // 90 against 95 while `npm run build` and `npm run check` both exited 0 — an
+    // index serving `reconciles: false` under a green CI. Failing HERE, where the
+    // count is made, stops `build`, `--check`, the weekly currency guard and
+    // npm-publish's own --check alike, so no index that miscounts its register can
+    // be written or shipped. The repair is always one line in the register.
+    if (!reconciliation.reconciles) {
+        die(
+            `the prediction register does not reconcile — ${identifiers.size} identifiers counted from its tables vs ` +
+                `${stated ?? "no total"} stated in its Summary. Fix the register, not this check: the usual cause is an ` +
+                `ID cell written as a range or with a semicolon instead of every identifier comma-separated.`
+        );
+    }
 
     // ⭐⭐ "NEVER SUMMARISE" MADE A PROPERTY OF THE BUILD RATHER THAN A PROMISE IN
     // A COMMENT. Every string this block emits must occur LITERALLY in the
