@@ -1,14 +1,3 @@
 {
-  "holds": {
-    "machine-dana-from-share-to-vow": {
-      "reason": "polish r1 done and revised (2026-09-28); awaiting its FULL novelty census before the first deposit",
-      "held_since": "2026-09-27",
-      "review_by": "2026-10-27"
-    },
-    "the-counts-check": {
-      "reason": "polish r1 done and revised (2026-09-28); awaiting its FULL novelty census before the first deposit",
-      "held_since": "2026-09-27",
-      "review_by": "2026-10-27"
-    }
-  }
+  "holds": {}
 }

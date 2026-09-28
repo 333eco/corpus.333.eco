@@ -5,7 +5,7 @@ institutional positions, white papers and the Letters to Miss Aquarius — serve
 with **verifiable provenance**.
 
 <!-- COUNTS:START -->
-**149 documents.** 141 CC0-1.0 · 8 CC-BY-4.0. 81 carry a DOI; 149 carry an OpenTimestamps proof.
+**151 documents.** 143 CC0-1.0 · 8 CC-BY-4.0. 83 carry a DOI; 151 carry an OpenTimestamps proof.
 
 *Written by `npm run build` from the index itself — see scripts/build-index.mjs.*
 <!-- COUNTS:END -->
@@ -237,7 +237,7 @@ would destroy the only property this server has.
 <!-- LICENCES:START -->
 | Licence | Documents |
 | --- | --- |
-| CC0-1.0 | 141 |
+| CC0-1.0 | 143 |
 | CC-BY-4.0 | 8 |
 <!-- LICENCES:END -->
 
