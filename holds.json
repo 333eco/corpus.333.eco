@@ -1,3 +1,9 @@
 {
-  "holds": {}
+  "holds": {
+    "letting-the-texts-lose": {
+      "reason": "awaiting its /polish model round and its literature census (argument essay, zenodo: true; first deposit after the round)",
+      "held_since": "2026-09-30",
+      "review_by": "2026-10-21"
+    }
+  }
 }
