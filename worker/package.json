@@ -11,7 +11,7 @@
         "deploy": "npm run sync && wrangler deploy"
     },
     "dependencies": {
-        "@333eco/corpus": "2.5.41"
+        "@333eco/corpus": "2.5.42"
     },
     "devDependencies": {
         "wrangler": "^4"
