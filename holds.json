@@ -4,6 +4,11 @@
       "reason": "awaiting its /polish model round and its literature census (argument essay, zenodo: true; first deposit after the round)",
       "held_since": "2026-09-30",
       "review_by": "2026-10-21"
+    },
+    "the-ticket-and-the-tag": {
+      "reason": "awaiting its full /novelty census (Thai and Khmer; only a quick census on file, census.py gate exits 1) and its /polish model round; first Zenodo deposit after both",
+      "held_since": "2026-10-12",
+      "review_by": "2026-11-09"
     }
   }
 }

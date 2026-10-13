@@ -1,5 +1,5 @@
 {
-  "package_version": "2.5.43",
+  "package_version": "2.5.44",
   "generated_from": [
     "H3/publications",
     "TH/publications",
@@ -6189,10 +6189,10 @@
   ],
   "manifest": {
     "what": "Every file the index build considered, and what became of it. candidates = served + excluded + held. Detects a document silently dropped; it is not a tamper check — each document's sha256 is.",
-    "candidates": 153,
+    "candidates": 154,
     "served": 152,
     "excluded": 0,
-    "held": 1,
+    "held": 2,
     "served_documents": [
       {
         "slug": "a-promise-that-cannot-grow",
@@ -7116,6 +7116,14 @@
         "reason": "awaiting its /polish model round and its literature census (argument essay, zenodo: true; first deposit after the round)",
         "held_since": "2026-09-30",
         "review_by": "2026-10-21"
+      },
+      {
+        "slug": "the-ticket-and-the-tag",
+        "repo": "TH/publications",
+        "path": "defensive-publications/the-ticket-and-the-tag.md",
+        "reason": "awaiting its full /novelty census (Thai and Khmer; only a quick census on file, census.py gate exits 1) and its /polish model round; first Zenodo deposit after both",
+        "held_since": "2026-10-12",
+        "review_by": "2026-11-09"
       }
     ]
   },
