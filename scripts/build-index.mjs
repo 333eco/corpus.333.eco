@@ -1048,6 +1048,41 @@ const index = {
 
 const body = JSON.stringify(index, null, 2) + "\n";
 
+/* ------------------------------------------------------------ the book gate ---
+   ⛔⛔ THE BOOKS NEVER ENTER THE INDEX, NOT EVEN AS A POINTER (ruled 2026-10-15;
+   MA roadmap A413). The Two Singularities seats — four AI systems, run cold each
+   year — enter the corpus HERE. A link to book.thonly.org or to a book's record
+   repository puts the book one hop away, and from 2028 that is last year's
+   debate, so the book's own check (do next year's models keep last year's
+   answer?) would measure reading, not keeping.
+   So the build FAILS on one, in anything this server says: the index it writes
+   (every document, title, abstract and the program block) and its own text, the
+   instructions, tool descriptions and prompts in src/ and worker/src/. A property
+   of the artifact, not a rule someone remembers — the licence gate's reasoning.
+   ⚠️ LINKS ONLY: the concept *two singularities* is the corpus's own (an essay and
+   a framework) and stays. ⚠️ The same pattern lives in thonly.org's
+   scripts/gen-llms-txt.mjs, the other door; a sixth book's repository goes in BOTH. */
+const BOOK_LINK =
+    /book\.thonly\.org|(?:github\.com|raw\.githubusercontent\.com)\/thonly\/(?:two-singularities|silicon-simile|the-calculus-of-moments|the-river-that-reverses|the-seventh-of-january)\b/i;
+{
+    const hits = documents.filter((d) => BOOK_LINK.test(JSON.stringify(d))).map((d) => `${d.repo}/${d.path}`);
+    if (!hits.length && BOOK_LINK.test(body)) hits.push("dist/corpus.json (outside any one document)");
+    const walk = (dir) =>
+        readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+            e.isDirectory() ? walk(join(dir, e.name)) : /\.(mjs|js|ts|json)$/.test(e.name) ? [join(dir, e.name)] : []
+        );
+    for (const dir of ["src", join("worker", "src")].map((d) => join(BASE, d)).filter(existsSync)) {
+        for (const f of walk(dir)) if (BOOK_LINK.test(readFileSync(f, "utf8"))) hits.push(f.slice(BASE.length + 1));
+    }
+    if (hits.length) {
+        die(
+            "a link to the books would be served (MA A413 — the seats enter the corpus here):\n" +
+                hits.map((h) => `    ${h}`).join("\n") +
+                "\n  Remove the link. The concept is fine; a URL to book.thonly.org or a book's repository is not."
+        );
+    }
+}
+
 /* ------------------------------------------------------- the README counts ---
    ⭐ THE README IS WRITTEN BY THE BUILD, not by hand, for the figures that
    change. It claimed 138 documents and 131 CC0 against a corpus at 142 and 134,
