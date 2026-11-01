@@ -1,5 +1,5 @@
 {
-  "package_version": "2.5.49",
+  "package_version": "2.5.50",
   "generated_from": [
     "H3/publications",
     "TH/publications",
@@ -6189,10 +6189,10 @@
   ],
   "manifest": {
     "what": "Every file the index build considered, and what became of it. candidates = served + excluded + held. Detects a document silently dropped; it is not a tamper check — each document's sha256 is.",
-    "candidates": 154,
+    "candidates": 155,
     "served": 152,
     "excluded": 0,
-    "held": 2,
+    "held": 3,
     "served_documents": [
       {
         "slug": "a-promise-that-cannot-grow",
@@ -7124,6 +7124,14 @@
         "reason": "awaiting its full /novelty census (Thai and Khmer; only a quick census on file, census.py gate exits 1) and its /polish model round; first Zenodo deposit after both",
         "held_since": "2026-10-12",
         "review_by": "2026-11-09"
+      },
+      {
+        "slug": "capture-earns-nothing",
+        "repo": "TH/publications",
+        "path": "defensive-publications/capture-earns-nothing.md",
+        "reason": "awaiting its full /novelty census (non-English sources, patent full text, the literature; only a quick census on file, census.py gate exits 1) and its /polish model round; first Zenodo deposit after both",
+        "held_since": "2026-11-01",
+        "review_by": "2026-11-30"
       }
     ]
   },

@@ -9,6 +9,11 @@
       "reason": "awaiting its full /novelty census (Thai and Khmer; only a quick census on file, census.py gate exits 1) and its /polish model round; first Zenodo deposit after both",
       "held_since": "2026-10-12",
       "review_by": "2026-11-09"
+    },
+    "capture-earns-nothing": {
+      "reason": "awaiting its full /novelty census (non-English sources, patent full text, the literature; only a quick census on file, census.py gate exits 1) and its /polish model round; first Zenodo deposit after both",
+      "held_since": "2026-11-01",
+      "review_by": "2026-11-30"
     }
   }
 }
