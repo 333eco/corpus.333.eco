@@ -6,14 +6,14 @@
       "review_by": "2026-11-21"
     },
     "the-ticket-and-the-tag": {
-      "reason": "awaiting its full /novelty census (Thai and Khmer; only a quick census on file, census.py gate exits 1) and its /polish model round; first Zenodo deposit after both",
+      "reason": "full census run 2026-11-03; awaiting its /polish model round and the founder word; first Zenodo deposit after both",
       "held_since": "2026-10-12",
-      "review_by": "2026-11-09"
+      "review_by": "2026-12-03"
     },
     "capture-earns-nothing": {
-      "reason": "awaiting its full /novelty census (non-English sources, patent full text, the literature; only a quick census on file, census.py gate exits 1) and its /polish model round; first Zenodo deposit after both",
+      "reason": "full census run 2026-11-03; awaiting its /polish model round, L69 noted, and the founder word; first Zenodo deposit after both",
       "held_since": "2026-11-01",
-      "review_by": "2026-11-30"
+      "review_by": "2026-12-03"
     },
     "the-body-is-the-lab": {
       "reason": "awaiting its /polish model round and the founder pass (argument essay, zenodo: true; first deposit after the round)",
