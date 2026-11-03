@@ -1,5 +1,5 @@
 {
-  "package_version": "2.5.56",
+  "package_version": "2.5.57",
   "generated_from": [
     "H3/publications",
     "TH/publications",
@@ -7154,57 +7154,57 @@
         "slug": "letting-the-texts-lose",
         "repo": "TH/publications",
         "path": "essays/letting-the-texts-lose.md",
-        "reason": "awaiting its /polish model round and its literature census (argument essay, zenodo: true; first deposit after the round)",
+        "reason": "timestamped for prior art only; /polish and first deposit deferred by the founder 2026-11-03. Earlier: awaiting its /polish model round and its literature census (argument essay, zenodo: true; first deposit after the round)",
         "held_since": "2026-09-30",
-        "review_by": "2026-11-21"
+        "review_by": "2027-05-03"
       },
       {
         "slug": "the-ticket-and-the-tag",
         "repo": "TH/publications",
         "path": "defensive-publications/the-ticket-and-the-tag.md",
-        "reason": "full census run 2026-11-03; awaiting its /polish model round and the founder word; first Zenodo deposit after both",
+        "reason": "timestamped for prior art only; /polish and first deposit deferred by the founder 2026-11-03. Earlier: full census run 2026-11-03; awaiting its /polish model round and the founder word; first Zenodo deposit after both",
         "held_since": "2026-10-12",
-        "review_by": "2026-12-03"
+        "review_by": "2027-05-03"
       },
       {
         "slug": "capture-earns-nothing",
         "repo": "TH/publications",
         "path": "defensive-publications/capture-earns-nothing.md",
-        "reason": "full census run 2026-11-03; awaiting its /polish model round, L69 noted, and the founder word; first Zenodo deposit after both",
+        "reason": "timestamped for prior art only; /polish and first deposit deferred by the founder 2026-11-03. Earlier: full census run 2026-11-03; awaiting its /polish model round, L69 noted, and the founder word; first Zenodo deposit after both",
         "held_since": "2026-11-01",
-        "review_by": "2026-12-03"
+        "review_by": "2027-05-03"
       },
       {
         "slug": "the-body-is-the-lab",
         "repo": "TH/publications",
         "path": "essays/the-body-is-the-lab.md",
-        "reason": "awaiting its /polish model round and the founder pass (argument essay, zenodo: true; first deposit after the round)",
+        "reason": "timestamped for prior art only; /polish and first deposit deferred by the founder 2026-11-03. Earlier: awaiting its /polish model round and the founder pass (argument essay, zenodo: true; first deposit after the round)",
         "held_since": "2026-11-03",
-        "review_by": "2026-12-03"
+        "review_by": "2027-05-03"
       },
       {
         "slug": "where-the-manual-adds-a-reading",
         "repo": "TH/publications",
         "path": "defensive-publications/where-the-manual-adds-a-reading.md",
-        "reason": "awaiting its literature census and a hostile Pāli reader; first deposit after both",
+        "reason": "timestamped for prior art only; /polish and first deposit deferred by the founder 2026-11-03. Earlier: awaiting its literature census and a hostile Pāli reader; first deposit after both",
         "held_since": "2026-11-03",
-        "review_by": "2026-12-03"
+        "review_by": "2027-05-03"
       },
       {
         "slug": "once-sunk-always-sunk",
         "repo": "TH/publications",
         "path": "defensive-publications/once-sunk-always-sunk.md",
-        "reason": "awaiting its literature census and a hostile Pāli reader; first deposit after both",
+        "reason": "timestamped for prior art only; /polish and first deposit deferred by the founder 2026-11-03. Earlier: awaiting its literature census and a hostile Pāli reader; first deposit after both",
         "held_since": "2026-11-03",
-        "review_by": "2026-12-03"
+        "review_by": "2027-05-03"
       },
       {
         "slug": "the-mirrored-singularities",
         "repo": "TH/publications",
         "path": "essays/the-mirrored-singularities.md",
-        "reason": "awaiting its /polish model round and the founder pass (argument essay, zenodo: true; first deposit after the round)",
+        "reason": "timestamped for prior art only; /polish and first deposit deferred by the founder 2026-11-03. Earlier: awaiting its /polish model round and the founder pass (argument essay, zenodo: true; first deposit after the round)",
         "held_since": "2026-11-03",
-        "review_by": "2026-12-03"
+        "review_by": "2027-05-03"
       }
     ]
   },
