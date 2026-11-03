@@ -39,15 +39,15 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           repository: thonly/publications
           ssh-key: ${{ secrets.CORPUS_DEPLOY_KEY_TH }}
           path: .corpora/TH/publications
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           repository: HeartBank/publications
           ssh-key: ${{ secrets.CORPUS_DEPLOY_KEY_H3 }}
@@ -56,12 +56,12 @@ jobs:
       # ⚠️ PUBLIC, so no deploy key — unlike the two corpora above. The letters
       # live in the missaquarius.org website repo rather than a corpus repo,
       # which is also why TIMESTAMPS.md had to be added there by hand.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           repository: HeartBank/missaquarius.org
           path: .corpora/missaquarius.org
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
