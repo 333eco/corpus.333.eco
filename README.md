@@ -317,7 +317,12 @@ was right about what it could read and wrong about what was there.*
 ```sh
 npm run build     # regenerate dist/corpus.json from the corpora
 npm run check     # fail if the committed index is not what the corpora produce
+npm run check:dirty   # prove nothing on disk can reach the index (needs the source repos beside this one)
 ```
+
+Both read each source repo's **pushed commit**, never its working tree, and print which
+commit they read and what on disk they left out. Local checks and CI therefore read the
+same bytes, and text that is not pushed is not in the index.
 
 ⚠️ **A stale corpus server is worse than a stale website**, because the citing
 agent cannot tell — it will quote superseded text under an authoritative version

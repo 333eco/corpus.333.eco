@@ -5,6 +5,8 @@
 //   node scripts/build-index.mjs --from ../../../TH/publications ../../../H3/publications
 //   node scripts/build-index.mjs --check --from …     verify the committed index is current
 //
+// Each source is read at its pushed commit, never from disk: see "what the walk reads".
+//
 // WHAT THIS PRODUCES, AND WHY IT IS NOT JUST A CONCATENATION. Every document in
 // the index carries a PROVENANCE ENVELOPE: the sha256 computed here, the DOI and
 // deposited hash from zenodo-dois.json, and whether an OpenTimestamps proof exists
@@ -36,8 +38,10 @@
 //
 // House rules: node built-ins only, assertions that name the fix, non-zero exit.
 
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFileSync, readdirSync, existsSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, realpathSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join, resolve, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -667,6 +671,103 @@ const previouslyServed = (() => {
 })();
 const held = [];
 
+/* ---------------------------------------- what the walk reads: commits, not disk --- *
+
+   ⛔⛔ THE WALK NEVER READS A WORKING TREE. It reads each source's committed tree: the
+   branch's upstream after a fetch (origin/main in practice), or HEAD where there is no
+   upstream (a detached worktree, a CI checkout at a commit).
+
+   WHY (A539). The working trees are shared by concurrent sessions. On 2026-11-04 a build
+   took another session's unfinished essay (15,313 → 24,160 bytes) into dist/corpus.json,
+   found only by diffing the index per document. And what the rest of the chain checks
+   against is the pushed text: the envelope hands an agent a curl against main, and CI
+   rebuilds from clean checkouts. So a build from disk could only ever agree with those by
+   luck, and when it disagreed the error named the index, never the file.
+
+   ⭐ A PROPERTY, NOT A REFUSAL. Refusing a dirty source would let one session's open edit
+   stop every other session's publish. Reading commits needs no one to be careful: another
+   session's file cannot reach the index because the walk has no path to it.
+
+   ⚠️ THE COST IS A NEW SILENT CASE, SO IT IS PRINTED ON EVERY RUN: your own paper, not yet
+   pushed, is simply not in the build. Every source's commit is named, with anything on disk
+   the build left out. `/publish verify` compares the live envelope to the file, so a build
+   that missed the paper still fails there.
+
+   ⛔ A SOURCE GIT CANNOT VOUCH FOR IS REFUSED, not read from disk: no fallback path means no
+   way back to the old behavior by accident. The temp copy keeps the <parent>/publications
+   layout because the walk derives each repo id from the path. */
+const TREES = mkdtempSync(join(tmpdir(), "corpus-index-"));
+process.on("exit", () => rmSync(TREES, { recursive: true, force: true }));
+
+const git = (cwd, ...cmd) =>
+    execFileSync("git", ["-C", cwd, "-c", "core.quotepath=off", ...cmd], {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "pipe"],
+        timeout: 60_000,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0" }
+    });
+
+function committedTree(src) {
+    const disk = resolve(BASE, src);
+    if (!existsSync(disk)) die(`${disk} does not exist`);
+
+    let top;
+    try {
+        top = git(disk, "rev-parse", "--show-toplevel").trim();
+    } catch {
+        die(`${disk} is not a git repository, so nothing can say which of its bytes are committed.`);
+    }
+    if (realpathSync(top) !== realpathSync(disk)) {
+        die(`${disk} is inside the repository ${top}. Name the repository root in --from.`);
+    }
+
+    const repo = basename(disk) === "publications" ? basename(dirname(disk)) + "/publications" : basename(disk);
+
+    let upstream = null;
+    try {
+        upstream = git(disk, "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}").trim();
+    } catch {
+        // No upstream: a detached worktree or a checkout at a commit. HEAD is what was asked for.
+    }
+    let stale = false;
+    if (upstream) {
+        const [remote, ...branch] = upstream.split("/");
+        try {
+            git(disk, "fetch", "--quiet", remote, branch.join("/"));
+        } catch {
+            stale = true;
+        }
+    }
+    const ref = upstream ?? "HEAD";
+    const commit = git(disk, "rev-parse", `${ref}^{commit}`).trim();
+
+    console.log(`build-index: ${repo} read at ${commit.slice(0, 7)} (${ref})`);
+    if (stale) console.log(`  ⚠️ could not fetch: ${ref} is as of the last fetch, and CI may see something newer.`);
+
+    const list = (label, lines) => {
+        if (!lines.length) return;
+        const shown = lines.slice(0, 12).join(" · ");
+        const more = lines.length > 12 ? ` · and ${lines.length - 12} more` : "";
+        console.log(`  ⚠️ NOT IN THIS BUILD, ${label}: ${shown}${more}`);
+    };
+    list(
+        "not committed",
+        git(disk, "status", "--porcelain").split("\n").filter(Boolean).map((l) => l.slice(3))
+    );
+    list(
+        `committed but not on ${ref}`,
+        [...new Set(git(disk, "log", "--name-only", "--format=", `${commit}..HEAD`).split("\n").filter(Boolean))]
+    );
+
+    const dest = join(TREES, repo);
+    const tar = join(TREES, `${repo.replaceAll("/", "-")}.tar`);
+    mkdirSync(dest, { recursive: true });
+    git(disk, "archive", "--format=tar", "-o", tar, commit);
+    execFileSync("tar", ["-xf", tar, "-C", dest]);
+    rmSync(tar);
+    return dest;
+}
+
 /* --------------------------------------------------------------- the walk --- */
 
 const documents = [];
@@ -677,8 +778,7 @@ const repos = new Set();
 const candidates = [];
 
 for (const src of SOURCES) {
-    const root = resolve(BASE, src);
-    if (!existsSync(root)) die(`${root} does not exist`);
+    const root = committedTree(src);
 
     const repo = basename(root) === "publications" ? basename(dirname(root)) + "/publications" : basename(root);
     repos.add(repo);

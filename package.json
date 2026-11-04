@@ -41,7 +41,8 @@
         "start": "node src/server.mjs",
         "build": "node scripts/build-index.mjs --from ../../../TH/publications ../../../H3/publications ../../../missaquarius.org/missaquarius.org",
         "check": "node scripts/check-parity.mjs && node scripts/build-index.mjs --check --from ../../../TH/publications ../../../H3/publications ../../../missaquarius.org/missaquarius.org",
-        "check:parity": "node scripts/check-parity.mjs"
+        "check:parity": "node scripts/check-parity.mjs",
+        "check:dirty": "node scripts/check-dirty-source.mjs"
     },
     "publishConfig": {
         "access": "public"
