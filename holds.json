@@ -34,6 +34,11 @@
       "reason": "timestamped for prior art only; /polish and first deposit deferred by the founder 2026-11-03. Earlier: awaiting its /polish model round and the founder pass (argument essay, zenodo: true; first deposit after the round)",
       "held_since": "2026-11-03",
       "review_by": "2027-05-03"
+    },
+    "whose-act-it-is": {
+      "reason": "timestamped for prior art only; awaiting its founder pass and /polish model round (argument essay; no zenodo flag yet)",
+      "held_since": "2026-11-04",
+      "review_by": "2027-05-04"
     }
   }
 }
