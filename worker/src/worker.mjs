@@ -234,7 +234,7 @@ export default {
             record(env, ctx, { client: clientOf(null, request), country: request.cf?.country ?? "", method: "GET /provenance.json", version: String(corpus?.package_version ?? "") });
             return new Response(JSON.stringify({
                 package_version: corpus.package_version,
-                documents: corpus.documents.map((d) => ({ slug: d.slug, title: d.title, genre: d.genre, date: d.date, repo: d.repo, path: d.path, licence: d.licence?.id, sha256: d.provenance.sha256, doi: d.provenance.doi ?? null, archive_matches_today: d.provenance.deposited_matches_current ?? null, opentimestamps: !!d.provenance.opentimestamps, source_url: d.provenance.source_url ?? null, read_at: d.provenance.canonical_url ?? null })),
+                documents: corpus.documents.map((d) => ({ slug: d.slug, title: d.title, subtitle: d.subtitle ?? null, genre: d.genre, date: d.date, repo: d.repo, path: d.path, licence: d.licence?.id, sha256: d.provenance.sha256, doi: d.provenance.doi ?? null, archive_matches_today: d.provenance.deposited_matches_current ?? null, opentimestamps: !!d.provenance.opentimestamps, source_url: d.provenance.source_url ?? null, read_at: d.provenance.canonical_url ?? null })),
             }), { headers: JSON_HEADERS });
         }
         if (request.method === "GET" && url.pathname !== "/mcp") {
