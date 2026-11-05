@@ -169,6 +169,15 @@ const sourceUrl = (repo, path) => {
     return slug ? `https://raw.githubusercontent.com/${slug}/main/${path}` : null;
 };
 
+// A quoted YAML scalar keeps its quotes' escapes until they are read: `"…\"aura\"…"` is `…"aura"…`, and `'it''s'` is `it's`.
+// Stripping only the outer quotes left `\"` inside two subtitles, which every consumer then showed.
+const unquote = (v) => {
+    const dq = /^"(.*)"$/.exec(v);
+    if (dq) return dq[1].replace(/\\(["\\])/g, "$1");
+    const sq = /^'(.*)'$/.exec(v);
+    return sq ? sq[1].replace(/''/g, "'") : v;
+};
+
 const yamlFrontMatter = (text) => {
     if (!text.startsWith("---\n")) return null;
     const end = text.indexOf("\n---", 4);
@@ -176,7 +185,7 @@ const yamlFrontMatter = (text) => {
     const fm = {};
     for (const line of text.slice(4, end).split("\n")) {
         const m = line.match(/^([A-Za-z0-9_-]+)\s*:\s*(.*)$/);
-        if (m) fm[m[1]] = m[2].trim().replace(/^["']|["']$/g, "");
+        if (m) fm[m[1]] = unquote(m[2].trim());
     }
     return { fm, bodyStart: end + 4, convention: "yaml" };
 };
