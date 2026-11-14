@@ -39,6 +39,11 @@
       "reason": "timestamped for prior art only; awaiting its founder pass and /polish model round (argument essay; no zenodo flag yet)",
       "held_since": "2026-11-04",
       "review_by": "2027-05-04"
+    },
+    "the-same-pay-for-the-same-ad": {
+      "reason": "timestamped for prior art only; awaiting its FULL /novelty census (claims 2–8 never searched) and a later /polish round (founder 2026-11-14: \"option 1 without the polish\"); first Zenodo deposit after the census",
+      "held_since": "2026-11-14",
+      "review_by": "2027-05-14"
     }
   }
 }
