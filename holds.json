@@ -49,6 +49,11 @@
       "reason": "timestamped for prior art only; /polish waits for the founder's typed word (2026-11-19: polish is always postponed until his say so) and counsel's read of two live patents (L83) before its first Zenodo deposit; full census run 2026-11-19",
       "held_since": "2026-11-19",
       "review_by": "2027-05-19"
+    },
+    "every-face-signed-this-cut": {
+      "reason": "awaiting its polish round (postponed by the founder 2026-11-19); not yet deposited",
+      "held_since": "2026-11-19",
+      "review_by": "2026-12-19"
     }
   }
 }
