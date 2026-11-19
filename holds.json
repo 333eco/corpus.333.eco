@@ -44,6 +44,11 @@
       "reason": "new 2026-11-14; awaiting its /polish round and first deposit (the full census is on file)",
       "held_since": "2026-11-14",
       "review_by": "2026-12-14"
+    },
+    "the-press-the-layers-and-the-scope": {
+      "reason": "timestamped for prior art only; /polish waits for the founder's typed word (2026-11-19: polish is always postponed until his say so) and counsel's read of two live patents (L83) before its first Zenodo deposit; full census run 2026-11-19",
+      "held_since": "2026-11-19",
+      "review_by": "2027-05-19"
     }
   }
 }
