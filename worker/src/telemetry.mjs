@@ -21,6 +21,16 @@
 // code path here that derives a per-caller id, so there is nothing to leak, sell,
 // subpoena or regret. The question this server wants answered is *which clients
 // reach it*, and that question needs no persons in it.
+//
+// ⭐ THE NETWORK'S NAME IS RECORDED, since 2026-11-21 (founder: "do all A–D"). It
+// is the OPERATOR's name as Cloudflare reports it — a cloud, a carrier, a
+// university — the same for everyone on that network, and it answers the one
+// question a client's own label cannot: who RUNS a client that calls itself
+// `go-http-client`. Like the country, it says where a request came from and not
+// who sent it. ⛔ Never the address, never the network's number, never the city:
+// `networkOf` reads ONE field and there is no second.
+// ⚠️ The honest limit, said in the endpoint's own `records`: an organization that
+// runs its own network is named by it.
 
 // The corpus's own hostname, which the allowlist in thonly.org's track-http.ts
 // already admits (`([a-z0-9-]+\.)*333\.eco`) — verified against the live endpoint
@@ -55,6 +65,13 @@ export const clientOf = (msg, request) => {
     return label(ua.split(/[/\s]/)[0]);
 };
 
+// The one place a request's network is read. Printable ASCII only, capped: the
+// string is a stranger's, and it lands in an Analytics Engine blob.
+export const networkOf = (request) =>
+    String(request?.cf?.asOrganization ?? "")
+        .replace(/[^\x20-\x7e]/g, "")
+        .slice(0, 64);
+
 /* ------------------------------------------------------------ analytics ------
    One data point per JSON-RPC call. Free, local to the datacenter, and written
    inside waitUntil so it is never in front of a response. */
@@ -70,6 +87,7 @@ export const record = (env, ctx, fields) => {
         protocol = "",
         version = "",
         missedQuery = "",
+        network = "",
         results = 0,
         errored = 0,
         ms = 0
@@ -79,7 +97,9 @@ export const record = (env, ctx, fields) => {
             // Sampling key. Client software is low-cardinality by construction,
             // which is what an index wants — and it is the question being asked.
             indexes: [client],
-            blobs: [client, method, tool, slug, country, protocol, version, missedQuery],
+            // ⚠️ APPEND ONLY. A reader addresses these by position (blob1 … blob9),
+            // so a field moved or dropped silently changes what every query means.
+            blobs: [client, method, tool, slug, country, protocol, version, missedQuery, network],
             doubles: [results, errored, ms]
         });
     } catch {

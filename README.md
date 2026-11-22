@@ -437,6 +437,16 @@ there is nothing to leak, sell, subpoena or regret later. The question the serve
 wants answered is *which clients reach it*, and that question needs no persons in
 it.
 
+⭐ **The network's name is recorded, since 2026-11-21.** It is the *operator's*
+name as Cloudflare reports it — a cloud, a carrier, a university — the same for
+everyone on that network. It answers the one question a client's own label
+cannot: who runs a client that calls itself `go-http-client`. Like the country,
+it says where a request came from and not who sent it. ⛔ Never the address,
+never the network's number, never the city: one field is read
+(`networkOf` in `worker/src/telemetry.mjs`) and there is no second.
+⚠️ The limit, stated plainly: an organization that runs its own network is named
+by it.
+
 ⭐⭐ **The only search text ever stored is a search that found nothing.** The
 reason to log queries at all is to learn what the corpus is missing; a query that
 *succeeded* tells you only what a caller was reading, which is their business.
@@ -446,15 +456,15 @@ because there is no enforcer.
 
 | Channel | Carries | Why it exists |
 | --- | --- | --- |
-| Analytics Engine | one row per JSON-RPC call: method, tool, slug, client label, country, protocol, corpus version, result count, error flag, duration — plus the query text **when and only when it matched nothing** | counting; queried by SQL, stays at Cloudflare |
+| Analytics Engine | one row per JSON-RPC call: method, tool, slug, client label, country, network name, protocol, corpus version, result count, error flag, duration — plus the query text **when and only when it matched nothing** | counting; queried by SQL, stays at Cloudflare |
 | `thonly.org/api/track` | `corpus_connect` (a handshake) and `corpus_error` (the corpus asset failed to load) | the two things worth interrupting someone about |
 
 ⛔ **Not one beacon per tool call.** An agent working through the corpus fires
 dozens of calls in seconds, and a notification channel that reports each of them
 is a channel nobody reads. The beacon fires on the *handshake*, once per
 connection. What the receiving function does with it is its own setting: since
-2026-09-09 it pushes one notification per handshake, and a flag restores
-*first sighting of a client label only*. `corpus_error` always pushes: it is rare by
+2026-11-21 it rings on the *first sighting of a client label only* (from
+2026-09-09 until then it pushed one notification per handshake; a flag chooses). `corpus_error` always pushes: it is rare by
 construction, and silence is the wrong default for an outage.
 
 ⚠️ **A dead beacon must not look like a quiet one.** If the receiving allowlist

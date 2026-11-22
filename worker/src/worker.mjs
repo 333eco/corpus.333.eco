@@ -32,7 +32,7 @@ import { PROMPTS, getPrompt } from "../../src/prompts.mjs";
 import { BASE_TOOLS, withFacets } from "../../src/base-tools.mjs";
 import { READ_TOOLS, READ_INSTRUCTIONS, filterDocuments, readDocuments, getDocument, readWith, completenessOf, manifestProblems } from "../../src/read-tools.mjs";
 import { PROGRAM_TOOLS, PROGRAM_TOOL_NAMES, PROGRAM_INSTRUCTIONS, callProgramTool } from "../../src/program-tools.mjs";
-import { clientOf, record, missOf, resultsOf, beacon } from "./telemetry.mjs";
+import { networkOf, clientOf, record, missOf, resultsOf, beacon } from "./telemetry.mjs";
 import { searchCorpus } from "../../src/search.mjs";
 import { CONFORMANCE_TOOLS, checkPassage } from "../../src/conformance.mjs";
 
@@ -220,7 +220,7 @@ export default {
         // corpus that does not match it.
         if (request.method === "GET" && url.pathname === "/manifest.json") {
             const corpus = await loadCorpus(env).catch(() => null);
-            record(env, ctx, { client: clientOf(null, request), country: request.cf?.country ?? "", method: "GET /manifest.json", version: String(corpus?.package_version ?? "") });
+            record(env, ctx, { client: clientOf(null, request), country: request.cf?.country ?? "", network: networkOf(request), method: "GET /manifest.json", version: String(corpus?.package_version ?? "") });
             if (!corpus?.manifest) {
                 return new Response(JSON.stringify({ error: "the served corpus carries no manifest" }), { status: 404, headers: JSON_HEADERS });
             }
@@ -231,7 +231,7 @@ export default {
         // What explorer.333.eco lists: each served document's own facts and no text, always this deploy's, so the Explorer needs no rebuild of its own.
         if (request.method === "GET" && url.pathname === "/provenance.json") {
             const corpus = await loadCorpus(env);
-            record(env, ctx, { client: clientOf(null, request), country: request.cf?.country ?? "", method: "GET /provenance.json", version: String(corpus?.package_version ?? "") });
+            record(env, ctx, { client: clientOf(null, request), country: request.cf?.country ?? "", network: networkOf(request), method: "GET /provenance.json", version: String(corpus?.package_version ?? "") });
             return new Response(JSON.stringify({
                 package_version: corpus.package_version,
                 documents: corpus.documents.map((d) => ({ slug: d.slug, title: d.title, subtitle: d.subtitle ?? null, genre: d.genre, date: d.date, repo: d.repo, path: d.path, licence: d.licence?.id, sha256: d.provenance.sha256, doi: d.provenance.doi ?? null, archive_matches_today: d.provenance.deposited_matches_current ?? null, opentimestamps: !!d.provenance.opentimestamps, source_url: d.provenance.source_url ?? null, read_at: d.provenance.canonical_url ?? null })),
@@ -239,7 +239,7 @@ export default {
         }
         if (request.method === "GET" && url.pathname !== "/mcp") {
             const corpus = await loadCorpus(env).catch(() => null);
-            record(env, ctx, { client: clientOf(null, request), country: request.cf?.country ?? "", method: "GET", version: String(corpus?.package_version ?? "") });
+            record(env, ctx, { client: clientOf(null, request), country: request.cf?.country ?? "", network: networkOf(request), method: "GET", version: String(corpus?.package_version ?? "") });
             return new Response(
                 JSON.stringify(
                     {
@@ -260,10 +260,10 @@ export default {
                         // response a caller gets for free before doing anything.
                         // The disclosure travels with the thing it is about.
                         records: {
-                            what: "Per-call counts: the JSON-RPC method, the tool, the document slug, the client software's own name from its handshake, and the country Cloudflare resolves. Search text is stored ONLY when a search matched nothing, because the reason to keep it is to learn what this corpus lacks.",
-                            not: "No IP address, no identifier derived from one, no cookie, no per-caller id of any kind. Every user of a given client is one label. Successful search text is never written down.",
+                            what: "Per-call counts: the JSON-RPC method, the tool, the document slug, the client software's own name from its handshake, and two things Cloudflare resolves about where a request came from: the country, and the name of the network (its operator: a cloud, a carrier, a university). Search text is stored ONLY when a search matched nothing, because the reason to keep it is to learn what this corpus lacks.",
+                            not: "No IP address, no network number, no city, no cookie, no per-caller id of any kind. Every user of a given client is one label, and everyone on a network shares its name; an organization that runs its own network is named by it. Successful search text is never written down.",
                             local: "npx @333eco/corpus records nothing and sends nothing. It runs on your machine and this does not apply to it — except for its --report-gap and --report-bug commands, which send only when you type them and print the whole payload first.",
-                            reports: "POST /report stores the text of a voluntary gap or bug report and the reporter's package version. Not the country, which this endpoint resolves for everything else and deliberately drops here."
+                            reports: "POST /report stores the text of a voluntary gap or bug report and the reporter's package version. Not the country or the network, which this endpoint resolves for everything else and deliberately drops here."
                         }
                     },
                     null,
@@ -278,9 +278,9 @@ export default {
         // running the LOCAL package looked for and did not find, or found broken.
         // Supplied by being asked, never by watching.
         //
-        // ⭐ IT RECORDS THE TEXT AND NOTHING ELSE — deliberately not the country,
-        // which every other row here carries and which Cloudflare hands over for
-        // free. A voluntary note has no use for where the sender was standing,
+        // ⭐ IT RECORDS THE TEXT AND NOTHING ELSE — deliberately not the country or
+        // the network, which every other row here carries and which Cloudflare
+        // hands over for free. A voluntary note has no use for where the sender was standing,
         // and collecting a thing because it is available is how a narrow purpose
         // widens.
         //
@@ -342,6 +342,7 @@ export default {
         const started = Date.now();
         const client = clientOf(msg, request);
         const country = request.cf?.country ?? "";
+        const network = networkOf(request);
         const rpcError = (m) => new Response(JSON.stringify({ jsonrpc: "2.0", id: msg.id, error: { code: -32603, message: m } }), { headers: JSON_HEADERS });
 
         // ⚠️ THE CORPUS LOAD IS ITS OWN TRY, AND THE SPLIT IS WHAT KEEPS THE
@@ -354,7 +355,7 @@ export default {
         try {
             corpus = await loadCorpus(env);
         } catch (e) {
-            record(env, ctx, { client, country, method: msg.method, errored: 1, ms: Date.now() - started });
+            record(env, ctx, { client, country, network, method: msg.method, errored: 1, ms: Date.now() - started });
             beacon(env, ctx, { event: "corpus_error", client, country, data: { method: String(msg.method ?? ""), message: String(e.message).slice(0, 200) } });
             return rpcError(e.message);
         }
@@ -365,6 +366,7 @@ export default {
             record(env, ctx, {
                 client,
                 country,
+                network,
                 method: String(msg.method ?? ""),
                 tool: msg.method === "tools/call" ? String(msg.params?.name ?? "") : "",
                 slug: String(args?.slug ?? msg.params?.uri ?? ""),
@@ -394,7 +396,7 @@ export default {
             return new Response(JSON.stringify({ jsonrpc: "2.0", id: msg.id, result }), { headers: JSON_HEADERS });
         } catch (e) {
             // Counted, never pushed: a malformed request is the caller's problem.
-            record(env, ctx, { client, country, method: String(msg.method ?? ""), errored: 1, ms: Date.now() - started });
+            record(env, ctx, { client, country, network, method: String(msg.method ?? ""), errored: 1, ms: Date.now() - started });
             return rpcError(e.message);
         }
     }
