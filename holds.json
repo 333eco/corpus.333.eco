@@ -59,6 +59,11 @@
       "reason": "awaiting its polish round (postponed by the founder 2026-11-19); not yet deposited",
       "held_since": "2026-11-19",
       "review_by": "2026-12-19"
+    },
+    "thanks-travel-with-the-goods": {
+      "reason": "timestamped for prior art only (H3 position, argued, zenodo: true); /polish and its first deposit wait on the founder's word (2026-11-19 rule: polish costs API credits)",
+      "held_since": "2026-11-27",
+      "review_by": "2027-05-03"
     }
   }
 }
